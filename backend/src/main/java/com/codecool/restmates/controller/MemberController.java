@@ -1,6 +1,8 @@
 package com.codecool.restmates.controller;
 
 import com.codecool.restmates.model.Member;
+import com.codecool.restmates.service.DTO.MemberResponseDTO;
+import com.codecool.restmates.service.DTO.NewMemberDTO;
 import com.codecool.restmates.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ public class MemberController {
     }
 
     @PostMapping("/member")
-    public Member createMember(@RequestBody Member member) {
+    public MemberResponseDTO createMember(@RequestBody NewMemberDTO member) {
         return memberService.createMember(member);
     }
 
