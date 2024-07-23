@@ -41,7 +41,7 @@ public class Configuration {
     }
 
     @Bean
-    public MemberDAO usersDAO() throws SQLException {
+    public MemberDAO memberDAO() throws SQLException {
         return new MemberDaoImpl(databaseConnection.getDataSource());
     }
 

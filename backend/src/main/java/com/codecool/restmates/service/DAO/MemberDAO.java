@@ -1,10 +1,12 @@
 package com.codecool.restmates.service.DAO;
 
 import com.codecool.restmates.model.Member;
+import com.codecool.restmates.service.DTO.MemberResponseDTO;
+import com.codecool.restmates.service.DTO.NewMemberDTO;
 
 public interface MemberDAO {
     Member getMemberById(long id);
-    Member createMember(Member member);
+    MemberResponseDTO createMember(NewMemberDTO member);
     void deleteMemberById(long id);
     Member updateMember(Member member);
 }
