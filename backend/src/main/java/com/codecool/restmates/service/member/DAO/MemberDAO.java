@@ -1,8 +1,8 @@
-package com.codecool.restmates.service.DAO;
+package com.codecool.restmates.service.member.DAO;
 
 import com.codecool.restmates.model.Member;
-import com.codecool.restmates.service.DTO.MemberResponseDTO;
-import com.codecool.restmates.service.DTO.NewMemberDTO;
+import com.codecool.restmates.service.member.DTO.MemberResponseDTO;
+import com.codecool.restmates.service.member.DTO.NewMemberDTO;
 
 public interface MemberDAO {
     Member getMemberById(long id);

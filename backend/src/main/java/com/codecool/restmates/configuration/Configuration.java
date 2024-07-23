@@ -2,8 +2,8 @@ package com.codecool.restmates.configuration;
 
 
 import com.codecool.restmates.database.DatabaseConnection;
-import com.codecool.restmates.service.DAO.MemberDAO;
-import com.codecool.restmates.service.DAO.MemberDaoImpl;
+import com.codecool.restmates.service.member.DAO.MemberDAO;
+import com.codecool.restmates.service.member.DAO.MemberDaoImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
