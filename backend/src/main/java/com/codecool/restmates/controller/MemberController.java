@@ -3,7 +3,7 @@ package com.codecool.restmates.controller;
 import com.codecool.restmates.model.Member;
 import com.codecool.restmates.service.member.DTO.MemberResponseDTO;
 import com.codecool.restmates.service.member.DTO.NewMemberDTO;
-import com.codecool.restmates.service.MemberService;
+import com.codecool.restmates.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

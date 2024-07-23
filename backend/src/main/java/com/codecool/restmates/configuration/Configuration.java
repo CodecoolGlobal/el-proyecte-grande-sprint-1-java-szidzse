@@ -3,7 +3,7 @@ package com.codecool.restmates.configuration;
 
 import com.codecool.restmates.database.DatabaseConnection;
 import com.codecool.restmates.service.member.DAO.MemberDAO;
-import com.codecool.restmates.service.member.DAO.MemberDaoImpl;
+import com.codecool.restmates.service.member.DAO.MemberDAOImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +42,7 @@ public class Configuration {
 
     @Bean
     public MemberDAO memberDAO() throws SQLException {
-        return new MemberDaoImpl(databaseConnection.getDataSource());
+        return new MemberDAOImpl(databaseConnection.getDataSource());
     }
 
 }

@@ -1,4 +1,4 @@
-package com.codecool.restmates.service;
+package com.codecool.restmates.service.member;
 
 import com.codecool.restmates.model.Member;
 import com.codecool.restmates.service.member.DAO.MemberDAO;

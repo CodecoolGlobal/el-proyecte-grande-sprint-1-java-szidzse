@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class MemberDaoImpl implements MemberDAO {
+public class MemberDAOImpl implements MemberDAO {
 
     private DataSource dataSource;
 
-    public MemberDaoImpl(DataSource dataSource) {
+    public MemberDAOImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
