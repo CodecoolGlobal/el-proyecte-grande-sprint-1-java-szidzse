@@ -1,4 +1,4 @@
-package com.codecool.restmates.modell;
+package com.codecool.restmates.model;
 
 public class Message {
 }

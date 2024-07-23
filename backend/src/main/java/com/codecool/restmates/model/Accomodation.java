@@ -1,2 +1,4 @@
-package com.codecool.restmates.model;public class Accomodation {
+package com.codecool.restmates.model;
+
+public class Accomodation {
 }
