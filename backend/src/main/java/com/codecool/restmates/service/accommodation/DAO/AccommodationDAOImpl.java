@@ -1,6 +1,7 @@
 package com.codecool.restmates.service.accommodation.DAO;
 
 import com.codecool.restmates.model.Accommodation;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
