@@ -18,7 +18,7 @@ public class MemberController {
     }
 
     @GetMapping("/member/{memberId}")
-    public Member getMember(@PathVariable("memberId") long memberId) {
+    public MemberResponseDTO getMember(@PathVariable("memberId") long memberId) {
         return memberService.getMemberById(memberId);
     }
 
