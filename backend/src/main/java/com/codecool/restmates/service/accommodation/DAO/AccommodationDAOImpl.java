@@ -1,6 +1,8 @@
 package com.codecool.restmates.service.accommodation.DAO;
 
 import com.codecool.restmates.model.Accommodation;
+import com.codecool.restmates.service.accommodation.DTO.AccommodationResponseDTO;
+import com.codecool.restmates.service.accommodation.DTO.NewAccommodationDTO;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -19,7 +21,7 @@ public class AccommodationDAOImpl implements AccommodationDAO {
 
     @Override
     public Accommodation findAccommodationById(long accommodationId) {
-        String sql = "SELECT id, name, price_per_night FROM accommodation WHERE id = ?;";
+        String sql = "SELECT accommodation_id, name, price_per_night FROM accommodation WHERE accommodation_id = ?;";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -27,7 +29,7 @@ public class AccommodationDAOImpl implements AccommodationDAO {
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
-                int id = rs.getInt("id");
+                int id = rs.getInt("accommodation_id");
                 String name = rs.getString("name");
                 double pricePerNight = rs.getDouble("price_per_night");
                 return new Accommodation(id, name, pricePerNight);
@@ -37,5 +39,23 @@ public class AccommodationDAOImpl implements AccommodationDAO {
             throw new RuntimeException("Error while reading accommodation: ", e);
         }
         return null;
+    }
+
+    @Override
+    public AccommodationResponseDTO createAccommodation(NewAccommodationDTO accommodation) {
+        String sql = " INSERT INTO accommodation (accommodation_id, name, price_per_night ) VALUES (?, ?, ?);";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setLong(1, accommodation.accommodation_id());
+            preparedStatement.setString(2, accommodation.name());
+            preparedStatement.setDouble(3, accommodation.price_per_night());
+            preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
+            return new AccommodationResponseDTO(accommodation.accommodation_id(), accommodation.name(), accommodation.price_per_night());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

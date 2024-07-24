@@ -2,6 +2,8 @@ package com.codecool.restmates.service.accommodation;
 
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.service.accommodation.DAO.AccommodationDAO;
+import com.codecool.restmates.service.accommodation.DTO.AccommodationResponseDTO;
+import com.codecool.restmates.service.accommodation.DTO.NewAccommodationDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,5 +16,9 @@ public class AccommodationService {
 
     public Accommodation findAccommodationById(long accommodationId) {
         return accommodationDAO.findAccommodationById(accommodationId);
+    }
+
+    public AccommodationResponseDTO createAccommodation(NewAccommodationDTO accommodation) {
+        return accommodationDAO.createAccommodation(accommodation);
     }
 }

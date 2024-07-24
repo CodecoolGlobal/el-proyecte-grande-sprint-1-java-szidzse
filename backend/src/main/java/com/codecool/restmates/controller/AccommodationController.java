@@ -2,11 +2,10 @@ package com.codecool.restmates.controller;
 
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.service.accommodation.AccommodationService;
+import com.codecool.restmates.service.accommodation.DTO.AccommodationResponseDTO;
+import com.codecool.restmates.service.accommodation.DTO.NewAccommodationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -21,5 +20,10 @@ public class AccommodationController {
     @GetMapping(path = "/accommodation/{accommodationId}")
     public Accommodation getAccommodation(@PathVariable long accommodationId) {
         return accommodationService.findAccommodationById(accommodationId);
+    }
+
+    @PostMapping(path = "/accommodation")
+    public AccommodationResponseDTO createAccommodation(@RequestBody NewAccommodationDTO accommodation) {
+        return accommodationService.createAccommodation(accommodation);
     }
 }
