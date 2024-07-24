@@ -1,9 +1,9 @@
-package com.codecool.restmates.service;
+package com.codecool.restmates.service.member;
 
 import com.codecool.restmates.model.Member;
-import com.codecool.restmates.service.DAO.MemberDAO;
-import com.codecool.restmates.service.DTO.MemberResponseDTO;
-import com.codecool.restmates.service.DTO.NewMemberDTO;
+import com.codecool.restmates.service.member.DAO.MemberDAO;
+import com.codecool.restmates.service.member.DTO.MemberResponseDTO;
+import com.codecool.restmates.service.member.DTO.NewMemberDTO;
 import org.springframework.stereotype.Service;
 
 @Service

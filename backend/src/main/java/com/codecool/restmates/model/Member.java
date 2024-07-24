@@ -13,7 +13,7 @@ public class Member {
     private int phoneNumber;
 
     private final List<Message> messages;
-    private final Set<Accomodation> ownerOfAccomodations;
+    private final Set<Accommodation> ownerOfAccommodations;
     private final List<Booking> bookings;
 
 
@@ -23,7 +23,7 @@ public class Member {
         this.lastName = lastName;
         this.email = email;
         messages = new ArrayList<>();
-        ownerOfAccomodations = new HashSet<>();
+        ownerOfAccommodations = new HashSet<>();
         bookings = new ArrayList<>();
     }
 
@@ -40,7 +40,7 @@ public class Member {
                 ", email='" + email + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", messages=" + messages +
-                ", ownerOfAccomodations=" + ownerOfAccomodations +
+                ", ownerOfAccommodations=" + ownerOfAccommodations +
                 ", bookings=" + bookings +
                 '}';
     }
