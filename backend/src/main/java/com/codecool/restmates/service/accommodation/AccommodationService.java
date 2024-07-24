@@ -6,6 +6,8 @@ import com.codecool.restmates.service.accommodation.DTO.AccommodationResponseDTO
 import com.codecool.restmates.service.accommodation.DTO.NewAccommodationDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccommodationService {
     private AccommodationDAO accommodationDAO;
@@ -20,5 +22,9 @@ public class AccommodationService {
 
     public AccommodationResponseDTO createAccommodation(NewAccommodationDTO accommodation) {
         return accommodationDAO.createAccommodation(accommodation);
+    }
+
+    public List<AccommodationResponseDTO> findAllAccommodation() {
+        return accommodationDAO.findAllAccommodation();
     }
 }

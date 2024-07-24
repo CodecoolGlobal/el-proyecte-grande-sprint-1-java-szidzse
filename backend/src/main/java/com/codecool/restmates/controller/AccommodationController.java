@@ -7,6 +7,8 @@ import com.codecool.restmates.service.accommodation.DTO.NewAccommodationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api")
 public class AccommodationController {
@@ -15,6 +17,11 @@ public class AccommodationController {
     @Autowired
     public AccommodationController(AccommodationService accommodationService) {
         this.accommodationService = accommodationService;
+    }
+
+    @GetMapping(path = "/accommodation/all")
+    public List<AccommodationResponseDTO> getAllAccommodation() {
+        return accommodationService.findAllAccommodation();
     }
 
     @GetMapping(path = "/accommodation/{accommodationId}")

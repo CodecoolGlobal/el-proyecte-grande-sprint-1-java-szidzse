@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class AccommodationDAOImpl implements AccommodationDAO {
@@ -17,6 +19,25 @@ public class AccommodationDAOImpl implements AccommodationDAO {
 
     public AccommodationDAOImpl(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    @Override
+    public List<AccommodationResponseDTO> findAllAccommodation() {
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "SELECT accommodation_id, name, price_per_night FROM accommodation;";
+            ResultSet resultSet = connection.createStatement().executeQuery(sql);
+            List<AccommodationResponseDTO> accommodations = new ArrayList<>();
+            while (resultSet.next()) {
+                int accommodationId = resultSet.getInt("accommodation_id");
+                String name = resultSet.getString("name");
+                double pricePerNight = resultSet.getDouble("price_per_night");
+                AccommodationResponseDTO accommodation = new AccommodationResponseDTO(accommodationId, name, pricePerNight);
+                accommodations.add(accommodation);
+            }
+            return accommodations;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all accommodations: ", e);
+        }
     }
 
     @Override
