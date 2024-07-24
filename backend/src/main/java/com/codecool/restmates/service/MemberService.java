@@ -15,7 +15,7 @@ public class MemberService {
         this.memberDao = memberDao;
     }
 
-    public Member getMemberById(long id) {
+    public MemberResponseDTO getMemberById(long id) {
         return memberDao.getMemberById(id);
     }
 
