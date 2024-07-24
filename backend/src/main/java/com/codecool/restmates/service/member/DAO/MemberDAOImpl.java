@@ -20,10 +20,27 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
-    public Member getMemberById(long id) {
-        return null;
-    }
+    public MemberResponseDTO getMemberById(long memberId) {
+        String sql = "SELECT first_name, last_name, email FROM Member WHERE member_id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setLong(1, memberId);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
+            if (resultSet.next()) {
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String email = resultSet.getString("email");
+
+                return new MemberResponseDTO(memberId, firstName, lastName, email);
+            } else {
+                throw new RuntimeException("Member with ID " + memberId + " not found.");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     @Override

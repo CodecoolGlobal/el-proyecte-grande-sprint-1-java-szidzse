@@ -5,7 +5,7 @@ import com.codecool.restmates.service.member.DTO.MemberResponseDTO;
 import com.codecool.restmates.service.member.DTO.NewMemberDTO;
 
 public interface MemberDAO {
-    Member getMemberById(long id);
+    MemberResponseDTO getMemberById(long id);
     MemberResponseDTO createMember(NewMemberDTO member);
     void deleteMemberById(long id);
     Member updateMember(Member member);
