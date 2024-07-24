@@ -79,4 +79,17 @@ public class AccommodationDAOImpl implements AccommodationDAO {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean deleteAccommodationById(long accommodationId) {
+        String sql = "DELETE FROM accommodation WHERE accommodation_id = ?";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, accommodationId);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

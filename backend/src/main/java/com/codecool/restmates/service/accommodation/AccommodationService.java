@@ -27,4 +27,8 @@ public class AccommodationService {
     public List<AccommodationResponseDTO> findAllAccommodation() {
         return accommodationDAO.findAllAccommodation();
     }
+
+    public boolean deleteAccommodationById(long accommodationId) {
+        return accommodationDAO.deleteAccommodationById(accommodationId);
+    }
 }

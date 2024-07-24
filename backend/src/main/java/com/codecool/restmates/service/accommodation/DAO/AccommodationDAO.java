@@ -12,4 +12,6 @@ public interface AccommodationDAO {
     AccommodationResponseDTO createAccommodation(NewAccommodationDTO accommodation);
 
     List<AccommodationResponseDTO> findAllAccommodation();
+
+    boolean deleteAccommodationById(long accommodationId);
 }

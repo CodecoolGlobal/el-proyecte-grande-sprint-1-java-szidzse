@@ -33,4 +33,9 @@ public class AccommodationController {
     public AccommodationResponseDTO createAccommodation(@RequestBody NewAccommodationDTO accommodation) {
         return accommodationService.createAccommodation(accommodation);
     }
+
+    @DeleteMapping(path = "/accommodation/{accommodationId}")
+    public boolean deleteAccommodationById(@PathVariable long accommodationId) {
+        return accommodationService.deleteAccommodationById(accommodationId);
+    }
 }
