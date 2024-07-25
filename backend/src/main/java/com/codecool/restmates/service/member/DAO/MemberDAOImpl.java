@@ -1,8 +1,8 @@
-package com.codecool.restmates.service.DAO;
+package com.codecool.restmates.service.member.DAO;
 
 import com.codecool.restmates.model.Member;
-import com.codecool.restmates.service.DTO.NewMemberDTO;
-import com.codecool.restmates.service.DTO.MemberResponseDTO;
+import com.codecool.restmates.service.member.DTO.NewMemberDTO;
+import com.codecool.restmates.service.member.DTO.MemberResponseDTO;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -11,11 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class MemberDaoImpl implements MemberDAO {
+public class MemberDAOImpl implements MemberDAO {
 
     private DataSource dataSource;
 
-    public MemberDaoImpl(DataSource dataSource) {
+    public MemberDAOImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
