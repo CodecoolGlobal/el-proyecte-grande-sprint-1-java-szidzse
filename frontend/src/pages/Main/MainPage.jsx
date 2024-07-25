@@ -3,11 +3,11 @@ import {useEffect, useState} from "react";
 
 const MainPage = () => {
 
-    return (<div>
-        <h1>
-            Hello
-        </h1>
-    </div>)
+    return (<>
+        Hello
+        </>
+    );
+
 }
 
 export default MainPage;
