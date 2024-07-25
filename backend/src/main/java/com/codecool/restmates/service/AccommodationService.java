@@ -1,9 +1,8 @@
-package com.codecool.restmates.service.accommodation;
+package com.codecool.restmates.service;
 
-import com.codecool.restmates.model.Accommodation;
-import com.codecool.restmates.service.accommodation.DAO.AccommodationDAO;
-import com.codecool.restmates.service.accommodation.DTO.AccommodationResponseDTO;
-import com.codecool.restmates.service.accommodation.DTO.NewAccommodationDTO;
+import com.codecool.restmates.repositories.AccommodationDAO.AccommodationDAO;
+import com.codecool.restmates.dto.responses.AccommodationResponseDTO;
+import com.codecool.restmates.dto.requests.NewAccommodationDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

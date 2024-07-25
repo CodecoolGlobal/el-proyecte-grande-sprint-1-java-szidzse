@@ -1,8 +1,8 @@
-package com.codecool.restmates.service.accommodation.DAO;
+package com.codecool.restmates.repositories.AccommodationDAO;
 
-import com.codecool.restmates.model.Accommodation;
-import com.codecool.restmates.service.accommodation.DTO.AccommodationResponseDTO;
-import com.codecool.restmates.service.accommodation.DTO.NewAccommodationDTO;
+import com.codecool.restmates.dto.responses.AccommodationResponseDTO;
+import com.codecool.restmates.dto.requests.NewAccommodationDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -17,6 +17,7 @@ import java.util.List;
 public class AccommodationDAOImpl implements AccommodationDAO {
     private DataSource dataSource;
 
+    @Autowired
     public AccommodationDAOImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }

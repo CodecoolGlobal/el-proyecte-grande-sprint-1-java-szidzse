@@ -1,8 +1,10 @@
-package com.codecool.restmates.service.member.DAO;
+package com.codecool.restmates.repositories.memberDAO;
 
 import com.codecool.restmates.model.Member;
-import com.codecool.restmates.service.member.DTO.NewMemberDTO;
-import com.codecool.restmates.service.member.DTO.MemberResponseDTO;
+import com.codecool.restmates.dto.requests.NewMemberDTO;
+import com.codecool.restmates.dto.responses.MemberResponseDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -10,21 +12,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+@Repository
 public class MemberDAOImpl implements MemberDAO {
 
     private DataSource dataSource;
 
+    @Autowired
     public MemberDAOImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
-    public MemberResponseDTO getMemberById(long memberId) {
+    public MemberResponseDTO getMemberById(String memberId) {
         String sql = "SELECT first_name, last_name, email FROM Member WHERE member_id = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setLong(1, memberId);
+            preparedStatement.setString(1, memberId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -33,6 +36,7 @@ public class MemberDAOImpl implements MemberDAO {
                 String email = resultSet.getString("email");
 
                 return new MemberResponseDTO(memberId, firstName, lastName, email);
+                // nem DTO, teljes obj.
             } else {
                 throw new RuntimeException("Member with ID " + memberId + " not found.");
             }
@@ -51,7 +55,7 @@ public class MemberDAOImpl implements MemberDAO {
                 """;
         try (Connection conn = dataSource.getConnection();
              PreparedStatement preparedStatement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setLong(1, member.member_id());
+            preparedStatement.setString(1, member.member_id());
             preparedStatement.setString(2, member.first_name());
             preparedStatement.setString(3, member.last_name());
             preparedStatement.setString(4, member.email());
