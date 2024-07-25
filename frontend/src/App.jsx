@@ -4,6 +4,7 @@ import MainPage from './pages/Main/MainPage.jsx';
 // import ErrorPage from './pages/ErrorPage/ErrorPage.jsx';
 import Navbar from "./components/Navbar/Navbar.jsx";
 import './index.css';
+import SignUp from "./pages/SignUp/SignUp.jsx";
 
 const AppLayout = () => {
     const currentTheme = localStorage.getItem("currentTheme");
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
                 path: '/',
                 element: <MainPage />,
             },
+            {
+                path: '/signUp',
+                element: <SignUp />,
+            }
         ],
     },
 ]);

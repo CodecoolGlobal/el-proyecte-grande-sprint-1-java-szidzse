@@ -1,11 +1,12 @@
 import React from 'react';
 import {useEffect, useState} from "react";
-
+import LoginSignup from "../../components/loginSignup/LoginSignup.jsx";
 const MainPage = () => {
 
-    return (<>
-        Hello
-        </>
+    return (
+        <div>
+            Hey
+        </div>
     );
 
 }
