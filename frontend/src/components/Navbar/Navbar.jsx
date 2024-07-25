@@ -1,37 +1,35 @@
-import React, {useState} from 'react';
-import {Link, Outlet} from 'react-router-dom';
-//import {Button} from 'react';
+import React from 'react'
 import './Navbar.css'
-//import Dropdown from './Dropdown';
+import logo_light from "../../assets/logo-black.png"
+import logo_dark from "../../assets/logo-white.png"
+import search_icon_light from "../../assets/search-w.png"
+import search_icon_dark from "../../assets/search-b.png"
+import toggle_light from "../../assets/night.png"
+import toggle_dark from "../../assets/day.png"
 
-import {navItems} from './NavbarItems/NavItems.jsx'
+const Navbar = ({theme, setTheme}) => {
 
-export default function Navbar() {
-    const [click, setClick] = useState(false);
-
-    const handleClick = () => setClick(!click);
+    const toggle_mode = () => {
+        theme === "light" ? setTheme("dark") : setTheme("light")
+    }
 
     return (
-        <>
-            <nav className="navbar">
-                <Link to="/" className="navbar-logo">
-                    RESTMates
-                </Link>
-                <ul className="nav-items">
-                    {navItems.map(item => {
-                        return (
-                            <li key={item.id} className={item.cName}>
-                                <Link to={item.path}>
-                                    {item.title}
-                                </Link>
-                            </li>
-                        )
-                    })}
-                </ul>
-                <div className="menu-icon" onClick={handleClick}>
+        <div className="navbar">
+            <img id="logo" src={theme === "light" ? logo_light : logo_dark} alt="" className="logo" />
+            <ul>
+                <li>Accommodations</li>
+                <li>Sign Up</li>
+                <li>Log In</li>
+                <li>About</li>
+            </ul>
 
-                </div>
-            </nav>
-        </>
-    );
+            <div className="search-box">
+                <input type="text" placeholder="Search..." />
+                <img src={theme === "light" ? search_icon_light : search_icon_dark} alt="" />
+            </div>
+
+            <img onClick={() => {toggle_mode()}} src={theme === "light" ? toggle_light : toggle_dark} alt="" className="toggle-icon"/>
+        </div>
+    )
 }
+export default Navbar
