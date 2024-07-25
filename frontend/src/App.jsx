@@ -17,7 +17,6 @@ const AppLayout = () => {
     return (
         <div className={`container ${theme}`}>
             <Navbar theme={theme} setTheme={setTheme} />
-            <AccommodationsPage />
             <Outlet />
         </div>
     );

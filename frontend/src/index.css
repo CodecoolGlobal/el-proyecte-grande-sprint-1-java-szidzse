@@ -24,3 +24,9 @@ a {
 a:hover {
     text-decoration: none;
 }
+
+.accommodation-container {
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 25%;
+}

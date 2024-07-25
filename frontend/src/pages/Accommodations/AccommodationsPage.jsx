@@ -28,11 +28,11 @@ const AccommodationsPage = () => {
     return (
         <div>
             <ul>
-                {accommodations && accommodations.map((accommodation, index) => {
-                    <div key={index}>
+                {accommodations && accommodations.map((accommodation, index) => (
+                    <li className="accommodation-container" key={index}>
                         <AccommodationContainer accommodation={accommodation} />
-                    </div>
-                })}
+                    </li>
+                ))}
             </ul>
         </div>
     )
