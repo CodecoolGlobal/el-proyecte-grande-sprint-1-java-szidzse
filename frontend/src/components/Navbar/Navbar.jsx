@@ -8,6 +8,7 @@ import toggle_light from "../../assets/night.png"
 import toggle_dark from "../../assets/day.png"
 import {Link} from "react-router-dom";
 
+
 const Navbar = ({theme, setTheme}) => {
 
     const toggle_mode = () => {
@@ -20,7 +21,9 @@ const Navbar = ({theme, setTheme}) => {
             <ul>
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/accommodations">Accommodations</Link></li>
-                <li>Sign Up</li>
+                <li>
+                    <Link to="signUp"> Sign Up </Link>
+                </li>
                 <li>Log In</li>
                 <li>About</li>
             </ul>
