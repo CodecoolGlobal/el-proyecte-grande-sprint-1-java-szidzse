@@ -3,12 +3,13 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import MainPage from './pages/Main/MainPage.jsx';
 import AccommodationsPage from "./pages/Accommodations/AccommodationsPage.jsx"
 // import ErrorPage from './pages/ErrorPage/ErrorPage.jsx';
+import SignUp from "./pages/SignUp/SignUp.jsx";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import './index.css';
 
 const AppLayout = () => {
-    const currentTheme = localStorage.getItem("currentTheme");
-    const [theme, setTheme] = useState(currentTheme ? currentTheme : "light");
+     const currentTheme = localStorage.getItem("currentTheme");
+     const [theme, setTheme] = useState(currentTheme ? currentTheme : "light");
 
     useEffect(() => {
         localStorage.setItem("currentTheme", theme);
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: "/accommodations",
                 element: <AccommodationsPage />
+            },
+            {
+                path: '/signUp',
+                element: <SignUp />,
             }
         ],
     },
