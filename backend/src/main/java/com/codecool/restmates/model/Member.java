@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Member {
-    private final long id;
+    private final String id;
     private String firstName;
     private String lastName;
     private String email;
@@ -17,7 +17,7 @@ public class Member {
     private final List<Booking> bookings;
 
 
-    public Member(long id, String firstName, String lastName, String email) {
+    public Member(String id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

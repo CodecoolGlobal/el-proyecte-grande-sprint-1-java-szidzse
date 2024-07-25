@@ -1,14 +1,15 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.model.Member;
-import com.codecool.restmates.service.member.DTO.MemberResponseDTO;
-import com.codecool.restmates.service.member.DTO.NewMemberDTO;
-import com.codecool.restmates.service.member.MemberService;
+import com.codecool.restmates.dto.responses.MemberResponseDTO;
+import com.codecool.restmates.dto.requests.NewMemberDTO;
+import com.codecool.restmates.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+// /member is lehetne.
+
 public class MemberController {
     private final MemberService memberService;
 
@@ -18,7 +19,7 @@ public class MemberController {
     }
 
     @GetMapping("/member/{memberId}")
-    public MemberResponseDTO getMember(@PathVariable("memberId") long memberId) {
+    public MemberResponseDTO getMember(@PathVariable("memberId") String memberId) {
         return memberService.getMemberById(memberId);
     }
 

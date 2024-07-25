@@ -1,15 +1,14 @@
 package com.codecool.restmates.database;
 
-import com.codecool.restmates.service.member.DAO.MemberDAO;
-import com.codecool.restmates.service.member.DAO.MemberDAOImpl;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
-@org.springframework.context.annotation.Configuration
+@Configuration
 public class DatabaseConnection {
 
     @Value("${restmates.database.url}")
@@ -49,10 +48,5 @@ public class DatabaseConnection {
         System.out.println("Connection closed successfully.");
 
         return dataSource;
-    }
-
-    @Bean
-    public MemberDAO memberDAO() throws SQLException {
-        return new MemberDAOImpl(getDataSource());
     }
 }

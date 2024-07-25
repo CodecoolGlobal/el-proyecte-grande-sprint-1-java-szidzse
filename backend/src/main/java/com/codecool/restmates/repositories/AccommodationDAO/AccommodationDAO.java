@@ -1,8 +1,7 @@
-package com.codecool.restmates.service.accommodation.DAO;
+package com.codecool.restmates.repositories.AccommodationDAO;
 
-import com.codecool.restmates.model.Accommodation;
-import com.codecool.restmates.service.accommodation.DTO.AccommodationResponseDTO;
-import com.codecool.restmates.service.accommodation.DTO.NewAccommodationDTO;
+import com.codecool.restmates.dto.responses.AccommodationResponseDTO;
+import com.codecool.restmates.dto.requests.NewAccommodationDTO;
 
 import java.util.List;
 
