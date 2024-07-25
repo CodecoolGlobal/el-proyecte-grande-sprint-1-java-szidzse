@@ -7,7 +7,7 @@ import com.codecool.restmates.service.accommodation.DTO.NewAccommodationDTO;
 import java.util.List;
 
 public interface AccommodationDAO {
-    Accommodation findAccommodationById(long accommodationId);
+    AccommodationResponseDTO findAccommodationById(long accommodationId);
 
     AccommodationResponseDTO createAccommodation(NewAccommodationDTO accommodation);
 

@@ -41,7 +41,7 @@ public class AccommodationDAOImpl implements AccommodationDAO {
     }
 
     @Override
-    public Accommodation findAccommodationById(long accommodationId) {
+    public AccommodationResponseDTO findAccommodationById(long accommodationId) {
         String sql = "SELECT accommodation_id, name, price_per_night FROM accommodation WHERE accommodation_id = ?;";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -53,7 +53,7 @@ public class AccommodationDAOImpl implements AccommodationDAO {
                 int id = rs.getInt("accommodation_id");
                 String name = rs.getString("name");
                 double pricePerNight = rs.getDouble("price_per_night");
-                return new Accommodation(id, name, pricePerNight);
+                return new AccommodationResponseDTO(id, name, pricePerNight);
             }
             rs.close();
         } catch (SQLException e) {
