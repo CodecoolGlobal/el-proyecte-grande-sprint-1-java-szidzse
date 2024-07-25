@@ -6,6 +6,7 @@ import search_icon_light from "../../assets/search-w.png"
 import search_icon_dark from "../../assets/search-b.png"
 import toggle_light from "../../assets/night.png"
 import toggle_dark from "../../assets/day.png"
+import {Link} from "react-router-dom";
 
 const Navbar = ({theme, setTheme}) => {
 
@@ -17,7 +18,8 @@ const Navbar = ({theme, setTheme}) => {
         <div className="navbar">
             <img id="logo" src={theme === "light" ? logo_light : logo_dark} alt="" className="logo" />
             <ul>
-                <li>Accommodations</li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/accommodations">Accommodations</Link></li>
                 <li>Sign Up</li>
                 <li>Log In</li>
                 <li>About</li>

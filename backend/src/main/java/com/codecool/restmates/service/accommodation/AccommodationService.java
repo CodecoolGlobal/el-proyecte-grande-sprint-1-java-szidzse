@@ -16,7 +16,7 @@ public class AccommodationService {
         this.accommodationDAO = accommodationDAO;
     }
 
-    public Accommodation findAccommodationById(long accommodationId) {
+    public AccommodationResponseDTO findAccommodationById(long accommodationId) {
         return accommodationDAO.findAccommodationById(accommodationId);
     }
 

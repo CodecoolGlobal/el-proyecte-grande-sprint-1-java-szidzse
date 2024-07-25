@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import MainPage from './pages/Main/MainPage.jsx';
+import AccommodationsPage from "./pages/Accommodations/AccommodationsPage.jsx"
 // import ErrorPage from './pages/ErrorPage/ErrorPage.jsx';
 import Navbar from "./components/Navbar/Navbar.jsx";
 import './index.css';
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
                 path: '/',
                 element: <MainPage />,
             },
+            {
+                path: "/accommodations",
+                element: <AccommodationsPage />
+            }
         ],
     },
 ]);
