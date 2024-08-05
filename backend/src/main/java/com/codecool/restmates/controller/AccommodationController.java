@@ -1,5 +1,6 @@
 package com.codecool.restmates.controller;
 
+import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.service.AccommodationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,17 @@ public class AccommodationController {
     }
 
     @GetMapping(path = "/all")
-    public List<Accommodation> getAllAccommodations() {
-        return accommodationService.getAllAccommodations();
+    public ResponseEntity<List<Accommodation>> getAllAccommodations() {
+        List<Accommodation> accommodations = accommodationService.getAllAccommodations();
+        return ResponseEntity.ok(accommodations);
     }
 
     @GetMapping(path = "/{accommodationId}")
     public ResponseEntity<Accommodation> getAccommodationById(@PathVariable Long accommodationId) {
         Optional<Accommodation> accommodation = accommodationService.getAccommodationById(accommodationId);
 
-        if (accommodation.isPresent()) {
-            return ResponseEntity.ok(accommodation.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return accommodation.map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found with id: " + accommodationId));
     }
 
     @PostMapping(path = "")
