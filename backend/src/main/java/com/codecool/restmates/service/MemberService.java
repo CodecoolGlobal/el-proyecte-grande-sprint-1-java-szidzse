@@ -1,6 +1,6 @@
 package com.codecool.restmates.service;
 
-import com.codecool.restmates.repositories.memberDAO.MemberDAO;
+import com.codecool.restmates.repository.memberDAO.MemberDAO;
 import com.codecool.restmates.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.dto.requests.NewMemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
