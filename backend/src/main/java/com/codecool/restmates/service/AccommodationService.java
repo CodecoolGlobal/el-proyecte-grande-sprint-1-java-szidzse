@@ -36,10 +36,10 @@ public class AccommodationService {
 
     public Accommodation createAccommodation(Accommodation accommodation, Long ownerId, Long locationId) {
         Member owner = memberRepository.findById(ownerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Owner not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Owner not found with id: " + ownerId));
 
         Location location = locationRepository.findById(locationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
 
         accommodation.setOwner(owner);
         accommodation.setLocation(location);
@@ -49,7 +49,7 @@ public class AccommodationService {
 
     public Accommodation updateAccommodation(Long accommodationId, Accommodation updatedAccommodation) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found with id: " + accommodationId));
 
         accommodation.setName(updatedAccommodation.getName());
         accommodation.setDescription(updatedAccommodation.getDescription());
