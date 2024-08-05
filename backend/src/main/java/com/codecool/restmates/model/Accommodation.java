@@ -1,55 +1,40 @@
 package com.codecool.restmates.model;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
 public class Accommodation {
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
-    private double pricePerNight;
 
-    public Accommodation() {
+    private String description;
 
-    }
+    private Integer roomNumber;
 
-    public Accommodation(String name, double pricePerNight) {
-        this.name = name;
-        this.pricePerNight = pricePerNight;
-    }
+    private Double pricePerNight;
 
-    public Accommodation(long id, String name, double pricePerNight) {
-        this.id = id;
-        this.name = name;
-        this.pricePerNight = pricePerNight;
-    }
+    private Integer maxGuests;
 
-    public long getId() {
-        return id;
-    }
+    @Enumerated(EnumType.STRING)
+    private AccommodationType accommodationType;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
 
-    public String getName() {
-        return name;
-    }
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private Member owner;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPricePerNight() {
-        return pricePerNight;
-    }
-
-    public void setPricePerNight(double pricePerNight) {
-        this.pricePerNight = pricePerNight;
-    }
-
-    @Override
-    public String toString() {
-        return "Accommodation{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", pricePerNight=" + pricePerNight +
-                '}';
-    }
+    @OneToMany(mappedBy = "accommodation")
+    private List<Reservation> reservations;
 }
