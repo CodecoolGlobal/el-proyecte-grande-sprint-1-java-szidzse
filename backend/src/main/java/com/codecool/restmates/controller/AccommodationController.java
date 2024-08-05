@@ -34,4 +34,13 @@ public class AccommodationController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping(path = "")
+    public ResponseEntity<Accommodation> createAccommodation(
+            @RequestBody Accommodation accommodation,
+            @RequestParam Long ownerId,
+            @RequestParam Long locationId) {
+        Accommodation createdAccommodation = accommodationService.createAccommodation(accommodation, ownerId, locationId);
+        return ResponseEntity.ok(createdAccommodation);
+    }
 }

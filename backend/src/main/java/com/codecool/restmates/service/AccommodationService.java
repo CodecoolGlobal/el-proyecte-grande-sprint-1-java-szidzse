@@ -1,6 +1,8 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Accommodation;
+import com.codecool.restmates.model.Location;
 import com.codecool.restmates.model.Member;
 import com.codecool.restmates.repository.AccommodationRepository;
 import com.codecool.restmates.repository.LocationRepository;
@@ -30,5 +32,18 @@ public class AccommodationService {
 
     public Optional<Accommodation> getAccommodationById(Long id) {
         return accommodationRepository.findById(id);
+    }
+
+    public Accommodation createAccommodation(Accommodation accommodation, Long ownerId, Long locationId) {
+        Member owner = memberRepository.findById(ownerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Owner not found!"));
+
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Location not found!"));
+
+        accommodation.setOwner(owner);
+        accommodation.setLocation(location);
+
+        return accommodationRepository.save(accommodation);
     }
 }
