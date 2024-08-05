@@ -24,9 +24,9 @@ public class AccommodationController {
         return accommodationService.getAllAccommodations();
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Accommodation> getAccommodationById(@PathVariable Long id) {
-        Optional<Accommodation> accommodation = accommodationService.getAccommodationById(id);
+    @GetMapping(path = "/{accommodationId}")
+    public ResponseEntity<Accommodation> getAccommodationById(@PathVariable Long accommodationId) {
+        Optional<Accommodation> accommodation = accommodationService.getAccommodationById(accommodationId);
 
         if (accommodation.isPresent()) {
             return ResponseEntity.ok(accommodation.get());
@@ -44,16 +44,16 @@ public class AccommodationController {
         return ResponseEntity.ok(createdAccommodation);
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/{accommodationId}")
     public ResponseEntity<Accommodation> updateAccommodation(
-            Long accommodationId,
-            Accommodation accommodation) {
+            @PathVariable Long accommodationId,
+            @RequestBody Accommodation accommodation) {
         Accommodation updatedAccommodation = accommodationService.updateAccommodation(accommodationId, accommodation);
         return ResponseEntity.ok(updatedAccommodation);
     }
 
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Boolean> deleteAccommodation(Long accommodationId) {
+    @DeleteMapping(path = "/{accommodationId}")
+    public ResponseEntity<Boolean> deleteAccommodation(@PathVariable Long accommodationId) {
         boolean isDeleted = accommodationService.deleteAccommodation(accommodationId);
         return ResponseEntity.ok(isDeleted);
     }
