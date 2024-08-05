@@ -43,4 +43,12 @@ public class AccommodationController {
         Accommodation createdAccommodation = accommodationService.createAccommodation(accommodation, ownerId, locationId);
         return ResponseEntity.ok(createdAccommodation);
     }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Accommodation> updateAccommodation(
+            Long accommodationId,
+            Accommodation accommodation) {
+        Accommodation updatedAccommodation = accommodationService.updateAccommodation(accommodationId, accommodation);
+        return ResponseEntity.ok(updatedAccommodation);
+    }
 }

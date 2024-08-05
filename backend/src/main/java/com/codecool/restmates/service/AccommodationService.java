@@ -46,4 +46,26 @@ public class AccommodationService {
 
         return accommodationRepository.save(accommodation);
     }
+
+    public Accommodation updateAccommodation(Long accommodationId, Accommodation updatedAccommodation) {
+        Accommodation accommodation = accommodationRepository.findById(accommodationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found!"));
+
+        accommodation.setName(updatedAccommodation.getName());
+        accommodation.setDescription(updatedAccommodation.getDescription());
+        accommodation.setRoomNumber(updatedAccommodation.getRoomNumber());
+        accommodation.setPricePerNight(updatedAccommodation.getPricePerNight());
+        accommodation.setMaxGuests(updatedAccommodation.getMaxGuests());
+        accommodation.setAccommodationType(updatedAccommodation.getAccommodationType());
+
+        if (updatedAccommodation.getLocation() != null) {
+            accommodation.setLocation(updatedAccommodation.getLocation());
+        }
+
+        if (updatedAccommodation.getOwner() != null) {
+            accommodation.setOwner(updatedAccommodation.getOwner());
+        }
+
+        return accommodationRepository.save(accommodation);
+    }
 }
