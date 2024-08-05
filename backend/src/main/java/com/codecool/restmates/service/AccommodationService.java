@@ -30,8 +30,8 @@ public class AccommodationService {
         return accommodationRepository.findAll();
     }
 
-    public Optional<Accommodation> getAccommodationById(Long id) {
-        return accommodationRepository.findById(id);
+    public Optional<Accommodation> getAccommodationById(Long accommodationId) {
+        return accommodationRepository.findById(accommodationId);
     }
 
     public Accommodation createAccommodation(Accommodation accommodation, Long ownerId, Long locationId) {
@@ -67,5 +67,14 @@ public class AccommodationService {
         }
 
         return accommodationRepository.save(accommodation);
+    }
+
+    public boolean deleteAccommodation(Long accommodationId) {
+        if (accommodationRepository.existsById(accommodationId)) {
+            accommodationRepository.deleteById(accommodationId);
+            return true;
+        } else {
+            throw new ResourceNotFoundException("Accommodation not found with id: " + accommodationId);
+        }
     }
 }

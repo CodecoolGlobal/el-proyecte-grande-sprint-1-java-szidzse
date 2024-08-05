@@ -51,4 +51,10 @@ public class AccommodationController {
         Accommodation updatedAccommodation = accommodationService.updateAccommodation(accommodationId, accommodation);
         return ResponseEntity.ok(updatedAccommodation);
     }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Boolean> deleteAccommodation(Long accommodationId) {
+        boolean isDeleted = accommodationService.deleteAccommodation(accommodationId);
+        return ResponseEntity.ok(isDeleted);
+    }
 }
