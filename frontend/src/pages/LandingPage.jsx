@@ -24,7 +24,10 @@ const LandingPage = () => {
     return (
         <div>
             <h1>Accommodations</h1>
-            {loading && <p>Loading...</p>}
+            {loading && <button className="btn">
+  <span className="loading loading-spinner"></span>
+  loading
+</button>}
             {error && <p>Error: {error}</p>}
             <ul>
                 {accommodations.map((accommodation) => (
