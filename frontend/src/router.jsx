@@ -4,6 +4,7 @@ import {Contact} from "./pages/Contact.jsx";
 import React from "react";
 import Navbar from "./components/Navbar.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
+import SignUp from "./pages/SignUp.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
             {
                 path: "/contact",
                 element: <Contact/>
+            },
+            {
+                path: "/signup",
+                element: <SignUp/>
             }
         ]
     }
