@@ -1,5 +1,6 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Member;
@@ -18,8 +19,16 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Optional<Member> getMemberById(Long memberId) {
-        return memberRepository.findById(memberId);
+    public MemberResponseDTO getMemberById(Long memberId) {
+        Optional<Member> member = memberRepository.findById(memberId);
+
+        if(member.isPresent()) {
+            Member memberEntity = member.get();
+            return new MemberResponseDTO(memberEntity.getFirstName(),
+                    memberEntity.getLastName(), memberEntity.getEmail());
+        } else {
+            throw new ResourceNotFoundException(String.format("Member with id %s not found", memberId));
+        }
     }
 
     public Member saveMember(Member member) {
@@ -43,11 +52,11 @@ public class MemberService {
     }
 
     public Boolean deleteMember(Long memberId) {
-        if (!memberRepository.existsById(memberId)) {
-            throw new ResourceNotFoundException(String.format(" %s does not exist.", memberId));
+        if (memberRepository.existsById(memberId)) {
+            memberRepository.deleteById(memberId);
+            return true;
         }
-        memberRepository.deleteById(memberId);
-        return true;
+        throw new ResourceNotFoundException(String.format(" %s does not exist.", memberId));
     }
 
     public Boolean existsEmail(String email) {
