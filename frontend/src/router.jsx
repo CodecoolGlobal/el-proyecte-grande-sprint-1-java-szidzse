@@ -1,11 +1,28 @@
 import {createBrowserRouter} from "react-router-dom";
-import App from "./App.jsx";
-import Dashboard from "./routes/Dashboard.jsx";
-import {Contact} from "./routes/Contact.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import {Contact} from "./pages/Contact.jsx";
 import React from "react";
+import Navbar from "./components/Navbar.jsx";
+import LandingPage from "./pages/LandingPage.jsx";
 
 export const router = createBrowserRouter([
-    {path: "/", element: <App/>},
-    {path: "/dashboard", element: <Dashboard/>},
-    {path: "/contact", element: <Contact/>}
+    {
+        path: "/",
+        element: <Navbar/>,
+        // errorElement: <ErrorPage/>,
+        children: [
+            {
+                path: "/",
+                element: <LandingPage/>
+            },
+            {
+                path: "/dashboard",
+                element: <Dashboard/>
+            },
+            {
+                path: "/contact",
+                element: <Contact/>
+            }
+        ]
+    }
 ])
