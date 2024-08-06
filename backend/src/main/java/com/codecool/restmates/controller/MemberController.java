@@ -1,5 +1,6 @@
 package com.codecool.restmates.controller;
 
+import com.codecool.restmates.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Member;
@@ -20,39 +21,23 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-
     @GetMapping(path = "/{memberId}")
-    public ResponseEntity getMemberById(@PathVariable long memberId) {
-        Optional<Member> member = memberService.getMemberById(memberId);
-
-        return member.map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Member with id %s not found", memberId)));
+    public MemberResponseDTO getMemberById(@PathVariable long memberId) {
+        return memberService.getMemberById(memberId);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity createMember(@RequestBody Member member) {
-        if (memberService.existsEmail(member.getEmail())) {
-            throw new EmailAlreadyExistsException(String.format("Email %s already exists", member.getEmail()));
-        }
-        Member newMember = memberService.saveMember(member);
-        return ResponseEntity.ok(newMember);
+    public Member createMember(@RequestBody Member member) {
+        return memberService.saveMember(member);
     }
 
-    @PutMapping(path ="/{memberId}/update")
-    public ResponseEntity updateMember(@PathVariable long memberId, @RequestBody Member member) {
-        if (memberService.existsEmail(member.getEmail())) {
-            throw new EmailAlreadyExistsException(String.format("Email %s already exists", member.getEmail()));
-        }
-        Member updatedMember = memberService.updateMember(memberId, member);
-        return ResponseEntity.ok(updatedMember);
+    @PutMapping(path ="/{memberId}")
+    public Member updateMember(@PathVariable long memberId, @RequestBody Member member) {
+        return memberService.updateMember(memberId, member);
     }
 
     @DeleteMapping(path ="/{memberId}/delete")
-    public ResponseEntity deleteMember(@PathVariable long memberId) {
-        boolean isDeleted = memberService.deleteMember(memberId);
-        if (isDeleted) {
-            return ResponseEntity.ok().build();
-        }
-        throw new ResourceNotFoundException(String.format("Member with id %s not found", memberId));
+    public boolean deleteMember(@PathVariable long memberId) {
+        return memberService.deleteMember(memberId);
     }
 }
