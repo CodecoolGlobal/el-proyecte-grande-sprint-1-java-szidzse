@@ -20,9 +20,8 @@ public class AccommodationController {
     }
 
     @GetMapping(path = "/all")
-    public ResponseEntity<List<Accommodation>> getAllAccommodations() {
-        List<Accommodation> accommodations = accommodationService.getAllAccommodations();
-        return ResponseEntity.ok(accommodations);
+    public List<AccommodationDTO> getAllAccommodations() {
+        return accommodationService.getAllAccommodations();
     }
 
     @GetMapping(path = "/{accommodationId}")

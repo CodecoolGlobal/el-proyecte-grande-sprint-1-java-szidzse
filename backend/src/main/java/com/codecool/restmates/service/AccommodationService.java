@@ -28,8 +28,10 @@ public class AccommodationService {
         this.memberRepository = memberRepository;
     }
 
-    public List<Accommodation> getAllAccommodations() {
-        return accommodationRepository.findAll();
+    public List<AccommodationDTO> getAllAccommodations() {
+        List<Accommodation> accommodations = accommodationRepository.findAll();
+
+        return accommodations.stream().map(this::convertToDTO).toList();
     }
 
     public AccommodationDTO getAccommodationById(Long accommodationId) {
@@ -38,20 +40,7 @@ public class AccommodationService {
         if (accommodation.isPresent()) {
             Accommodation accommodationEntity = accommodation.get();
 
-            LocationCityAndCountryDTO locationCityAndCountryDTO = new LocationCityAndCountryDTO(
-                    accommodationEntity.getLocation().getCity(),
-                    accommodationEntity.getLocation().getCountry()
-            );
-
-            return new AccommodationDTO(
-                    accommodationEntity.getName(),
-                    accommodationEntity.getDescription(),
-                    accommodationEntity.getRoomNumber(),
-                    accommodationEntity.getPricePerNight(),
-                    accommodationEntity.getMaxGuests(),
-                    locationCityAndCountryDTO
-
-            );
+            return convertToDTO(accommodationEntity);
         } else {
             throw new ResourceNotFoundException(String.format("Accommodation with id %s not found", accommodationId));
         }
@@ -100,4 +89,21 @@ public class AccommodationService {
             throw new ResourceNotFoundException("Accommodation not found with id: " + accommodationId);
         }
     }
+
+    private AccommodationDTO convertToDTO(Accommodation accommodation) {
+        LocationCityAndCountryDTO locationDTO = new LocationCityAndCountryDTO(
+                accommodation.getLocation().getCity(),
+                accommodation.getLocation().getCountry()
+        );
+
+        return new AccommodationDTO(
+                accommodation.getName(),
+                accommodation.getDescription(),
+                accommodation.getRoomNumber(),
+                accommodation.getPricePerNight(),
+                accommodation.getMaxGuests(),
+                locationDTO
+        );
+    }
+
 }
