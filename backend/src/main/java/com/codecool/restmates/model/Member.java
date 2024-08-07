@@ -26,9 +26,9 @@ public class Member {
 
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Accommodation> accommodations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "guest")
+    @OneToMany(mappedBy = "guest", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private  List<Reservation> reservations = new ArrayList<>();
 }
