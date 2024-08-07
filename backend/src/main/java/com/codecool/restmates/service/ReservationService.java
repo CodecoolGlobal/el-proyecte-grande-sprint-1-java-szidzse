@@ -3,8 +3,6 @@ package com.codecool.restmates.service;
 import com.codecool.restmates.dto.requests.NewReservationWithBothIDsDTO;
 import com.codecool.restmates.dto.responses.ReservationDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
-import com.codecool.restmates.model.Accommodation;
-import com.codecool.restmates.model.Member;
 import com.codecool.restmates.model.Reservation;
 import com.codecool.restmates.repository.AccommodationRepository;
 import com.codecool.restmates.repository.MemberRepository;
@@ -58,24 +56,7 @@ public class ReservationService {
         return reservation.getId();
     }
 
-    public Reservation updateReservation(Long reservationId, Reservation updatedReservation) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Reservation not found with id: " + reservationId));
-
-        reservation.setStartDate(updatedReservation.getStartDate());
-        reservation.setEndDate(updatedReservation.getEndDate());
-
-        if (updatedReservation.getAccommodation() != null) {
-            reservation.setAccommodation(updatedReservation.getAccommodation());
-        }
-        if (updatedReservation.getGuest() != null) {
-            reservation.setGuest(updatedReservation.getGuest());
-        }
-
-        return reservationRepository.save(reservation);
-    }
-
-    public boolean deleteReservation(Long reservationId) {
+    public Boolean deleteReservation(Long reservationId) {
         if (reservationRepository.existsById(reservationId)) {
             reservationRepository.deleteById(reservationId);
             return true;

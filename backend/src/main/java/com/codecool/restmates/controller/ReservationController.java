@@ -2,15 +2,9 @@ package com.codecool.restmates.controller;
 
 import com.codecool.restmates.dto.requests.NewReservationWithBothIDsDTO;
 import com.codecool.restmates.dto.responses.ReservationDTO;
-import com.codecool.restmates.exception.ResourceNotFoundException;
-import com.codecool.restmates.model.Reservation;
 import com.codecool.restmates.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/reservation")
@@ -32,17 +26,8 @@ public class ReservationController {
         return reservationService.createReservation(newReservation);
     }
 
-    @PutMapping(path = "/{reservationId}")
-    public ResponseEntity<Reservation> updateReservation(
-            @PathVariable Long reservationId,
-            @RequestBody Reservation updatedReservation) {
-        Reservation reservation = reservationService.updateReservation(reservationId, updatedReservation);
-        return ResponseEntity.ok(reservation);
-    }
-
     @DeleteMapping(path = "/{reservationId}")
-    public ResponseEntity<Boolean> deleteReservation(@PathVariable Long reservationId) {
-        boolean isDeleted = reservationService.deleteReservation(reservationId);
-        return ResponseEntity.ok(isDeleted);
+    public Boolean deleteReservation(@PathVariable Long reservationId) {
+        return reservationService.deleteReservation(reservationId);
     }
 }
