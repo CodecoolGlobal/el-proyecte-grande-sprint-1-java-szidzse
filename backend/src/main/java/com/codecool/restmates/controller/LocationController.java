@@ -34,8 +34,7 @@ public class LocationController {
     }
 
     @DeleteMapping(path = "/{locationId}")
-    public ResponseEntity<Boolean> deleteLocation(@PathVariable Long locationId) {
-        boolean isDeleted = locationService.deleteLocation(locationId);
-        return ResponseEntity.ok(isDeleted);
+    public Boolean deleteLocation(@PathVariable Long locationId) {
+        return locationService.deleteLocation(locationId);
     }
 }
