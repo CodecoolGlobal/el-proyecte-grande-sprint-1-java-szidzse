@@ -5,7 +5,6 @@ import com.codecool.restmates.dto.responses.AccommodationDTO;
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.service.AccommodationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
