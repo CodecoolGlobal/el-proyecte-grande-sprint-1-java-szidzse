@@ -35,6 +35,6 @@ public class Accommodation {
     @JoinColumn(name = "owner_id", nullable = false)
     private Member owner;
 
-    @OneToMany(mappedBy = "accommodation")
+    @OneToMany(mappedBy = "accommodation", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Reservation> reservations;
 }

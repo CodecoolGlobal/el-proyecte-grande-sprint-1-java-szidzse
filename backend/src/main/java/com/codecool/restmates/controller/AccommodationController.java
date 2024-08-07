@@ -1,14 +1,13 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.exception.ResourceNotFoundException;
+import com.codecool.restmates.dto.requests.NewAccommodationDTO;
+import com.codecool.restmates.dto.responses.AccommodationDTO;
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.service.AccommodationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/accommodation")
@@ -21,39 +20,27 @@ public class AccommodationController {
     }
 
     @GetMapping(path = "/all")
-    public ResponseEntity<List<Accommodation>> getAllAccommodations() {
-        List<Accommodation> accommodations = accommodationService.getAllAccommodations();
-        return ResponseEntity.ok(accommodations);
+    public List<AccommodationDTO> getAllAccommodations() {
+        return accommodationService.getAllAccommodations();
     }
 
     @GetMapping(path = "/{accommodationId}")
-    public ResponseEntity<Accommodation> getAccommodationById(@PathVariable Long accommodationId) {
-        Optional<Accommodation> accommodation = accommodationService.getAccommodationById(accommodationId);
-
-        return accommodation.map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found with id: " + accommodationId));
+    public AccommodationDTO getAccommodationById(@PathVariable Long accommodationId) {
+        return accommodationService.getAccommodationById(accommodationId);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<Accommodation> createAccommodation(
-            @RequestBody Accommodation accommodation,
-            @RequestParam Long ownerId,
-            @RequestParam Long locationId) {
-        Accommodation createdAccommodation = accommodationService.createAccommodation(accommodation, ownerId, locationId);
-        return ResponseEntity.ok(createdAccommodation);
+    public Long createAccommodation(@RequestBody NewAccommodationDTO newAccommodation) {
+        return accommodationService.createAccommodation(newAccommodation);
     }
 
     @PutMapping(path = "/{accommodationId}")
-    public ResponseEntity<Accommodation> updateAccommodation(
-            @PathVariable Long accommodationId,
-            @RequestBody Accommodation accommodation) {
-        Accommodation updatedAccommodation = accommodationService.updateAccommodation(accommodationId, accommodation);
-        return ResponseEntity.ok(updatedAccommodation);
+    public Long updateAccommodation(@PathVariable Long accommodationId, @RequestBody NewAccommodationDTO newAccommodation) {
+        return accommodationService.updateAccommodation(accommodationId, newAccommodation);
     }
 
     @DeleteMapping(path = "/{accommodationId}")
-    public ResponseEntity<Boolean> deleteAccommodation(@PathVariable Long accommodationId) {
-        boolean isDeleted = accommodationService.deleteAccommodation(accommodationId);
-        return ResponseEntity.ok(isDeleted);
+    public Boolean deleteAccommodation(@PathVariable Long accommodationId) {
+        return accommodationService.deleteAccommodation(accommodationId);
     }
 }

@@ -1,5 +1,9 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.dto.requests.NewAccommodationDTO;
+import com.codecool.restmates.dto.responses.AccommodationDTO;
+import com.codecool.restmates.dto.responses.LocationCityAndCountryDTO;
+import com.codecool.restmates.exception.MemberNoRightsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.model.Location;
@@ -26,50 +30,72 @@ public class AccommodationService {
         this.memberRepository = memberRepository;
     }
 
-    public List<Accommodation> getAllAccommodations() {
-        return accommodationRepository.findAll();
+    public List<AccommodationDTO> getAllAccommodations() {
+        List<Accommodation> accommodations = accommodationRepository.findAll();
+
+        return accommodations.stream().map(this::convertToDTO).toList();
     }
 
-    public Optional<Accommodation> getAccommodationById(Long accommodationId) {
-        return accommodationRepository.findById(accommodationId);
+    public AccommodationDTO getAccommodationById(Long accommodationId) {
+        Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
+
+        if (accommodation.isPresent()) {
+            Accommodation accommodationEntity = accommodation.get();
+
+            return convertToDTO(accommodationEntity);
+        } else {
+            throw new ResourceNotFoundException(String.format("Accommodation with id %s not found!", accommodationId));
+        }
     }
 
-    public Accommodation createAccommodation(Accommodation accommodation, Long ownerId, Long locationId) {
+    public Long createAccommodation(NewAccommodationDTO newAccommodationDTO) {
+        Long ownerId = newAccommodationDTO.ownerId();
+        Long locationId = newAccommodationDTO.locationId();
+
         Member owner = memberRepository.findById(ownerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Owner not found with id: " + ownerId));
 
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
 
+        Accommodation accommodation = new Accommodation();
+        accommodation.setName(newAccommodationDTO.name());
+        accommodation.setDescription(newAccommodationDTO.description());
+        accommodation.setRoomNumber(newAccommodationDTO.roomNumber());
+        accommodation.setPricePerNight(newAccommodationDTO.pricePerNight());
+        accommodation.setMaxGuests(newAccommodationDTO.maxGuests());
         accommodation.setOwner(owner);
         accommodation.setLocation(location);
 
-        return accommodationRepository.save(accommodation);
+        accommodationRepository.save(accommodation);
+
+        return accommodation.getId();
     }
 
-    public Accommodation updateAccommodation(Long accommodationId, Accommodation updatedAccommodation) {
+    public Long updateAccommodation(Long accommodationId, NewAccommodationDTO updatedAccommodation) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found with id: " + accommodationId));
 
-        accommodation.setName(updatedAccommodation.getName());
-        accommodation.setDescription(updatedAccommodation.getDescription());
-        accommodation.setRoomNumber(updatedAccommodation.getRoomNumber());
-        accommodation.setPricePerNight(updatedAccommodation.getPricePerNight());
-        accommodation.setMaxGuests(updatedAccommodation.getMaxGuests());
-        accommodation.setAccommodationType(updatedAccommodation.getAccommodationType());
+        accommodation.setName(updatedAccommodation.name());
+        accommodation.setDescription(updatedAccommodation.description());
+        accommodation.setRoomNumber(updatedAccommodation.roomNumber());
+        accommodation.setPricePerNight(updatedAccommodation.pricePerNight());
+        accommodation.setMaxGuests(updatedAccommodation.maxGuests());
 
-        if (updatedAccommodation.getLocation() != null) {
-            accommodation.setLocation(updatedAccommodation.getLocation());
+        Long ownerId = updatedAccommodation.ownerId();
+        Member owner = memberRepository.findById(ownerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with id: " + ownerId));
+
+
+        if (updatedAccommodation.ownerId() != owner.getId()) {
+            throw new MemberNoRightsException("Member no right to do this action!");
         }
 
-        if (updatedAccommodation.getOwner() != null) {
-            accommodation.setOwner(updatedAccommodation.getOwner());
-        }
-
-        return accommodationRepository.save(accommodation);
+        accommodationRepository.save(accommodation);
+        return accommodation.getId();
     }
 
-    public boolean deleteAccommodation(Long accommodationId) {
+    public Boolean deleteAccommodation(Long accommodationId) {
         if (accommodationRepository.existsById(accommodationId)) {
             accommodationRepository.deleteById(accommodationId);
             return true;
@@ -77,4 +103,21 @@ public class AccommodationService {
             throw new ResourceNotFoundException("Accommodation not found with id: " + accommodationId);
         }
     }
+
+    private AccommodationDTO convertToDTO(Accommodation accommodation) {
+        LocationCityAndCountryDTO locationDTO = new LocationCityAndCountryDTO(
+                accommodation.getLocation().getCity(),
+                accommodation.getLocation().getCountry()
+        );
+
+        return new AccommodationDTO(
+                accommodation.getName(),
+                accommodation.getDescription(),
+                accommodation.getRoomNumber(),
+                accommodation.getPricePerNight(),
+                accommodation.getMaxGuests(),
+                locationDTO
+        );
+    }
+
 }

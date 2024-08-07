@@ -1,5 +1,7 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.dto.requests.NewReservationWithBothIDsDTO;
+import com.codecool.restmates.dto.responses.ReservationDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.model.Member;
@@ -10,7 +12,6 @@ import com.codecool.restmates.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,50 +27,52 @@ public class ReservationService {
         this.memberRepository = memberRepository;
     }
 
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
+    public ReservationDTO getReservationById(Long reservationId) {
+        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+
+        if (reservation.isPresent()) {
+            Reservation reservationEntity = reservation.get();
+
+            return convertToDTO(reservationEntity);
+        } else {
+            throw new ResourceNotFoundException(String.format("Reservation with id %s not found!", reservationId));
+        }
     }
 
-    public Optional<Reservation> getReservationById(Long reservationId) {
-        return reservationRepository.findById(reservationId);
-    }
+    public Long createReservation(NewReservationWithBothIDsDTO newReservation) {
+        Long guestId = newReservation.guestId();
+        Long accommodationId = newReservation.accommodationId();
 
-    public Reservation createReservation(Reservation reservation, Long accommodationId, Long guestId) {
+        Member guest = memberRepository.findById(guestId)
+                .orElseThrow(() -> new ResourceNotFoundException("Guest not found with id: " + guestId));
+
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found with id: " + accommodationId));
 
-        Member guest = memberRepository.findById(guestId)
-                .orElseThrow(() -> new ResourceNotFoundException("Member not found with id: " + guestId));
-
+        Reservation reservation = new Reservation();
+        reservation.setStartDate(newReservation.startDate());
+        reservation.setEndDate(newReservation.endDate());
         reservation.setAccommodation(accommodation);
         reservation.setGuest(guest);
 
-        return reservationRepository.save(reservation);
+        reservationRepository.save(reservation);
+
+        return reservation.getId();
     }
 
-    public Reservation updateReservation(Long reservationId, Reservation updatedReservation) {
-        Reservation reservation = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Reservation not found with id: " + reservationId));
-
-        reservation.setStartDate(updatedReservation.getStartDate());
-        reservation.setEndDate(updatedReservation.getEndDate());
-
-        if (updatedReservation.getAccommodation() != null) {
-            reservation.setAccommodation(updatedReservation.getAccommodation());
-        }
-        if (updatedReservation.getGuest() != null) {
-            reservation.setGuest(updatedReservation.getGuest());
-        }
-
-        return reservationRepository.save(reservation);
-    }
-
-    public boolean deleteReservation(Long reservationId) {
+    public Boolean deleteReservation(Long reservationId) {
         if (reservationRepository.existsById(reservationId)) {
             reservationRepository.deleteById(reservationId);
             return true;
         } else {
             throw new ResourceNotFoundException("Reservation not found with id: " + reservationId);
         }
+    }
+
+    private ReservationDTO convertToDTO(Reservation reservation) {
+        return new ReservationDTO(
+                reservation.getStartDate(),
+                reservation.getEndDate()
+        );
     }
 }

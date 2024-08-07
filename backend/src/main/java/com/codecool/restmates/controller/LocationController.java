@@ -1,14 +1,12 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.exception.ResourceNotFoundException;
+import com.codecool.restmates.dto.requests.NewLocationDTO;
+import com.codecool.restmates.dto.responses.LocationDTO;
 import com.codecool.restmates.model.Location;
 import com.codecool.restmates.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/location")
@@ -20,37 +18,23 @@ public class LocationController {
         this.locationService = locationService;
     }
 
-    @GetMapping(path = "/all")
-    public ResponseEntity<List<Location>> getAllLocations() {
-        List<Location> locations = locationService.getAllLocations();
-        return ResponseEntity.ok(locations);
-    }
-
     @GetMapping(path = "/{locationId}")
-    public ResponseEntity<Location> getLocationById(@PathVariable Long locationId) {
-        Optional<Location> location = locationService.getLocationById(locationId);
-
-        return location.map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
+    public LocationDTO getLocationById(@PathVariable Long locationId) {
+        return locationService.getLocationById(locationId);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<Location> createLocation(@RequestBody Location location) {
-        Location createdLocation = locationService.createLocation(location);
-        return ResponseEntity.ok(createdLocation);
+    public Long createLocation(@RequestBody NewLocationDTO newLocation) {
+        return locationService.createLocation(newLocation);
     }
 
     @PutMapping(path = "/{locationId}")
-    public ResponseEntity<Location> updateLocation(
-            @PathVariable Long locationId,
-            @RequestBody Location location) {
-        Location updatedLocation = locationService.updateLocation(locationId, location);
-        return ResponseEntity.ok(updatedLocation);
+    public Long updateLocation(@PathVariable Long locationId, @RequestBody NewLocationDTO newLocation) {
+        return locationService.updateLocation(locationId, newLocation);
     }
 
     @DeleteMapping(path = "/{locationId}")
-    public ResponseEntity<Boolean> deleteLocation(@PathVariable Long locationId) {
-        boolean isDeleted = locationService.deleteLocation(locationId);
-        return ResponseEntity.ok(isDeleted);
+    public Boolean deleteLocation(@PathVariable Long locationId) {
+        return locationService.deleteLocation(locationId);
     }
 }
