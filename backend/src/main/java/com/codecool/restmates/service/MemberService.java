@@ -1,5 +1,6 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.dto.requests.NewMemberDTO;
 import com.codecool.restmates.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
@@ -25,30 +26,32 @@ public class MemberService {
         if(member.isPresent()) {
             Member memberEntity = member.get();
             return new MemberResponseDTO(memberEntity.getFirstName(),
-                    memberEntity.getLastName(), memberEntity.getEmail());
+                    memberEntity.getLastName(), memberEntity.getEmail(), memberEntity.getPhoneNumber());
         } else {
             throw new ResourceNotFoundException(String.format("Member with id %s not found", memberId));
         }
     }
 
-    public Member saveMember(Member member) {
-        if (memberRepository.existsByEmail(member.getEmail())) {
-            throw new EmailAlreadyExistsException(String.format(" %s already exists.", member.getEmail()));
+    public Long saveMember(NewMemberDTO memberDTO) {
+        if (memberRepository.existsByEmail(memberDTO.email())) {
+            throw new EmailAlreadyExistsException(String.format(" %s already exists.", memberDTO.email()));
         }
-        return memberRepository.save(member);
+        Member memberEntity = new Member(memberDTO.firstName(),memberDTO.lastName(), memberDTO.email(), memberDTO.phoneNumber(), memberDTO.password());
+        memberRepository.save(memberEntity);
+        return memberEntity.getId();
     }
 
-    public Member updateMember(Long memberId, Member updatedMember) {
+    public Long updateMember(Long memberId, NewMemberDTO updatedMember) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("%s does not exist.", memberId)));
 
-        member.setFirstName(updatedMember.getFirstName());
-        member.setLastName(updatedMember.getLastName());
+        member.setFirstName(updatedMember.firstName());
+        member.setLastName(updatedMember.lastName());
         if (existsEmail(member.getEmail())) {
-            member.setEmail(updatedMember.getEmail());
+            member.setEmail(updatedMember.email());
         }
-
-        return memberRepository.save(member);
+         memberRepository.save(member);
+        return member.getId();
     }
 
     public Boolean deleteMember(Long memberId) {
