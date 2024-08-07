@@ -45,17 +45,18 @@ public class LocationService {
         return location.getId();
     }
 
-    public Location updateLocation(Long locationId, Location updatedLocation) {
+    public Long updateLocation(Long locationId, NewLocationDTO newLocation) {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
 
-        location.setStreet(updatedLocation.getStreet());
-        location.setCity(updatedLocation.getCity());
-        location.setState(updatedLocation.getState());
-        location.setCountry(updatedLocation.getCountry());
-        location.setZipCode(updatedLocation.getZipCode());
+        location.setStreet(newLocation.street());
+        location.setCity(newLocation.city());
+        location.setState(newLocation.state());
+        location.setCountry(newLocation.country());
+        location.setZipCode(newLocation.zipCode());
 
-        return locationRepository.save(location);
+        locationRepository.save(location);
+        return location.getId();
     }
 
     public boolean deleteLocation(Long locationId) {

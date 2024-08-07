@@ -29,11 +29,8 @@ public class LocationController {
     }
 
     @PutMapping(path = "/{locationId}")
-    public ResponseEntity<Location> updateLocation(
-            @PathVariable Long locationId,
-            @RequestBody Location location) {
-        Location updatedLocation = locationService.updateLocation(locationId, location);
-        return ResponseEntity.ok(updatedLocation);
+    public Long updateLocation(@PathVariable Long locationId, @RequestBody NewLocationDTO newLocation) {
+        return locationService.updateLocation(locationId, newLocation);
     }
 
     @DeleteMapping(path = "/{locationId}")
