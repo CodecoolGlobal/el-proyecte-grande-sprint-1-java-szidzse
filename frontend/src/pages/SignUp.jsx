@@ -25,7 +25,14 @@ const SignUp = () => {
         
     }
 
-  return <SignUpForm onSave={handleCreateMember} />;
+    const handleLogin = () => {
+      navigate("/login");
+    }
+
+  return <SignUpForm 
+  onSave={handleCreateMember} 
+  onLogin = {handleLogin}
+  />;
 };
 
 export default SignUp;
