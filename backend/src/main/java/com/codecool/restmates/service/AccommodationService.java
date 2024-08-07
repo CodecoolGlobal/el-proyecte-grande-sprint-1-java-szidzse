@@ -1,5 +1,7 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.dto.responses.AccommodationDTO;
+import com.codecool.restmates.dto.responses.LocationCityAndCountryDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.model.Location;
@@ -30,8 +32,29 @@ public class AccommodationService {
         return accommodationRepository.findAll();
     }
 
-    public Optional<Accommodation> getAccommodationById(Long accommodationId) {
-        return accommodationRepository.findById(accommodationId);
+    public AccommodationDTO getAccommodationById(Long accommodationId) {
+        Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
+
+        if (accommodation.isPresent()) {
+            Accommodation accommodationEntity = accommodation.get();
+
+            LocationCityAndCountryDTO locationCityAndCountryDTO = new LocationCityAndCountryDTO(
+                    accommodationEntity.getLocation().getCity(),
+                    accommodationEntity.getLocation().getCountry()
+            );
+
+            return new AccommodationDTO(
+                    accommodationEntity.getName(),
+                    accommodationEntity.getDescription(),
+                    accommodationEntity.getRoomNumber(),
+                    accommodationEntity.getPricePerNight(),
+                    accommodationEntity.getMaxGuests(),
+                    locationCityAndCountryDTO
+
+            );
+        } else {
+            throw new ResourceNotFoundException(String.format("Accommodation with id %s not found", accommodationId));
+        }
     }
 
     public Accommodation createAccommodation(Accommodation accommodation, Long ownerId, Long locationId) {
