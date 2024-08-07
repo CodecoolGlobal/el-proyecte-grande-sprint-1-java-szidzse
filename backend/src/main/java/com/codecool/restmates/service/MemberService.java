@@ -1,6 +1,7 @@
 package com.codecool.restmates.service;
 
-import com.codecool.restmates.dto.requests.NewMemberDTO;
+import com.codecool.restmates.dto.requests.member.IDMemberDTOResponse;
+import com.codecool.restmates.dto.requests.member.NewMemberDTO;
 import com.codecool.restmates.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
@@ -62,7 +63,16 @@ public class MemberService {
         throw new ResourceNotFoundException(String.format(" %s does not exist.", memberId));
     }
 
-    public Boolean existsEmail(String email) {
+    private Boolean existsEmail(String email) {
         return memberRepository.existsByEmail(email);
     };
+
+    public IDMemberDTOResponse authenticateLogin(String email, String password) {
+        Member member = memberRepository.findByEmail(email);
+        if (member != null && member.getPassword().equals(password)) {
+            return new IDMemberDTOResponse(member.getId());
+        } else {
+            throw new ResourceNotFoundException("Email or password is incorrect.");
+        }
+    }
 }
