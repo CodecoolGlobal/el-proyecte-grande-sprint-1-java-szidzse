@@ -1,20 +1,15 @@
+import React from "react";
 import { useState } from "react";
 
-export const SignUpForm = ({ onSave, onLogin }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+export const LoginForm = ({ onSignup, loginMember }) => {
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    return onSave({
-      firstName,
-      lastName,
+    return loginMember({
       email,
-      phoneNumber,
       password,
     });
   };
@@ -31,39 +26,16 @@ export const SignUpForm = ({ onSave, onLogin }) => {
         </div>
         <div className="w-full lg:w-1/2 py-3">
           <h1 className="text-center text-2xl sm:text-3xl font-semibold text-[#4A07DA]">
-            Sign Up
+            Log In
           </h1>
           <div className="w-full mt-5 sm:mt-8">
             <div className="mx-auto w-full flex flex-col gap-3">
-              <div className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="text"
-                  placeholder="First Name"
-                  className="input input-bordered input-primary w-full max-w-xl text-black placeholder:text-black/70"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Last Name"
-                  className="input input-bordered input-primary w-full max-w-lg text-black placeholder:text-black/70"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </div>
               <input
                 type="email"
                 placeholder="Email"
                 className="input input-bordered input-primary w-full text-black placeholder:text-black/70"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                className="input input-bordered input-primary w-full text-black placeholder:text-black/70"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
               />
               <input
                 type="password"
@@ -91,13 +63,13 @@ export const SignUpForm = ({ onSave, onLogin }) => {
               <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-center items-center">
                 <button
                   className="btn btn-active btn-primary btn-block max-w-[150px]"
-                  onClick={onSubmit}
+                  onClick={onSignup}
                 >
                   Sign Up
                 </button>
                 <button
                   className="btn btn-outline btn-primary btn-block max-w-[150px]"
-                  onClick={onLogin}
+                  onClick={onSubmit}
                 >
                   Log In
                 </button>
@@ -110,4 +82,4 @@ export const SignUpForm = ({ onSave, onLogin }) => {
   );
 };
 
-export default SignUpForm;
+export default LoginForm;
