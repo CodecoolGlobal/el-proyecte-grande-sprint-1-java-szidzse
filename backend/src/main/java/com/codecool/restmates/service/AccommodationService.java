@@ -95,7 +95,7 @@ public class AccommodationService {
         return accommodation.getId();
     }
 
-    public boolean deleteAccommodation(Long accommodationId) {
+    public Boolean deleteAccommodation(Long accommodationId) {
         if (accommodationRepository.existsById(accommodationId)) {
             accommodationRepository.deleteById(accommodationId);
             return true;

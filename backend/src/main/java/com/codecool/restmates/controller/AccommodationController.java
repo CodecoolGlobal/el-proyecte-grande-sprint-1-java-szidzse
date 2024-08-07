@@ -41,8 +41,7 @@ public class AccommodationController {
     }
 
     @DeleteMapping(path = "/{accommodationId}")
-    public ResponseEntity<Boolean> deleteAccommodation(@PathVariable Long accommodationId) {
-        boolean isDeleted = accommodationService.deleteAccommodation(accommodationId);
-        return ResponseEntity.ok(isDeleted);
+    public Boolean deleteAccommodation(@PathVariable Long accommodationId) {
+        return accommodationService.deleteAccommodation(accommodationId);
     }
 }
