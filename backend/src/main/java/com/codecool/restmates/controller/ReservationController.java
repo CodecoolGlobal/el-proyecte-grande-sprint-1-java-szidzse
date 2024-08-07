@@ -1,5 +1,6 @@
 package com.codecool.restmates.controller;
 
+import com.codecool.restmates.dto.requests.NewReservationWithBothIDsDTO;
 import com.codecool.restmates.dto.responses.ReservationDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Reservation;
@@ -27,12 +28,8 @@ public class ReservationController {
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<Reservation> createReservation(
-            @RequestBody Reservation reservation,
-            @RequestParam Long accommodationId,
-            @RequestParam Long guestId) {
-        Reservation createdReservation = reservationService.createReservation(reservation, accommodationId, guestId);
-        return ResponseEntity.ok(createdReservation);
+    public Long createReservation(@RequestBody NewReservationWithBothIDsDTO newReservation) {
+        return reservationService.createReservation(newReservation);
     }
 
     @PutMapping(path = "/{reservationId}")
