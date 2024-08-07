@@ -1,6 +1,7 @@
 import React from 'react'
+import {Link} from "react-router-dom";
 
-const Card = ({name, description, roomNumber, pricePerNight, maxGuests}) => {
+const AccommodationCard = ({id, name, description, roomNumber, pricePerNight, maxGuests}) => {
     return (
         <div className="card bg-base-100 w-96 shadow-xl">
             <figure>
@@ -13,10 +14,10 @@ const Card = ({name, description, roomNumber, pricePerNight, maxGuests}) => {
                 <p>{description}</p>
                 <p>$ {pricePerNight}</p>
                 <div className="card-actions justify-end">
-                    <button className="btn btn-primary">See Details</button>
+                    <Link to={`/accommodation/${id}`} className="btn btn-primary">See Details</Link>
                 </div>
             </div>
         </div>
     )
 }
-export default Card
+export default AccommodationCard

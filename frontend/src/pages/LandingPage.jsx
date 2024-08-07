@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {getAllAccommodations} from "../controllers/accommodationsController";
 import LoadingButton from "../components/LoadingState";
-import Card from "../components/Card.jsx";
+import AccommodationCard from "../components/AccommodationCard.jsx";
 
 const fetchAccommodations = async () => {
     const data = await getAllAccommodations();
@@ -34,8 +34,9 @@ const LandingPage = () => {
             {error && <p>Error: {error}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {accommodations.map((accommodation) => (
-                    <Card
+                    <AccommodationCard
                         key={accommodation.id}
+                        id={accommodation.id}
                         name={accommodation.name}
                         description={accommodation.description}
                         roomNumber={accommodation.roomNumber}
