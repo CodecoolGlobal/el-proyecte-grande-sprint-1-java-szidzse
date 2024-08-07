@@ -3,6 +3,7 @@ package com.codecool.restmates.service;
 import com.codecool.restmates.dto.requests.NewAccommodationDTO;
 import com.codecool.restmates.dto.responses.AccommodationDTO;
 import com.codecool.restmates.dto.responses.LocationCityAndCountryDTO;
+import com.codecool.restmates.exception.MemberNoRightsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.model.Location;
@@ -71,26 +72,27 @@ public class AccommodationService {
         return accommodation.getId();
     }
 
-    public Accommodation updateAccommodation(Long accommodationId, Accommodation updatedAccommodation) {
+    public Long updateAccommodation(Long accommodationId, NewAccommodationDTO updatedAccommodation) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found with id: " + accommodationId));
 
-        accommodation.setName(updatedAccommodation.getName());
-        accommodation.setDescription(updatedAccommodation.getDescription());
-        accommodation.setRoomNumber(updatedAccommodation.getRoomNumber());
-        accommodation.setPricePerNight(updatedAccommodation.getPricePerNight());
-        accommodation.setMaxGuests(updatedAccommodation.getMaxGuests());
-        accommodation.setAccommodationType(updatedAccommodation.getAccommodationType());
+        accommodation.setName(updatedAccommodation.name());
+        accommodation.setDescription(updatedAccommodation.description());
+        accommodation.setRoomNumber(updatedAccommodation.roomNumber());
+        accommodation.setPricePerNight(updatedAccommodation.pricePerNight());
+        accommodation.setMaxGuests(updatedAccommodation.maxGuests());
 
-        if (updatedAccommodation.getLocation() != null) {
-            accommodation.setLocation(updatedAccommodation.getLocation());
+        Long ownerId = updatedAccommodation.ownerId();
+        Member owner = memberRepository.findById(ownerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with id: " + ownerId));
+
+
+        if (updatedAccommodation.ownerId() != owner.getId()) {
+            throw new MemberNoRightsException("Member no right to do this action!");
         }
 
-        if (updatedAccommodation.getOwner() != null) {
-            accommodation.setOwner(updatedAccommodation.getOwner());
-        }
-
-        return accommodationRepository.save(accommodation);
+        accommodationRepository.save(accommodation);
+        return accommodation.getId();
     }
 
     public boolean deleteAccommodation(Long accommodationId) {

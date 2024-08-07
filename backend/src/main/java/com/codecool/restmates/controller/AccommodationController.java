@@ -36,11 +36,8 @@ public class AccommodationController {
     }
 
     @PutMapping(path = "/{accommodationId}")
-    public ResponseEntity<Accommodation> updateAccommodation(
-            @PathVariable Long accommodationId,
-            @RequestBody Accommodation accommodation) {
-        Accommodation updatedAccommodation = accommodationService.updateAccommodation(accommodationId, accommodation);
-        return ResponseEntity.ok(updatedAccommodation);
+    public Long updateAccommodation(@PathVariable Long accommodationId, @RequestBody NewAccommodationDTO newAccommodation) {
+        return accommodationService.updateAccommodation(accommodationId, newAccommodation);
     }
 
     @DeleteMapping(path = "/{accommodationId}")
