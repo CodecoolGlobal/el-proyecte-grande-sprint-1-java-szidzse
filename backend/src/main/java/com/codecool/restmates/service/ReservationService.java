@@ -1,5 +1,8 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.dto.responses.AccommodationDTO;
+import com.codecool.restmates.dto.responses.LocationCityAndCountryDTO;
+import com.codecool.restmates.dto.responses.ReservationDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.model.Member;
@@ -8,6 +11,7 @@ import com.codecool.restmates.repository.AccommodationRepository;
 import com.codecool.restmates.repository.MemberRepository;
 import com.codecool.restmates.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,12 +30,16 @@ public class ReservationService {
         this.memberRepository = memberRepository;
     }
 
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
-    }
+    public ReservationDTO getReservationById(Long reservationId) {
+        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
 
-    public Optional<Reservation> getReservationById(Long reservationId) {
-        return reservationRepository.findById(reservationId);
+        if (reservation.isPresent()) {
+            Reservation reservationEntity = reservation.get();
+
+            return convertToDTO(reservationEntity);
+        } else {
+            throw new ResourceNotFoundException(String.format("Reservation with id %s not found!", reservationId));
+        }
     }
 
     public Reservation createReservation(Reservation reservation, Long accommodationId, Long guestId) {
@@ -71,5 +79,12 @@ public class ReservationService {
         } else {
             throw new ResourceNotFoundException("Reservation not found with id: " + reservationId);
         }
+    }
+
+    private ReservationDTO convertToDTO(Reservation reservation) {
+        return new ReservationDTO(
+                reservation.getStartDate(),
+                reservation.getEndDate()
+        );
     }
 }

@@ -1,5 +1,6 @@
 package com.codecool.restmates.controller;
 
+import com.codecool.restmates.dto.responses.ReservationDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.Reservation;
 import com.codecool.restmates.service.ReservationService;
@@ -20,17 +21,9 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @GetMapping(path = "/all")
-    public ResponseEntity<List<Reservation>> getAllReservations() {
-        List<Reservation> reservations = reservationService.getAllReservations();
-        return ResponseEntity.ok(reservations);
-    }
-
     @GetMapping("/{reservationId}")
-    public ResponseEntity<Reservation> getReservationById(@PathVariable Long reservationId) {
-        Optional<Reservation> reservation = reservationService.getReservationById(reservationId);
-        return reservation.map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResourceNotFoundException("Reservation not found with id: " + reservationId));
+    public ReservationDTO getReservationById(@PathVariable Long reservationId) {
+        return reservationService.getReservationById(reservationId);
     }
 
     @PostMapping(path = "")
