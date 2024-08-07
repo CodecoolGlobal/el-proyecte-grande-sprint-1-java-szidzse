@@ -1,5 +1,6 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.dto.requests.NewAccommodationDTO;
 import com.codecool.restmates.dto.responses.AccommodationDTO;
 import com.codecool.restmates.dto.responses.LocationCityAndCountryDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
@@ -42,21 +43,32 @@ public class AccommodationService {
 
             return convertToDTO(accommodationEntity);
         } else {
-            throw new ResourceNotFoundException(String.format("Accommodation with id %s not found", accommodationId));
+            throw new ResourceNotFoundException(String.format("Accommodation with id %s not found!", accommodationId));
         }
     }
 
-    public Accommodation createAccommodation(Accommodation accommodation, Long ownerId, Long locationId) {
+    public Long createAccommodation(NewAccommodationDTO newAccommodationDTO) {
+        Long ownerId = newAccommodationDTO.ownerId();
+        Long locationId = newAccommodationDTO.locationId();
+
         Member owner = memberRepository.findById(ownerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Owner not found with id: " + ownerId));
 
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
 
+        Accommodation accommodation = new Accommodation();
+        accommodation.setName(newAccommodationDTO.name());
+        accommodation.setDescription(newAccommodationDTO.description());
+        accommodation.setRoomNumber(newAccommodationDTO.roomNumber());
+        accommodation.setPricePerNight(newAccommodationDTO.pricePerNight());
+        accommodation.setMaxGuests(newAccommodationDTO.maxGuests());
         accommodation.setOwner(owner);
         accommodation.setLocation(location);
 
-        return accommodationRepository.save(accommodation);
+        accommodationRepository.save(accommodation);
+
+        return accommodation.getId();
     }
 
     public Accommodation updateAccommodation(Long accommodationId, Accommodation updatedAccommodation) {

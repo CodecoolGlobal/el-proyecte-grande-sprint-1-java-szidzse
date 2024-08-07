@@ -1,5 +1,6 @@
 package com.codecool.restmates.controller;
 
+import com.codecool.restmates.dto.requests.NewAccommodationDTO;
 import com.codecool.restmates.dto.responses.AccommodationDTO;
 import com.codecool.restmates.model.Accommodation;
 import com.codecool.restmates.service.AccommodationService;
@@ -30,12 +31,8 @@ public class AccommodationController {
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<Accommodation> createAccommodation(
-            @RequestBody Accommodation accommodation,
-            @RequestParam Long ownerId,
-            @RequestParam Long locationId) {
-        Accommodation createdAccommodation = accommodationService.createAccommodation(accommodation, ownerId, locationId);
-        return ResponseEntity.ok(createdAccommodation);
+    public Long createAccommodation(@RequestBody NewAccommodationDTO newAccommodation) {
+        return accommodationService.createAccommodation(newAccommodation);
     }
 
     @PutMapping(path = "/{accommodationId}")
