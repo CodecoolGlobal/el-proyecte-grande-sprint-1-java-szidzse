@@ -1,6 +1,8 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.dto.requests.NewMemberDTO;
+import com.codecool.restmates.dto.requests.member.IDMemberDTOResponse;
+import com.codecool.restmates.dto.requests.member.LoginRequestDTO;
+import com.codecool.restmates.dto.requests.member.NewMemberDTO;
 import com.codecool.restmates.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +37,10 @@ public class MemberController {
     @DeleteMapping(path ="/{memberId}")
     public boolean deleteMember(@PathVariable long memberId) {
         return memberService.deleteMember(memberId);
+    }
+
+    @PostMapping(path = "/login")
+    public IDMemberDTOResponse login(@RequestBody LoginRequestDTO loginRequest) {
+        return memberService.authenticateLogin(loginRequest.email(), loginRequest.password());
     }
 }
