@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {getAllAccommodations} from "../controllers/accommodationsController";
 import LoadingButton from "../components/LoadingState";
 import AccommodationCard from "../components/AccommodationCard.jsx";
+import FilterModal from "../components/FilterModal.jsx";
 
 const fetchAccommodations = async () => {
     const data = await getAllAccommodations();
@@ -42,9 +43,11 @@ const LandingPage = () => {
                         roomNumber={accommodation.roomNumber}
                         pricePerNight={accommodation.pricePerNight}
                         maxGuests={accommodation.maxGuests}
+                        location={accommodation.location}
                     />
                 ))}
             </div>
+            <FilterModal/>
         </div>
     );
 };

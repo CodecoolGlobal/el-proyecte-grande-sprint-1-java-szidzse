@@ -12,7 +12,9 @@ const AccommodationCard = ({id, name, description, roomNumber, pricePerNight, ma
             <div className="card-body">
                 <h2 className="card-title">{name}</h2>
                 <p>{description}</p>
-                <p>$ {pricePerNight}</p>
+                <p>Price per night: ${pricePerNight}</p>
+                <p>Room number: {roomNumber}</p>
+                <p>Max guests: {maxGuests}</p>
                 <div className="card-actions justify-end">
                     <Link to={"/"} className="btn btn-primary">Back</Link>
                 </div>

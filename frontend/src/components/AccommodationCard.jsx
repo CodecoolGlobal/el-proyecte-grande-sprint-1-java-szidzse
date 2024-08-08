@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from "react-router-dom";
 
-const AccommodationCard = ({id, name, description, roomNumber, pricePerNight, maxGuests}) => {
+const AccommodationCard = ({id, pricePerNight, location}) => {
     return (
         <div className="card bg-base-100 w-96 shadow-xl">
             <figure>
@@ -10,9 +10,8 @@ const AccommodationCard = ({id, name, description, roomNumber, pricePerNight, ma
                     alt='"image placeholder text"'/>
             </figure>
             <div className="card-body">
-                <h2 className="card-title">{name}</h2>
-                <p>{description}</p>
-                <p>$ {pricePerNight}</p>
+                <p>{location.city}, {location.state ?? ""}, {location.country}</p>
+                <p>${pricePerNight} / night</p>
                 <div className="card-actions justify-end">
                     <Link to={`/accommodation/${id}`} className="btn btn-primary">See Details</Link>
                 </div>
