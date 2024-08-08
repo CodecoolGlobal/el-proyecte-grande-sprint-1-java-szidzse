@@ -6,17 +6,17 @@ export default {
     theme: {
         extend: {
             colors: {
-              customGreen: '#bef264',
-              customBlue: '#22d3ee',
+                customGreen: '#bef264',
+                customBlue: '#22d3ee',
             },
-          },
+        },
     },
     plugins: [
         require('tailwindcss-animated'),
         daisyui,
-      ],
+    ],
     daisyui: {
-        themes: ["fantasy", "winter", "dark"],
+        themes: ["autumn", "business"],
     },
     darkMode: 'class',
 };

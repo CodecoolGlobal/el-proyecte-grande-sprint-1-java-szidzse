@@ -1,23 +1,24 @@
-import { createBrowserRouter } from "react-router-dom";
+import {createBrowserRouter} from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
-import { Contact } from "./pages/Contact.jsx";
+import {Contact} from "./pages/Contact.jsx";
 import React from "react";
 import Navbar from "./components/navbar/Navbar.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import SignUp from "./pages/SignUp.jsx";
+mport AccommodationDetails from "./pages/AccommodationDetails.jsx";
 import Login from "./pages/Login.jsx";
 import ProfiEdit from "./pages/settingsPage/ProfiEdit.jsx";
 import SettingsPage from "./pages/settingsPage/Settings.jsx";
 
 export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navbar />,
-    // errorElement: <ErrorPage/>,
-    children: [
-      {
+    {
         path: "/",
-        element: <LandingPage />,
+        element: <Navbar/>,
+        // errorElement: <ErrorPage/>,
+        children: [
+            {
+                path: "/",
+                element: <LandingPage/>,
       },
       {
         path: "/dashboard",
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+         path: "/accommodation/:id",
+         element: <AccommodationDetails/>
       },
       {
         path: "/settings",
