@@ -11,7 +11,7 @@ export const NavbarMenuDisplayOpener = ({ handleOpenNavbarMenu }) => {
         <div className="w-10 rounded-full">
           <img
             alt="User Avatar"
-            src="src\assets\avatar-loading-svgrepo-com.svg"
+            src="/src/assets/avatar-loading-svgrepo-com.svg"
           />
         </div>
       </div>
