@@ -31,6 +31,7 @@ const LandingPage = () => {
     return (
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">Accommodations:</h1>
+            <FilterModal/>
             {loading && <LoadingButton/>}
             {error && <p>Error: {error}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -47,7 +48,6 @@ const LandingPage = () => {
                     />
                 ))}
             </div>
-            <FilterModal/>
         </div>
     );
 };
