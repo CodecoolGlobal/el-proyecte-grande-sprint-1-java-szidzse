@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const SettingsMenu = () => {
   return (
@@ -7,20 +8,20 @@ export const SettingsMenu = () => {
         <a>
             <img 
             alt="Edit Own Accommodations"
-            src="src\assets\home-svgrepo-com.svg"
+            src="/src/assets/home-svgrepo-com.svg"
             className="h-5 w-5 object-contain"
             />
           Edit Own Accommodations
         </a>
       </li>
-      <li>
-        <a>
+      <li >
+        <a >
           <img
             alt="Edit Profil"
-            src="src\assets\edit-rectangle-svgrepo-com.svg"
+            src="/src/assets/edit-rectangle-svgrepo-com.svg"
             className="h-5 w-5 object-contain"
           />
-          <span>Edit Profil</span>
+          <Link to="/settings/editprofile/1">Profile Edit</Link>
         </a>
       </li>
       <li>

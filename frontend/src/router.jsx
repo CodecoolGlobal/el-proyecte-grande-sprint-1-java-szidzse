@@ -5,8 +5,9 @@ import React from "react";
 import Navbar from "./components/navbar/Navbar.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import SignUp from "./pages/SignUp.jsx";
-import { SettingsPage } from "./pages/Settings.jsx";
 import Login from "./pages/Login.jsx";
+import ProfiEdit from "./pages/settingsPage/ProfiEdit.jsx";
+import SettingsPage from "./pages/settingsPage/Settings.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -32,17 +33,17 @@ export const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login />
+        element: <Login />,
       },
       {
         path: "/settings",
         element: <SettingsPage />,
-        //children: [
-        //         {
-        //             path: "/",
-        //             element: <SettingsPage></SettingsPage>
-        //         }
-        //     ]
+        children: [
+          {
+            path: "/settings/editprofile/:id",
+            element: <ProfiEdit />
+        }
+      ],
       },
     ],
   },

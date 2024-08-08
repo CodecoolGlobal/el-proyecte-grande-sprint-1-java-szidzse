@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthProvider";
+
 import NavbarMenu from "./NavbarMenu";
 import Logo from "./Logo";
+import Footer from "../Footer";
 import NavbarMenuDisplayOpener from "./NavbarMenuDisplayOpener";
-import { useAuth } from "../AuthProvider";
 
 const Navbar = () => {
   const [openNavbarMenu, setOpenNavbarMenu] = useState(false);
@@ -43,6 +45,7 @@ const Navbar = () => {
         </div>
       </div>
       <Outlet />
+      <Footer /> 
     </>
   );
 };
