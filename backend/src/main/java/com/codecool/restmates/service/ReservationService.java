@@ -1,11 +1,11 @@
 package com.codecool.restmates.service;
 
-import com.codecool.restmates.dto.requests.NewReservationWithBothIDsDTO;
-import com.codecool.restmates.dto.responses.ReservationDTO;
+import com.codecool.restmates.model.dto.requests.NewReservationWithBothIDsDTO;
+import com.codecool.restmates.model.dto.responses.ReservationDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
-import com.codecool.restmates.model.Accommodation;
-import com.codecool.restmates.model.Member;
-import com.codecool.restmates.model.Reservation;
+import com.codecool.restmates.model.entity.Accommodation;
+import com.codecool.restmates.model.entity.Member;
+import com.codecool.restmates.model.entity.Reservation;
 import com.codecool.restmates.repository.AccommodationRepository;
 import com.codecool.restmates.repository.MemberRepository;
 import com.codecool.restmates.repository.ReservationRepository;

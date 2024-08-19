@@ -1,8 +1,7 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.dto.requests.NewAccommodationDTO;
-import com.codecool.restmates.dto.responses.AccommodationDTO;
-import com.codecool.restmates.model.Accommodation;
+import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
+import com.codecool.restmates.model.dto.responses.AccommodationDTO;
 import com.codecool.restmates.service.AccommodationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

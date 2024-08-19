@@ -1,9 +1,9 @@
 package com.codecool.restmates.service;
 
-import com.codecool.restmates.dto.requests.NewLocationDTO;
-import com.codecool.restmates.dto.responses.LocationDTO;
+import com.codecool.restmates.model.dto.requests.NewLocationDTO;
+import com.codecool.restmates.model.dto.responses.LocationDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
-import com.codecool.restmates.model.Location;
+import com.codecool.restmates.model.entity.Location;
 import com.codecool.restmates.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

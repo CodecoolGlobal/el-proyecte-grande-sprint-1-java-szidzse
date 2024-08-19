@@ -1,7 +1,7 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.dto.requests.NewReservationWithBothIDsDTO;
-import com.codecool.restmates.dto.responses.ReservationDTO;
+import com.codecool.restmates.model.dto.requests.NewReservationWithBothIDsDTO;
+import com.codecool.restmates.model.dto.responses.ReservationDTO;
 import com.codecool.restmates.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

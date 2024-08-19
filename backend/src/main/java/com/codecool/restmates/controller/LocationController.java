@@ -1,11 +1,9 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.dto.requests.NewLocationDTO;
-import com.codecool.restmates.dto.responses.LocationDTO;
-import com.codecool.restmates.model.Location;
+import com.codecool.restmates.model.dto.requests.NewLocationDTO;
+import com.codecool.restmates.model.dto.responses.LocationDTO;
 import com.codecool.restmates.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

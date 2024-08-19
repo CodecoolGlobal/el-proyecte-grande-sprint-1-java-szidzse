@@ -1,4 +1,4 @@
-package com.codecool.restmates.dto.requests;
+package com.codecool.restmates.model.dto.requests;
 
 import java.time.LocalDate;
 

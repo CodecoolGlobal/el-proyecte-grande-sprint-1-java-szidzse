@@ -1,6 +1,6 @@
 package com.codecool.restmates.service;
 
-import com.codecool.restmates.model.Image;
+import com.codecool.restmates.model.entity.Image;
 import com.codecool.restmates.repository.ImageRepository;
 import com.codecool.restmates.util.ImageUtils;
 import lombok.AllArgsConstructor;
