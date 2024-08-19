@@ -1,14 +1,17 @@
 package com.codecool.restmates.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "accommodation")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +40,7 @@ public class Accommodation {
 
     @OneToMany(mappedBy = "accommodation", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Reservation> reservations;
+
+    @OneToMany(mappedBy = "accommodation", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Image> images;
 }

@@ -24,4 +24,8 @@ public class Image {
     @Lob
     @Column(name = "image_data", length = 1000)
     private byte[] imageData;
+
+    @ManyToOne
+    @JoinColumn(name = "accommodation_id", nullable = false)
+    private Accommodation accommodation;
 }
