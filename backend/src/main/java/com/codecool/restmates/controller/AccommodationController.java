@@ -6,7 +6,6 @@ import com.codecool.restmates.model.entity.Accommodation;
 import com.codecool.restmates.service.AccommodationService;
 import com.codecool.restmates.service.ImageService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,9 @@ public class AccommodationController {
     }
 
     @GetMapping(path = "/{accommodationId}/images")
-    public ResponseEntity<List<byte[]>> getAccommodationImages(@PathVariable Long accommodationId) {
+    public ResponseEntity<List<byte[]>> downloadImagesOfAccommodation(
+            @PathVariable Long accommodationId
+    ) {
         return accommodationService.getAccommodationImages(accommodationId);
     }
 
@@ -43,13 +44,13 @@ public class AccommodationController {
     }
 
     @PostMapping(path = "/{accommodationId}/image")
-    public ResponseEntity<String> uploadAccommodationImage(
+    public ResponseEntity<String> uploadImageForAccommodation(
             @PathVariable Long accommodationId,
             @RequestParam("image") MultipartFile file
     ) throws IOException {
         Accommodation accommodation = accommodationService.getAccommodationById(accommodationId);
 
-        String result = imageService.uploadImage(file, accommodation);
+        String result = imageService.uploadImageForAccommodation(file, accommodation);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
