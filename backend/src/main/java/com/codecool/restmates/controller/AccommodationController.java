@@ -31,16 +31,19 @@ public class AccommodationController {
         return accommodationService.getAccommodationById(accommodationId);
     }
 
-    @GetMapping(path = "/{accommodationId}/images")
-    public ResponseEntity<List<byte[]>> downloadImagesOfAccommodation(
-            @PathVariable Long accommodationId
-    ) {
-        return accommodationService.getAccommodationImages(accommodationId);
-    }
-
     @PostMapping(path = "")
     public Long createAccommodation(@RequestBody NewAccommodationDTO newAccommodation) {
         return accommodationService.createAccommodation(newAccommodation);
+    }
+
+    @PutMapping(path = "/{accommodationId}")
+    public Long updateAccommodation(@PathVariable Long accommodationId, @RequestBody NewAccommodationDTO newAccommodation) {
+        return accommodationService.updateAccommodation(accommodationId, newAccommodation);
+    }
+
+    @DeleteMapping(path = "/{accommodationId}")
+    public Boolean deleteAccommodation(@PathVariable Long accommodationId) {
+        return accommodationService.deleteAccommodation(accommodationId);
     }
 
     @PostMapping(path = "/{accommodationId}/image")
@@ -55,13 +58,12 @@ public class AccommodationController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PutMapping(path = "/{accommodationId}")
-    public Long updateAccommodation(@PathVariable Long accommodationId, @RequestBody NewAccommodationDTO newAccommodation) {
-        return accommodationService.updateAccommodation(accommodationId, newAccommodation);
-    }
+    @GetMapping(path = "/{accommodationId}/images")
+    public ResponseEntity<List<byte[]>> downloadImagesOfAccommodation(
+            @PathVariable Long accommodationId
+    ) throws IOException {
+        List<byte[]> images = imageService.downloadImagesOfAccommodation(accommodationId);
 
-    @DeleteMapping(path = "/{accommodationId}")
-    public Boolean deleteAccommodation(@PathVariable Long accommodationId) {
-        return accommodationService.deleteAccommodation(accommodationId);
+        return ResponseEntity.status(HttpStatus.OK).body(images);
     }
 }

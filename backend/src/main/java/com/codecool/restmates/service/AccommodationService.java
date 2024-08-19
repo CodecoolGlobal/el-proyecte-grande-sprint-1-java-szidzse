@@ -49,7 +49,9 @@ public class AccommodationService {
     }
 
     @Transactional
-    public ResponseEntity<List<byte[]>> getAccommodationImages(@PathVariable Long accommodationId) {
+    public ResponseEntity<List<byte[]>> downloadImagesOfAccommodation(@PathVariable Long accommodationId) {
+
+
         Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
 
         if (accommodation.isPresent()) {

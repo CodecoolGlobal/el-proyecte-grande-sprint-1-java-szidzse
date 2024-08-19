@@ -60,7 +60,7 @@ public class ImageService {
     }
 
     @Transactional(readOnly = true)
-    public List<byte[]> downloadImagesOfAccommodation(String fileName, Long accommodationId) throws IOException {
+    public List<byte[]> downloadImagesOfAccommodation(Long accommodationId) throws IOException {
         List<Image> dbImagesData = imageRepository.findImagesByAccommodationId(accommodationId);
 
         if (dbImagesData.isEmpty()) {
