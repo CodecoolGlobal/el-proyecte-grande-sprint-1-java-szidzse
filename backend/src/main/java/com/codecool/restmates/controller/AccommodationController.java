@@ -7,6 +7,7 @@ import com.codecool.restmates.service.AccommodationService;
 import com.codecool.restmates.service.ImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,10 @@ import java.util.List;
 public class AccommodationController {
     private final AccommodationService accommodationService;
     private final ImageService imageService;
+
+    private static final List<String> SUPPORTED_MEDIA_TYPES = List.of(
+            "image/png", "image/jpeg", "image/jpg"
+    );
 
     @GetMapping(path = "/all")
     public List<AccommodationDTO> getAllAccommodations() {
