@@ -11,24 +11,23 @@ import com.codecool.restmates.model.entity.Member;
 import com.codecool.restmates.repository.AccommodationRepository;
 import com.codecool.restmates.repository.LocationRepository;
 import com.codecool.restmates.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codecool.restmates.util.ImageUtils;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class AccommodationService {
     private final AccommodationRepository accommodationRepository;
     private final LocationRepository locationRepository;
     private final MemberRepository memberRepository;
-
-    @Autowired
-    public AccommodationService(AccommodationRepository accommodationRepository, LocationRepository locationRepository, MemberRepository memberRepository) {
-        this.accommodationRepository = accommodationRepository;
-        this.locationRepository = locationRepository;
-        this.memberRepository = memberRepository;
-    }
 
     public List<AccommodationDTO> getAllAccommodations() {
         List<Accommodation> accommodations = accommodationRepository.findAll();
@@ -36,15 +35,28 @@ public class AccommodationService {
         return accommodations.stream().map(this::convertToDTO).toList();
     }
 
-    public AccommodationDTO getAccommodationById(Long accommodationId) {
+    public Accommodation getAccommodationById(Long accommodationId) {
         Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
 
         if (accommodation.isPresent()) {
             Accommodation accommodationEntity = accommodation.get();
 
-            return convertToDTO(accommodationEntity);
+            return accommodationEntity;
         } else {
             throw new ResourceNotFoundException(String.format("Accommodation with id %s not found!", accommodationId));
+        }
+    }
+
+    public ResponseEntity<List<byte[]>> getAccommodationImages(@PathVariable Long accommodationId) {
+        Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
+
+        if (accommodation.isPresent()) {
+            List<byte[]> images = accommodation.get().getImages().stream()
+                    .map(imageData -> ImageUtils.decompressImage(imageData.getImageData()))
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(images);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 

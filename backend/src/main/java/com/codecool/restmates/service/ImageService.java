@@ -1,5 +1,6 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.model.entity.Accommodation;
 import com.codecool.restmates.model.entity.Image;
 import com.codecool.restmates.repository.ImageRepository;
 import com.codecool.restmates.util.ImageUtils;
@@ -16,12 +17,28 @@ import java.util.Optional;
 public class ImageService {
     private final ImageRepository imageRepository;
 
+//    @Transactional
+//    public String uploadImage(MultipartFile file) throws IOException {
+//        Image imageData = imageRepository.save(Image.builder()
+//                .name(file.getOriginalFilename())
+//                .type(file.getContentType())
+//                .imageData(ImageUtils.compressImage(file.getBytes())).build());
+//
+//        if (imageData != null) {
+//            return "File uploaded successfully: " + file.getOriginalFilename();
+//        }
+//
+//        return null;
+//    }
+
     @Transactional
-    public String uploadImage(MultipartFile file) throws IOException {
+    public String uploadImage(MultipartFile file, Accommodation accommodation) throws IOException {
         Image imageData = imageRepository.save(Image.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .imageData(ImageUtils.compressImage(file.getBytes())).build());
+                .imageData(ImageUtils.compressImage(file.getBytes()))
+                .accommodation(accommodation)
+                .build());
 
         if (imageData != null) {
             return "File uploaded successfully: " + file.getOriginalFilename();

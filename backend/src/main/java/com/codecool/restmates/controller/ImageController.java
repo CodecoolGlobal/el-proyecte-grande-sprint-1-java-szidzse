@@ -21,19 +21,19 @@ public class ImageController {
             "image/png", "image/jpeg", "image/jpg"
     );
 
-    @PostMapping(path = "")
-    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
-        String contentType = file.getContentType();
-
-        if (!SUPPORTED_MEDIA_TYPES.contains(contentType)) {
-            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                    .body("Unsupported file type: " + contentType);
-        }
-
-        String uploadImage = imageService.uploadImage(file);
-
-        return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
-    }
+//    @PostMapping(path = "")
+//    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+//        String contentType = file.getContentType();
+//
+//        if (!SUPPORTED_MEDIA_TYPES.contains(contentType)) {
+//            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+//                    .body("Unsupported file type: " + contentType);
+//        }
+//
+//        String uploadImage = imageService.uploadImage(file);
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
+//    }
 
     @GetMapping(path = "/{fileName}")
     public ResponseEntity<?> downloadImage(@PathVariable String fileName) throws IOException {
