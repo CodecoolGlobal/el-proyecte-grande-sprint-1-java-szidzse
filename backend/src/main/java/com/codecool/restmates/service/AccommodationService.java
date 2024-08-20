@@ -48,21 +48,7 @@ public class AccommodationService {
         }
     }
 
-    @Transactional
-    public ResponseEntity<List<byte[]>> downloadImagesOfAccommodation(@PathVariable Long accommodationId) {
 
-
-        Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
-
-        if (accommodation.isPresent()) {
-            List<byte[]> images = accommodation.get().getImages().stream()
-                    .map(imageData -> ImageUtils.decompressImage(imageData.getImageData()))
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(images);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }
 
     public Long createAccommodation(NewAccommodationDTO newAccommodationDTO) {
         Long ownerId = newAccommodationDTO.ownerId();

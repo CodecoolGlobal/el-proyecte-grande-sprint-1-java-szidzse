@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,23 +25,13 @@ public class ImageService {
         Image imageData = imageRepository.save(Image.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .imageData(ImageUtils.compressImage(file.getBytes()))
-                .build());
+                .imageData(ImageUtils.compressImage(file.getBytes())).build());
 
         if (imageData != null) {
             return "File uploaded successfully: " + file.getOriginalFilename();
         }
 
         return null;
-    }
-
-    @Transactional(readOnly = true)
-    public byte[] downloadImage(String fileName) throws IOException {
-        Optional<Image> dbImageData = imageRepository.findByName(fileName);
-
-        byte[] image = ImageUtils.decompressImage(dbImageData.get().getImageData());
-
-        return image;
     }
 
     @Transactional
@@ -52,23 +43,42 @@ public class ImageService {
                 .accommodation(accommodation)
                 .build());
 
-        if (imageData != null) {
-            return "Image successfully uploaded to accommodation: " + file.getOriginalFilename();
-        }
+        return "Image successfully uploaded to accommodation: " + file.getOriginalFilename();
 
-        return null;
     }
 
     @Transactional(readOnly = true)
-    public List<byte[]> downloadImagesOfAccommodation(Long accommodationId) throws IOException {
-        List<Image> dbImagesData = imageRepository.findImagesByAccommodationId(accommodationId);
+    public byte[] downloadImage(String fileName) throws IOException {
+        Optional<Image> dbImageData = imageRepository.findByName(fileName);
+
+        byte[] image = ImageUtils.decompressImage(dbImageData.get().getImageData());
+
+        return image;
+    }
+
+//    @Transactional(readOnly = true)
+//    public List<byte[]> downloadImagesOfAccommodation(Long accommodationId) throws IOException {
+//        List<Image> dbImagesData = imageRepository.findAllByAccommodationId(accommodationId);
+//
+//        if (dbImagesData.isEmpty()) {
+//            return List.of();
+//        }
+//
+//        return dbImagesData.stream()
+//                .map(image -> ImageUtils.decompressImage(image.getImageData()))
+//                .collect(Collectors.toList());
+//    }
+
+    @Transactional(readOnly = true)
+    public List<String> downloadImagesOfAccommodation(Long accommodationId) throws IOException {
+        List<Image> dbImagesData = imageRepository.findAllByAccommodationId(accommodationId);
 
         if (dbImagesData.isEmpty()) {
             return List.of();
         }
 
         return dbImagesData.stream()
-                .map(dbImageData -> ImageUtils.decompressImage(dbImageData.getImageData()))
+                .map(image -> Base64.getEncoder().encodeToString(ImageUtils.decompressImage(image.getImageData())))
                 .collect(Collectors.toList());
     }
 }

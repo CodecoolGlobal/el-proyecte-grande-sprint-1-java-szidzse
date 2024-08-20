@@ -20,11 +20,41 @@ import java.util.List;
 @AllArgsConstructor
 public class AccommodationController {
     private final AccommodationService accommodationService;
+
     private final ImageService imageService;
 
-    private static final List<String> SUPPORTED_MEDIA_TYPES = List.of(
-            "image/png", "image/jpeg", "image/jpg"
-    );
+    @PostMapping(path = "/{accommodationId}/image")
+    public ResponseEntity<?> uploadImage (
+            @PathVariable Long accommodationId,
+            @RequestParam("image") MultipartFile file
+    ) throws IOException {
+        Accommodation accommodation = accommodationService.getAccommodationById(accommodationId);
+
+        String uploadResult = imageService.uploadImageForAccommodation(file, accommodation);
+
+        return ResponseEntity.status(HttpStatus.OK).body(uploadResult);
+    }
+
+//    @GetMapping(path = "/{accommodationId}/images")
+//    public ResponseEntity<?> downloadImage(@PathVariable Long accommodationId) throws IOException {
+//        List<byte[]> imagesData = imageService.downloadImagesOfAccommodation(accommodationId);
+//
+//        if (imagesData.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                    .body("No images found for this accommodation.");
+//        }
+//
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+//                .body(imagesData);
+//    }
+
+    @GetMapping(path = "/{accommodationId}/images")
+    public ResponseEntity<List<String>> downloadImage(@PathVariable Long accommodationId) throws IOException {
+        List<String> images = imageService.downloadImagesOfAccommodation(accommodationId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(images);
+    }
 
     @GetMapping(path = "/all")
     public List<AccommodationDTO> getAllAccommodations() {
@@ -51,24 +81,5 @@ public class AccommodationController {
         return accommodationService.deleteAccommodation(accommodationId);
     }
 
-    @PostMapping(path = "/{accommodationId}/image")
-    public ResponseEntity<String> uploadImageForAccommodation(
-            @PathVariable Long accommodationId,
-            @RequestParam("image") MultipartFile file
-    ) throws IOException {
-        Accommodation accommodation = accommodationService.getAccommodationById(accommodationId);
 
-        String result = imageService.uploadImageForAccommodation(file, accommodation);
-
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    @GetMapping(path = "/{accommodationId}/images")
-    public ResponseEntity<List<byte[]>> downloadImagesOfAccommodation(
-            @PathVariable Long accommodationId
-    ) throws IOException {
-        List<byte[]> images = imageService.downloadImagesOfAccommodation(accommodationId);
-
-        return ResponseEntity.status(HttpStatus.OK).body(images);
-    }
 }

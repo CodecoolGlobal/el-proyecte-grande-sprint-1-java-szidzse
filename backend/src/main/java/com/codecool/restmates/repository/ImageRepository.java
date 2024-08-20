@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface ImageRepository extends JpaRepository<Image, Long> {
     Optional<Image> findByName(String fileName);
 
-    List<Image> findImagesByAccommodationId(Long accommodationId);
+    List<Image> findAllByAccommodationId(Long accommodationId);
 }
