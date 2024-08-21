@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.validation.constraints.Email;
 
 @Entity
@@ -28,6 +30,9 @@ public class Member {
     private String password;
 
     private String phoneNumber;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Accommodation> accommodations = new ArrayList<>();
