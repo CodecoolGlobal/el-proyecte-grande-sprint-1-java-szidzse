@@ -1,9 +1,9 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.dto.requests.member.IDMemberDTOResponse;
-import com.codecool.restmates.dto.requests.member.LoginRequestDTO;
-import com.codecool.restmates.dto.requests.member.NewMemberDTO;
-import com.codecool.restmates.dto.responses.MemberResponseDTO;
+import com.codecool.restmates.model.dto.requests.member.IDMemberDTOResponse;
+import com.codecool.restmates.model.dto.requests.member.LoginRequestDTO;
+import com.codecool.restmates.model.dto.requests.member.NewMemberDTO;
+import com.codecool.restmates.model.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,11 +1,11 @@
 package com.codecool.restmates.service;
 
-import com.codecool.restmates.dto.requests.member.IDMemberDTOResponse;
-import com.codecool.restmates.dto.requests.member.NewMemberDTO;
-import com.codecool.restmates.dto.responses.MemberResponseDTO;
+import com.codecool.restmates.model.dto.requests.member.IDMemberDTOResponse;
+import com.codecool.restmates.model.dto.requests.member.NewMemberDTO;
+import com.codecool.restmates.model.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
-import com.codecool.restmates.model.Member;
+import com.codecool.restmates.model.entity.Member;
 import com.codecool.restmates.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

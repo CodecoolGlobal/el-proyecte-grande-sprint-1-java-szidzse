@@ -1,4 +1,4 @@
-package com.codecool.restmates.model;
+package com.codecool.restmates.model.entity;
 
 public enum AccommodationType {
     HOUSE,

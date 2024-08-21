@@ -1,34 +1,34 @@
 package com.codecool.restmates.service;
 
-import com.codecool.restmates.dto.requests.NewAccommodationDTO;
-import com.codecool.restmates.dto.responses.AccommodationDTO;
-import com.codecool.restmates.dto.responses.LocationCityAndCountryDTO;
+import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
+import com.codecool.restmates.model.dto.responses.AccommodationDTO;
+import com.codecool.restmates.model.dto.responses.LocationCityAndCountryDTO;
 import com.codecool.restmates.exception.MemberNoRightsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
-import com.codecool.restmates.model.Accommodation;
-import com.codecool.restmates.model.Location;
-import com.codecool.restmates.model.Member;
+import com.codecool.restmates.model.entity.Accommodation;
+import com.codecool.restmates.model.entity.Location;
+import com.codecool.restmates.model.entity.Member;
 import com.codecool.restmates.repository.AccommodationRepository;
 import com.codecool.restmates.repository.LocationRepository;
 import com.codecool.restmates.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codecool.restmates.util.ImageUtils;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class AccommodationService {
     private final AccommodationRepository accommodationRepository;
     private final LocationRepository locationRepository;
     private final MemberRepository memberRepository;
-
-    @Autowired
-    public AccommodationService(AccommodationRepository accommodationRepository, LocationRepository locationRepository, MemberRepository memberRepository) {
-        this.accommodationRepository = accommodationRepository;
-        this.locationRepository = locationRepository;
-        this.memberRepository = memberRepository;
-    }
 
     public List<AccommodationDTO> getAllAccommodations() {
         List<Accommodation> accommodations = accommodationRepository.findAll();
@@ -36,17 +36,19 @@ public class AccommodationService {
         return accommodations.stream().map(this::convertToDTO).toList();
     }
 
-    public AccommodationDTO getAccommodationById(Long accommodationId) {
+    public Accommodation getAccommodationById(Long accommodationId) {
         Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
 
         if (accommodation.isPresent()) {
             Accommodation accommodationEntity = accommodation.get();
 
-            return convertToDTO(accommodationEntity);
+            return accommodationEntity;
         } else {
             throw new ResourceNotFoundException(String.format("Accommodation with id %s not found!", accommodationId));
         }
     }
+
+
 
     public Long createAccommodation(NewAccommodationDTO newAccommodationDTO) {
         Long ownerId = newAccommodationDTO.ownerId();

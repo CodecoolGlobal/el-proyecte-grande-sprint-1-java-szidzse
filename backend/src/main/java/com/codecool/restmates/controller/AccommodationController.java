@@ -1,22 +1,59 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.dto.requests.NewAccommodationDTO;
-import com.codecool.restmates.dto.responses.AccommodationDTO;
-import com.codecool.restmates.model.Accommodation;
+import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
+import com.codecool.restmates.model.dto.responses.AccommodationDTO;
+import com.codecool.restmates.model.entity.Accommodation;
 import com.codecool.restmates.service.AccommodationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codecool.restmates.service.ImageService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/accommodation")
+@AllArgsConstructor
 public class AccommodationController {
     private final AccommodationService accommodationService;
 
-    @Autowired
-    public AccommodationController(AccommodationService accommodationService) {
-        this.accommodationService = accommodationService;
+    private final ImageService imageService;
+
+    @PostMapping(path = "/{accommodationId}/image")
+    public ResponseEntity<?> uploadImage (
+            @PathVariable Long accommodationId,
+            @RequestParam("image") MultipartFile file
+    ) throws IOException {
+        Accommodation accommodation = accommodationService.getAccommodationById(accommodationId);
+
+        String uploadResult = imageService.uploadImageForAccommodation(file, accommodation);
+
+        return ResponseEntity.status(HttpStatus.OK).body(uploadResult);
+    }
+
+//    @GetMapping(path = "/{accommodationId}/images")
+//    public ResponseEntity<?> downloadImage(@PathVariable Long accommodationId) throws IOException {
+//        List<byte[]> imagesData = imageService.downloadImagesOfAccommodation(accommodationId);
+//
+//        if (imagesData.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                    .body("No images found for this accommodation.");
+//        }
+//
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+//                .body(imagesData);
+//    }
+
+    @GetMapping(path = "/{accommodationId}/images")
+    public ResponseEntity<List<String>> downloadImage(@PathVariable Long accommodationId) throws IOException {
+        List<String> images = imageService.downloadImagesOfAccommodation(accommodationId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(images);
     }
 
     @GetMapping(path = "/all")
@@ -25,7 +62,7 @@ public class AccommodationController {
     }
 
     @GetMapping(path = "/{accommodationId}")
-    public AccommodationDTO getAccommodationById(@PathVariable Long accommodationId) {
+    public Accommodation getAccommodationById(@PathVariable Long accommodationId) {
         return accommodationService.getAccommodationById(accommodationId);
     }
 
@@ -43,4 +80,6 @@ public class AccommodationController {
     public Boolean deleteAccommodation(@PathVariable Long accommodationId) {
         return accommodationService.deleteAccommodation(accommodationId);
     }
+
+
 }
