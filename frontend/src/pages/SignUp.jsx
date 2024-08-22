@@ -3,15 +3,13 @@ import { useNavigate } from "react-router-dom";
 import SignUpForm from "../components/SignUpForm";
 
 const createMember = async (member) => {
-  const res = await fetch("/api/member", {
+  const res = await fetch("/api/member/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(member),
   });
-  const data = await res.json();
-  return data;
 };
 
 const SignUp = () => {
@@ -19,10 +17,9 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const handleCreateMember = async (member) => {
-        const fetchData = await createMember(member);
+        await createMember(member);
         setLoading(false);
         navigate("/");
-        
     }
 
     const handleLogin = () => {

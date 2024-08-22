@@ -21,7 +21,7 @@ export const SettingsMenu = () => {
             src="/src/assets/edit-rectangle-svgrepo-com.svg"
             className="h-5 w-5 object-contain"
           />
-          <Link to="/settings/editprofile/1">Profile Edit</Link>
+          <Link to="/settings/editprofile/1"/>
         </a>
       </li>
       <li>
