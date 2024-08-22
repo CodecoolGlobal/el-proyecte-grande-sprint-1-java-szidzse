@@ -6,6 +6,7 @@ import com.codecool.restmates.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -64,7 +65,7 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/member/**").permitAll()
-                                .requestMatchers("team/**").hasRole("USER")
+                                .requestMatchers(HttpMethod.POST,"/api/accommodation/**").hasRole("USER")
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
 
