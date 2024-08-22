@@ -40,11 +40,11 @@ public class Member {
     @OneToMany(mappedBy = "guest", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private  List<Reservation> reservations = new ArrayList<>();
 
-    public Member(String firstName, String lastName, String email, String password, String phoneNumber) {
+    public Member(String firstName, String lastName, String phoneNumber, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
-        this.phoneNumber = phoneNumber;
     }
 }

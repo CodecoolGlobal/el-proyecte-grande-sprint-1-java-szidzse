@@ -2,6 +2,7 @@ package com.codecool.restmates.controller;
 
 import com.codecool.restmates.model.entity.Member;
 import com.codecool.restmates.model.entity.Role;
+import com.codecool.restmates.model.entity.RoleType;
 import com.codecool.restmates.model.payload.JwtResponse;
 import com.codecool.restmates.model.payload.LoginRequest;
 import com.codecool.restmates.model.payload.RegisterRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -58,9 +60,6 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        Role userRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new RuntimeException("Error: Role not found."));
-
         Member member = new Member(
                 registerRequest.getFirstName(),
                 registerRequest.getLastName(),
@@ -69,9 +68,15 @@ public class AuthenticationController {
                 passwordEncoder.encode(registerRequest.getPassword())
         );
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(userRole);
-        member.setRoles(roles);
+        Optional<Role> defaultRoleType = roleRepository.findByRoleType(RoleType.ROLE_USER);
+
+        if (defaultRoleType.isPresent()) {
+            member.setRoles(Set.of(defaultRoleType.get()));
+        } else {
+            Role defaultRole = new Role(RoleType.ROLE_USER);
+            roleRepository.save(defaultRole);
+            member.setRoles(Set.of(defaultRole));
+        }
 
         memberRepository.save(member);
 

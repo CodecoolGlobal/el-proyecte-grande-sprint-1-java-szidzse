@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         List<SimpleGrantedAuthority> roles = new ArrayList<>();
         for (Role role : memberEntity.getRoles()) {
-            roles.add(new SimpleGrantedAuthority(role.getName()));
+            roles.add(new SimpleGrantedAuthority(role.getRoleType().toString()));
         }
 
         return new User(memberEntity.getEmail(), memberEntity.getPassword(), roles);
