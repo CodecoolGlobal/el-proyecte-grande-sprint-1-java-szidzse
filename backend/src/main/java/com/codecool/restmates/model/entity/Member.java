@@ -2,18 +2,16 @@ package com.codecool.restmates.model.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.validation.constraints.Email;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
@@ -33,17 +31,20 @@ public class Member {
 
     private String phoneNumber;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Accommodation> accommodations = new ArrayList<>();
 
     @OneToMany(mappedBy = "guest", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private  List<Reservation> reservations = new ArrayList<>();
 
-    public Member(String firstName, String lastName, String email, String password, String phoneNumber) {
+    public Member(String firstName, String lastName, String phoneNumber, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
-        this.phoneNumber = phoneNumber;
     }
 }

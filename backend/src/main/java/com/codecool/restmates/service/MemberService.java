@@ -68,9 +68,9 @@ public class MemberService {
     };
 
     public IDMemberDTOResponse authenticateLogin(String email, String password) {
-        Member member = memberRepository.findByEmail(email);
-        if (member != null && member.getPassword().equals(password)) {
-            return new IDMemberDTOResponse(member.getId());
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member != null && member.get().getPassword().equals(password)) {
+            return new IDMemberDTOResponse(member.get().getId());
         } else {
             throw new ResourceNotFoundException("Email or password is incorrect.");
         }
