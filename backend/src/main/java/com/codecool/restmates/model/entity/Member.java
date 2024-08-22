@@ -23,7 +23,7 @@ public class Member {
 
     private String lastName;
 
-    @Email(message = "Please provide a valid email address")
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}\")", message = "Please provide a valid email address")
     @Column(unique = true)
     private String email;
 

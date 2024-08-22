@@ -13,8 +13,8 @@ export const SignUpForm = ({ onSave, onLogin }) => {
     return onSave({
       firstName,
       lastName,
-      email,
       phoneNumber,
+      email,
       password,
     });
   };
