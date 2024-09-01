@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 import daisyui from "daisyui";
+import withMT from "@material-tailwind/react/utils/withMT";
 
-export default {
+export default withMT({
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
         extend: {
@@ -16,7 +17,7 @@ export default {
         daisyui,
     ],
     daisyui: {
-        themes: ["autumn", "business"],
+        themes: ["valentine"],
     },
     darkMode: 'class',
-};
+});
