@@ -1,7 +1,6 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.exception.EmailAlreadyExistsException;
-import com.codecool.restmates.exception.ResourceNotFoundException;
+import com.codecool.restmates.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,5 +39,33 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         return errors;
+    }
+
+    @ResponseBody
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String unauthorizedExceptionHandler(UnauthorizedException exception) {
+        return exception.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public String forbiddenExceptionHandler(ForbiddenException exception) {
+        return exception.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(InvalidEmailPattern.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String invalidEmailPatternExceptionHandler(InvalidEmailPattern exception) {
+        return exception.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(InvalidPasswordPattern.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String invalidPasswordPatternExceptionHandler(InvalidPasswordPattern exception) {
+        return exception.getMessage();
     }
 }
