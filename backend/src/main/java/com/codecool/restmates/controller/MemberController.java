@@ -1,6 +1,7 @@
 package com.codecool.restmates.controller;
 
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
+import com.codecool.restmates.exception.UnauthorizedException;
 import com.codecool.restmates.model.dto.requests.member.IDMemberDTOResponse;
 import com.codecool.restmates.model.dto.requests.member.LoginRequestDTO;
 import com.codecool.restmates.model.dto.requests.member.NewMemberDTO;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -107,19 +109,23 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-        );
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+            );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtUtils.generateJwtToken(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
 
-        User userDetails = (User) authentication.getPrincipal();
+            User userDetails = (User) authentication.getPrincipal();
 
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+            List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), roles));
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), roles));
+        } catch (BadCredentialsException exception) {
+            throw new UnauthorizedException("Invalid e-mail or password.");
+        }
     }
 
 }
