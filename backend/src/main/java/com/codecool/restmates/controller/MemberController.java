@@ -89,7 +89,7 @@ public class MemberController {
         }
 
         if (!EmailValidator.isValidEmail(registerRequest.getEmail())) {
-            throw new InvalidEmailPattern("Invalid e-mail pattern. It must contain an '@' character.");
+            throw new InvalidEmailPattern("Invalid e-mail pattern: " + registerRequest.getEmail());
         }
 
         if (!PasswordValidator.isValidPassword(registerRequest.getPassword())) {
