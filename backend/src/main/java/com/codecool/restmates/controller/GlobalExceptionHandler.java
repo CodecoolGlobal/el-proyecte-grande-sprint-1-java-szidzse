@@ -58,14 +58,14 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(InvalidEmailPattern.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String invalidEmailExceptionHandler(InvalidEmailPattern exception) {
+    public String invalidEmailPatternExceptionHandler(InvalidEmailPattern exception) {
         return exception.getMessage();
     }
 
     @ResponseBody
     @ExceptionHandler(InvalidPasswordPattern.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String invalidPasswordExceptionHandler(InvalidPasswordPattern exception) {
+    public String invalidPasswordPatternExceptionHandler(InvalidPasswordPattern exception) {
         return exception.getMessage();
     }
 }
