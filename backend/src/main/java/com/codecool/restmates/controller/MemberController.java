@@ -1,5 +1,6 @@
 package com.codecool.restmates.controller;
 
+import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.model.dto.requests.member.IDMemberDTOResponse;
 import com.codecool.restmates.model.dto.requests.member.LoginRequestDTO;
 import com.codecool.restmates.model.dto.requests.member.NewMemberDTO;
@@ -78,7 +79,7 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody RegisterRequest registerRequest) {
         if (memberRepository.existsByEmail(registerRequest.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            throw new EmailAlreadyExistsException("E-mail already exists: " + registerRequest.getEmail());
         }
 
         Member member = new Member(
