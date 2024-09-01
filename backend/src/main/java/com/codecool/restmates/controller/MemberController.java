@@ -1,6 +1,8 @@
 package com.codecool.restmates.controller;
 
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
+import com.codecool.restmates.exception.InvalidEmailPattern;
+import com.codecool.restmates.exception.InvalidPasswordPattern;
 import com.codecool.restmates.exception.UnauthorizedException;
 import com.codecool.restmates.model.dto.requests.member.IDMemberDTOResponse;
 import com.codecool.restmates.model.dto.requests.member.LoginRequestDTO;
@@ -16,6 +18,8 @@ import com.codecool.restmates.repository.MemberRepository;
 import com.codecool.restmates.repository.RoleRepository;
 import com.codecool.restmates.security.jwt.JwtUtils;
 import com.codecool.restmates.service.MemberService;
+import com.codecool.restmates.util.EmailValidator;
+import com.codecool.restmates.util.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,6 +86,16 @@ public class MemberController {
     public ResponseEntity<Void> createUser(@RequestBody RegisterRequest registerRequest) {
         if (memberRepository.existsByEmail(registerRequest.getEmail())) {
             throw new EmailAlreadyExistsException("E-mail already exists: " + registerRequest.getEmail());
+        }
+
+        if (!EmailValidator.isValidEmail(registerRequest.getEmail())) {
+            throw new InvalidEmailPattern("Invalid e-mail pattern. It must contain an '@' character.");
+        }
+
+        if (!PasswordValidator.isValidPassword(registerRequest.getPassword())) {
+            throw new InvalidPasswordPattern(
+                    "Invalid password pattern. The password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (e.g., !, @, #, $, %, ^, &, +, =)."
+            );
         }
 
         Member member = new Member(
