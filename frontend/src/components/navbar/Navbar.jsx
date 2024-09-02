@@ -4,7 +4,7 @@ import { useAuth } from "../AuthProvider";
 
 import NavbarMenu from "./NavbarMenu";
 import Logo from "./Logo";
-import Footer from "../Footer";
+import Footer from "./Footer.jsx";
 import NavbarMenuDisplayOpener from "./NavbarMenuDisplayOpener";
 
 const Navbar = () => {
