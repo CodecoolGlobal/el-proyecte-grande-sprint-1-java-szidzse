@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginForm from '../components/LoginForm';
+import AuthenticationForm from '../components/AuthenticationForm.jsx';
 import { useAuth } from "../components/AuthProvider";
 
 const loginMember = async (memberEmailPassword) => {
@@ -54,7 +54,7 @@ export const Login = () => {
 
   return (
     <>
-    <LoginForm
+    <AuthenticationForm
       onSignup={handleSignUp}
       loginMember={handleLogin}
     />

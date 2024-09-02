@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from "../components/LoginForm";
+import AuthenticationForm from "../components/AuthenticationForm.jsx";
 
 const loginMember = async (memberEmailPassword) => {
     try {
@@ -26,7 +26,7 @@ const loginMember = async (memberEmailPassword) => {
 };
 
 const LoginPage = () => {
-    return <LoginForm />;
+    return <AuthenticationForm />;
 };
 
 export default LoginPage;
