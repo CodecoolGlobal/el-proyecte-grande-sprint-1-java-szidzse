@@ -1,7 +1,7 @@
 import { Card, Input, Checkbox, Button, Typography } from "@material-tailwind/react";
 import { useState } from "react";
 
-export function RegisterForm({ onSave, onLogin }) {
+export function RegisterForm({ onSave }) {
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",

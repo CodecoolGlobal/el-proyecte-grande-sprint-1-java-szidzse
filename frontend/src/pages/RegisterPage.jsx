@@ -13,12 +13,10 @@ const createMember = async (member) => {
 };
 
 const RegisterPage = () => {
-    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const handleCreateMember = async (member) => {
         await createMember(member);
-        setLoading(false);
         navigate("/");
     };
 
