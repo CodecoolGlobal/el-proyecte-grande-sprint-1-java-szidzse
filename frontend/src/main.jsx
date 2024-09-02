@@ -1,15 +1,20 @@
-import React from 'react'
+import {StrictMode} from 'react'
 import ReactDOM from 'react-dom/client'
+import App from "./App.jsx";
 import './index.css'
-import {RouterProvider} from "react-router-dom";
-import {router} from "./router.jsx";
-import { AuthProvider } from './components/AuthProvider.jsx';
 
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from './components/AuthProvider.jsx';
+import { ThemeProvider } from "@material-tailwind/react";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
-    </React.StrictMode>,
+    <StrictMode>
+        <BrowserRouter>
+            <AuthProvider>
+                <ThemeProvider>
+                    <App />
+                </ThemeProvider>
+            </AuthProvider>
+        </BrowserRouter>
+    </StrictMode>
 )
