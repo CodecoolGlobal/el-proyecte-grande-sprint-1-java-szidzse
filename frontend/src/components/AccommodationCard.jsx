@@ -1,8 +1,8 @@
 import { Card, CardBody, CardFooter, Typography, Button } from "@material-tailwind/react";
 import { GalleryWithCarousel } from "./GalleryWithCarousel.jsx";
 
-export default function AccommodationCard() {
-    const accommodationId = 1;
+export default function AccommodationCard(props) {
+    const {accommodationId, name, description, pricePerNight, location} = props;
 
     return (
         <Card className="max-w-sm mx-auto shadow-cardHover rounded-4xl">
@@ -13,19 +13,19 @@ export default function AccommodationCard() {
             <CardBody className="p-4">
                 <div className="mb-2">
                     <Typography variant="h5" className="text-primary font-semibold">
-                        Cozy Studio Apartment
+                        {name}
                     </Typography>
                     <Typography variant="small" className="text-gray-500">
-                        Budapest, Hungary
+                        {location.country}
                     </Typography>
                 </div>
 
                 <Typography className="text-gray-700 text-sm">
-                    lorem ipsum etc
+                    {description}
                 </Typography>
 
                 <Typography variant="h6" className="text-accent mt-4">
-                    80 USD / night
+                    {pricePerNight} USD / night
                 </Typography>
             </CardBody>
 
