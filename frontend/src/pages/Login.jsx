@@ -34,23 +34,23 @@ export const Login = () => {
 
     const handleSignUp = () => {
         navigate('/signup');
-    }
+    };
 
     const handleLogin = async (memberEmailPassword) => {
-        const success = await loginMember(memberEmailPassword);
+        const { email, password } = memberEmailPassword;
+        const success = await login(email, password);
         if (success) {
-          login();
-          navigate('/');
-          console.log('Login successful');
+            navigate('/');
+            console.log('Login successful');
         } else {
-          console.log('Login failed');
-          setModalOpen(true); // Show the modal if login fails
+            console.log('Login failed');
+            setModalOpen(true);
         }
     };
 
     const closeModal = () => {
         setModalOpen(false);
-    }
+    };
 
   return (
     <>

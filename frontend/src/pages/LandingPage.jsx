@@ -29,6 +29,7 @@ const LandingPage = () => {
     }, []);
 
     return (
+        
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">Accommodations:</h1>
             <FilterModal/>
