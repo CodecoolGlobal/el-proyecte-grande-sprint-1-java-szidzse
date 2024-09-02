@@ -5,8 +5,24 @@ import {
     Button,
     Typography,
 } from "@material-tailwind/react";
+import {useState} from "react";
 
-const LoginForm = () => {
+const LoginForm = ({ onRegister, onLogin }) => {
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        return onLogin(formData);
+    }
+
     return (
         <Card color="transparent" shadow={false}>
             <Typography variant="h4" color="blue-gray">
@@ -31,6 +47,9 @@ const LoginForm = () => {
                         labelProps={{
                             className: "before:content-none after:content-none",
                         }}
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                     />
                     <Typography
                         variant="h6"
@@ -47,6 +66,9 @@ const LoginForm = () => {
                         labelProps={{
                             className: "before:content-none after:content-none",
                         }}
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
                     />
                 </div>
                 <Checkbox
@@ -67,8 +89,8 @@ const LoginForm = () => {
                     }
                     containerProps={{ className: "-ml-2.5" }}
                 />
-                <Button className="mt-6" fullWidth>
-                    sign up
+                <Button onClick={onSubmit} className="mt-6" fullWidth>
+                    Log In
                 </Button>
                 <Typography
                     color="gray"
