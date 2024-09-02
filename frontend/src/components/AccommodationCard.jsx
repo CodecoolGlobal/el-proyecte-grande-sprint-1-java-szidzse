@@ -16,7 +16,7 @@ export default function AccommodationCard(props) {
                         {name}
                     </Typography>
                     <Typography variant="small" className="text-gray-500">
-                        {location.country}
+                        {location.city}, {location.state ? location.state : ""}, {location.country}
                     </Typography>
                 </div>
 
