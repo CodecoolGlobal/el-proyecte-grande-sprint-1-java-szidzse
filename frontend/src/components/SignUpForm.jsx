@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Form } from "react-router-dom";
 
 export const SignUpForm = ({ onSave, onLogin }) => {
   const [firstName, setFirstName] = useState("");
@@ -20,6 +21,8 @@ export const SignUpForm = ({ onSave, onLogin }) => {
   };
 
   return (
+    <form onSubmit={onSubmit}>
+
     <div className="flex justify-center items-center w-full min-h-screen bg-cover bg-center bg-no-repeat bg-[url('/src/assets/signup-bg.png')] px-3 py-3">
       <div className="w-full shadow-md max-w-md mx-auto bg-white bg-opacity-70 backdrop-blur-md drop-shadow-xl border border-black/20 rounded-md flex flex-col items-center px-3 py-3 animate-fade-up animate-once animate-duration-1000">
         <div className="hidden md:flex sm:w-[60%] lg:w-[50%] bg-cover bg-center items-center justify-center">
@@ -91,11 +94,11 @@ export const SignUpForm = ({ onSave, onLogin }) => {
               <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-center items-center">
                 <button
                   className="btn btn-active btn-primary btn-block max-w-[150px]"
-                  onClick={onSubmit}
                 >
                   Sign Up
                 </button>
                 <button
+                type="button"
                   className="btn btn-outline btn-primary btn-block max-w-[150px]"
                   onClick={onLogin}
                 >
@@ -107,6 +110,7 @@ export const SignUpForm = ({ onSave, onLogin }) => {
         </div>
       </div>
     </div>
+    </form>
   );
 };
 
