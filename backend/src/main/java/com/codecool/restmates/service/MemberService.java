@@ -2,14 +2,18 @@ package com.codecool.restmates.service;
 
 import com.codecool.restmates.model.dto.requests.member.IDMemberDTOResponse;
 import com.codecool.restmates.model.dto.requests.member.NewMemberDTO;
+import com.codecool.restmates.model.dto.responses.AccommodationDTO;
+import com.codecool.restmates.model.dto.responses.LocationCityAndCountryDTO;
 import com.codecool.restmates.model.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
+import com.codecool.restmates.model.entity.Accommodation;
 import com.codecool.restmates.model.entity.Member;
 import com.codecool.restmates.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,15 +25,25 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public MemberResponseDTO getMemberById(Long memberId) {
-        Optional<Member> member = memberRepository.findById(memberId);
+    public MemberResponseDTO getMemberById(String memberEmail) {
+        Optional<Member> member = memberRepository.findByEmail(memberEmail);
 
         if(member.isPresent()) {
             Member memberEntity = member.get();
+            List<AccommodationDTO> memberAccommodations =  memberEntity.getAccommodations()
+                    .stream()
+                    .map(accommodation -> new AccommodationDTO(accommodation.getName(),
+                            accommodation.getDescription(),
+                            accommodation.getRoomNumber(),
+                            accommodation.getPricePerNight(),
+                            accommodation.getMaxGuests(),
+                            new LocationCityAndCountryDTO(accommodation.getLocation().getCity(), accommodation.getLocation().getCountry())))
+                    .toList();
+
             return new MemberResponseDTO(memberEntity.getFirstName(),
-                    memberEntity.getLastName(), memberEntity.getEmail(), memberEntity.getPhoneNumber());
+                    memberEntity.getLastName(), memberEntity.getEmail(), memberEntity.getPhoneNumber(), memberAccommodations);
         } else {
-            throw new ResourceNotFoundException(String.format("Member with id %s not found", memberId));
+            throw new ResourceNotFoundException(String.format("Member with id %s not found", memberEmail));
         }
     }
 

@@ -6,8 +6,26 @@ import {
     Avatar,
     Typography,
 } from "@material-tailwind/react";
+import { useAuth } from "../AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export function ProfileDropdownMenu() {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+    
+    const handleNavigateRegister = () => {
+        navigate("/profile");
+    }
+
+    const handleNavigateProfileEdit = () => {
+        navigate("/profileEdit");
+    }
+
+    const handleLogout = () => {
+        logout();
+        navigate("/")
+    }
+
     return (
         <Menu>
             <MenuHandler>
@@ -19,7 +37,7 @@ export function ProfileDropdownMenu() {
                 />
             </MenuHandler>
             <MenuList>
-                <MenuItem className="flex items-center gap-2">
+                <MenuItem className="flex items-center gap-2" onClick={handleNavigateRegister}>
                     <svg
                         width="16"
                         height="16"
@@ -39,7 +57,7 @@ export function ProfileDropdownMenu() {
                         My Profile
                     </Typography>
                 </MenuItem>
-                <MenuItem className="flex items-center gap-2">
+                <MenuItem className="flex items-center gap-2" onClick={handleNavigateProfileEdit}>
                     <svg
                         width="16"
                         height="16"
@@ -99,7 +117,7 @@ export function ProfileDropdownMenu() {
                     </Typography>
                 </MenuItem>
                 <hr className="my-2 border-blue-gray-50" />
-                <MenuItem className="flex items-center gap-2 ">
+                <MenuItem className="flex items-center gap-2 " onClick = {handleLogout}>
                     <svg
                         width="16"
                         height="14"
@@ -122,3 +140,4 @@ export function ProfileDropdownMenu() {
         </Menu>
     );
 }
+export default ProfileDropdownMenu

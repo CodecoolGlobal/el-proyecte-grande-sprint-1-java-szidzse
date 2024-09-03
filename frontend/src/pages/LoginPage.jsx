@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from "../components/LoginForm.jsx";
+import LoginForm from "../components/forms/LoginForm.jsx";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../components/AuthProvider.jsx";
 
@@ -23,7 +23,7 @@ const LoginPage = () => {
         }
     }
 
-    return <LoginForm onRegister={handleNavigateRegister()} onLogin={handleLogin} />;
+    return <LoginForm onRegister={handleNavigateRegister} onLogin={handleLogin} />;
 };
 
 export default LoginPage;

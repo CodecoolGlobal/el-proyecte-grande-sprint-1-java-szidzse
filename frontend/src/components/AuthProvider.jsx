@@ -4,6 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [userRoles, setUserRoles] = useState([]);
+  const [userEmail, setUserEmail] = useState("");
 
   const login = async (email, password) => {
     try {
@@ -14,16 +15,18 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text();
+        alert("Wrong password or email");
         throw new Error(`Login failed: ${errorText}`);
       }
-  
+
       const data = await response.json();
       sessionStorage.setItem('accessToken', data.jwt);
       setUserRoles(data.roles);
-      
+      setUserEmail(data.userName);
+
       return data;
     } catch (error) {
       console.error('Login error:', error);
@@ -33,11 +36,16 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     sessionStorage.removeItem('accessToken');
-    setUserRoles(null);
+    setUserRoles([]);
+    setUserEmail("");
+  };
+
+  const updateEmail = (newEmail) => {
+    setUserEmail(newEmail);
   };
 
   return (
-    <AuthContext.Provider value={{ userRoles, login, logout }}>
+    <AuthContext.Provider value={{ userRoles, userEmail, login, logout, updateEmail }}>
       {children}
     </AuthContext.Provider>
   );
