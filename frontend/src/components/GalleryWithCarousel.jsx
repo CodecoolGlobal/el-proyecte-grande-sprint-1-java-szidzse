@@ -4,6 +4,9 @@ import { Carousel } from "@material-tailwind/react";
 export function GalleryWithCarousel({ accommodationId }) {
     const [images, setImages] = useState([]);
 
+    const formatImage = (base64Image) => `data:image/jpeg;base64,${base64Image}`;
+
+
     useEffect(() => {
         const fetchImages = async () => {
             try {
@@ -29,7 +32,7 @@ export function GalleryWithCarousel({ accommodationId }) {
                 images.map((base64Image, index) => (
                     <img
                         key={index}
-                        src={`data:image/webp;base64,${base64Image}`}
+                        src={formatImage(base64Image)}
                         alt={`image ${index + 1}`}
                         className="h-full w-full object-cover object-center"
                     />
