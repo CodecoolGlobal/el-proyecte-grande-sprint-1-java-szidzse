@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 export function FeaturedImageGallery({ images }) {
-    const [active, setActive] = useState(images.length > 0 ? images[0] : "")
+    const [active, setActive] = useState(images.length > 0 ? images[0] : "");
 
     const formatImage = (base64String) => `data:image/jpeg;base64,${base64String}`;
 
