@@ -1,12 +1,12 @@
-// src/components/AccommodationDetails.jsx
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // To access route parameters
+import { useParams } from "react-router-dom";
 import { Card, CardBody, Typography, Button } from "@material-tailwind/react";
-import { GalleryWithCarousel } from "./GalleryWithCarousel.jsx";
+import {FeaturedImageGallery} from "./FeauturedImageGallery.jsx";
 
 export default function AccommodationDetails() {
     const { accommodationId } = useParams();
     const [accommodation, setAccommodation] = useState(null);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
         const fetchAccommodationDetails = async () => {
@@ -16,14 +16,27 @@ export default function AccommodationDetails() {
                     throw new Error("Failed to fetch accommodation details.");
                 }
                 const data = await response.json();
-                console.log(data)
                 setAccommodation(data);
             } catch (error) {
                 console.error("Error fetching accommodation details:", error);
             }
         };
 
+        const fetchAccommodationImages = async () => {
+            try {
+                const response = await fetch(`/api/accommodation/${accommodationId}/images`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch accommodation images.");
+                }
+                const data = await response.json();
+                setImages(data);
+            } catch (error) {
+                console.error("Error fetching accommodation images:", error);
+            }
+        };
+
         fetchAccommodationDetails();
+        fetchAccommodationImages();
     }, [accommodationId]);
 
     if (!accommodation) {
@@ -33,7 +46,7 @@ export default function AccommodationDetails() {
     return (
         <Card className="max-w-3xl mx-auto my-8 shadow-cardHover rounded-4xl">
             <div className="w-full h-64 rounded-t-4xl overflow-hidden">
-                <GalleryWithCarousel accommodationId={accommodation.id} />
+                <FeaturedImageGallery images={images} />
             </div>
 
             <CardBody className="p-6">
