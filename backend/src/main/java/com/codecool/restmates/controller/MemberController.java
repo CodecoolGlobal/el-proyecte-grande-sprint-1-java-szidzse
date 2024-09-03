@@ -4,8 +4,6 @@ import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.exception.InvalidEmailPattern;
 import com.codecool.restmates.exception.InvalidPasswordPattern;
 import com.codecool.restmates.exception.UnauthorizedException;
-import com.codecool.restmates.model.dto.requests.member.IDMemberDTOResponse;
-import com.codecool.restmates.model.dto.requests.member.LoginRequestDTO;
 import com.codecool.restmates.model.dto.requests.member.NewMemberDTO;
 import com.codecool.restmates.model.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.model.entity.Member;
@@ -23,7 +21,6 @@ import com.codecool.restmates.util.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -66,9 +63,9 @@ public class MemberController {
         this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping(path = "/{memberId}")
-    public MemberResponseDTO getMemberById(@PathVariable long memberId) {
-        return memberService.getMemberById(memberId);
+    @GetMapping(path = "/{memberEmail}")
+    public MemberResponseDTO getMemberByEmail(@PathVariable String memberEmail) {
+        return memberService.getMemberById(memberEmail);
     }
 
 
