@@ -7,7 +7,7 @@ export default function AccommodationCard(props) {
     const navigate = useNavigate();
 
     const handleSeeDetailsClick = () => {
-        navigate(`/api/accommodation/${accommodationId}`)
+        navigate(`/accommodation/${accommodationId}`)
     }
 
     return (

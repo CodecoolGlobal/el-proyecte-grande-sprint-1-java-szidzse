@@ -16,6 +16,7 @@ export default function AccommodationDetails() {
                     throw new Error("Failed to fetch accommodation details.");
                 }
                 const data = await response.json();
+                console.log(data)
                 setAccommodation(data);
             } catch (error) {
                 console.error("Error fetching accommodation details:", error);
@@ -44,7 +45,7 @@ export default function AccommodationDetails() {
                 </Typography>
                 <Typography className="text-gray-700 mb-4">{accommodation.description}</Typography>
                 <Typography variant="h6" className="text-accent">
-                    {accommodation.pricePerNight} USD / night
+                    {accommodation.pricePerNight} $ / night
                 </Typography>
             </CardBody>
             <div className="p-6">
