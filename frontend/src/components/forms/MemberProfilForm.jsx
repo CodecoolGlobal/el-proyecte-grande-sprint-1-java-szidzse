@@ -11,15 +11,13 @@ const MemberProfile = ({ memberData }) => {
   return (
     <Card color="transparent" shadow={false}>
       <Typography variant="h4" color="blue-gray">
-        Member Profile
+        Profile Details
       </Typography>
-      <Typography color="gray" className="mt-1 font-normal">
-        Here are your details.
-      </Typography>
+
       <div className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
         <div className="mb-1 flex flex-col gap-6">
           <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Your First Name
+            First Name
           </Typography>
           <Typography
             size="lg"
@@ -29,7 +27,7 @@ const MemberProfile = ({ memberData }) => {
           </Typography>
 
           <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Your Last Name
+            Last Name
           </Typography>
           <Typography
             size="lg"
@@ -39,7 +37,7 @@ const MemberProfile = ({ memberData }) => {
           </Typography>
 
           <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Your Email
+            Email
           </Typography>
           <Typography
             size="lg"
@@ -49,7 +47,7 @@ const MemberProfile = ({ memberData }) => {
           </Typography>
 
           <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Your Phone Number
+            Phone Number
           </Typography>
           <Typography
             size="lg"
