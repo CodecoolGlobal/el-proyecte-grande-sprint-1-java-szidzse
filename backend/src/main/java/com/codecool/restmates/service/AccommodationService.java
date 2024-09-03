@@ -1,9 +1,7 @@
 package com.codecool.restmates.service;
 
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
-import com.codecool.restmates.model.dto.responses.FullAccommodationDTO;
-import com.codecool.restmates.model.dto.responses.LessDetailedAccommodationDTO;
-import com.codecool.restmates.model.dto.responses.LocationCityStateCountryDTO;
+import com.codecool.restmates.model.dto.responses.*;
 import com.codecool.restmates.exception.MemberNoRightsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.entity.Accommodation;
@@ -31,13 +29,13 @@ public class AccommodationService {
         return accommodations.stream().map(this::convertToLessDetailedDTO).toList();
     }
 
-    public FullAccommodationDTO getAccommodationById(Long accommodationId) {
+    public FullAccommodationWithLocationIdCityStateCountryDTO getAccommodationById(Long accommodationId) {
         Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
 
         if (accommodation.isPresent()) {
             Accommodation accommodationEntity = accommodation.get();
 
-            return convertToFullDTO(accommodationEntity);
+            return convertToFullAccommodationWithLocationIdCityStateCountryDTO(accommodationEntity);
         } else {
             throw new ResourceNotFoundException(String.format("Accommodation with id %s not found!", accommodationId));
         }
@@ -137,6 +135,25 @@ public class AccommodationService {
         );
 
         return new FullAccommodationDTO(
+                accommodation.getId(),
+                accommodation.getName(),
+                accommodation.getDescription(),
+                accommodation.getRoomNumber(),
+                accommodation.getPricePerNight(),
+                accommodation.getMaxGuests(),
+                locationDTO
+        );
+    }
+
+    private FullAccommodationWithLocationIdCityStateCountryDTO convertToFullAccommodationWithLocationIdCityStateCountryDTO(Accommodation accommodation) {
+        LocationIdCityStateCountryDTO locationDTO = new LocationIdCityStateCountryDTO(
+                accommodation.getLocation().getId(),
+                accommodation.getLocation().getCity(),
+                accommodation.getLocation().getState(),
+                accommodation.getLocation().getCountry()
+        );
+
+        return new FullAccommodationWithLocationIdCityStateCountryDTO(
                 accommodation.getId(),
                 accommodation.getName(),
                 accommodation.getDescription(),
