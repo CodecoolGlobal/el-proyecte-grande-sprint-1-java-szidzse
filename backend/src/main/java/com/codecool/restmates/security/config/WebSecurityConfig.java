@@ -65,6 +65,7 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/member/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/accommodation/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/accommodation/**").hasRole("USER")
                                 .requestMatchers(HttpMethod.POST,"/api/member/register").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/member/login").permitAll()

@@ -1,8 +1,9 @@
 package com.codecool.restmates.service;
 
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
-import com.codecool.restmates.model.dto.responses.AccommodationDTO;
-import com.codecool.restmates.model.dto.responses.LocationCityAndCountryDTO;
+import com.codecool.restmates.model.dto.responses.FullAccommodationDTO;
+import com.codecool.restmates.model.dto.responses.LessDetailedAccommodationDTO;
+import com.codecool.restmates.model.dto.responses.LocationCityStateCountryDTO;
 import com.codecool.restmates.exception.MemberNoRightsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.entity.Accommodation;
@@ -11,17 +12,11 @@ import com.codecool.restmates.model.entity.Member;
 import com.codecool.restmates.repository.AccommodationRepository;
 import com.codecool.restmates.repository.LocationRepository;
 import com.codecool.restmates.repository.MemberRepository;
-import com.codecool.restmates.util.ImageUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -30,13 +25,25 @@ public class AccommodationService {
     private final LocationRepository locationRepository;
     private final MemberRepository memberRepository;
 
-    public List<AccommodationDTO> getAllAccommodations() {
+    public List<LessDetailedAccommodationDTO> getAllAccommodations() {
         List<Accommodation> accommodations = accommodationRepository.findAll();
 
-        return accommodations.stream().map(this::convertToDTO).toList();
+        return accommodations.stream().map(this::convertToLessDetailedDTO).toList();
     }
 
-    public Accommodation getAccommodationById(Long accommodationId) {
+    public FullAccommodationDTO getAccommodationById(Long accommodationId) {
+        Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
+
+        if (accommodation.isPresent()) {
+            Accommodation accommodationEntity = accommodation.get();
+
+            return convertToFullDTO(accommodationEntity);
+        } else {
+            throw new ResourceNotFoundException(String.format("Accommodation with id %s not found!", accommodationId));
+        }
+    }
+
+    public Accommodation getAccommodationEntityById(Long accommodationId) {
         Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
 
         if (accommodation.isPresent()) {
@@ -106,13 +113,31 @@ public class AccommodationService {
         }
     }
 
-    private AccommodationDTO convertToDTO(Accommodation accommodation) {
-        LocationCityAndCountryDTO locationDTO = new LocationCityAndCountryDTO(
+    private LessDetailedAccommodationDTO convertToLessDetailedDTO(Accommodation accommodation) {
+        LocationCityStateCountryDTO locationDTO = new LocationCityStateCountryDTO(
                 accommodation.getLocation().getCity(),
+                accommodation.getLocation().getState(),
                 accommodation.getLocation().getCountry()
         );
 
-        return new AccommodationDTO(
+        return new LessDetailedAccommodationDTO(
+                accommodation.getId(),
+                accommodation.getName(),
+                accommodation.getDescription(),
+                accommodation.getPricePerNight(),
+                locationDTO
+        );
+    }
+
+    private FullAccommodationDTO convertToFullDTO(Accommodation accommodation) {
+        LocationCityStateCountryDTO locationDTO = new LocationCityStateCountryDTO(
+                accommodation.getLocation().getCity(),
+                accommodation.getLocation().getState(),
+                accommodation.getLocation().getCountry()
+        );
+
+        return new FullAccommodationDTO(
+                accommodation.getId(),
                 accommodation.getName(),
                 accommodation.getDescription(),
                 accommodation.getRoomNumber(),

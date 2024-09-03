@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import Footer from "./components/navigationBar/Footer.jsx";
 import ProfileViewPage from "./pages/ProfileViewPage.jsx";
 import ProfileEditPage from "./pages/ProfileEditPage.jsx";
+import AccommodationDetails from "./components/AccommodationDetails.jsx";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/accommodation/:accommodationId" element={<AccommodationDetails />}></Route>
           <Route path="/profile" element={<ProfileViewPage />} />
           <Route path="/profileEdit" element={<ProfileEditPage />} />
         </Routes>
