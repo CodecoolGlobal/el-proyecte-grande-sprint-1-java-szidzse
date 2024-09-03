@@ -9,17 +9,26 @@ const mapContainerStyle = {
 const LocationMap = ({ locationId }) => {
 	const [location, setLocation] = useState(null);
 
-	const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+	const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 	const { isLoaded, loadError } = useLoadScript({
-		googleMapsApiKey: googleMapsApiKey,
+		googleMapsApiKey: apiKey,
 	});
 
 	useEffect(() => {
-		fetch(`/api/location/${locationId}`)
-			.then((response) => response.json())
-			.then((data) => setLocation(data))
-			.catch((error) => console.error("Error fetching location:", error));
+		const fetchLocation = async () => {
+			try {
+				const response = await fetch(`/api/location/${locationId}`);
+				if (!response.ok) {
+					throw new Error("Failed to fetch location data.");
+				}
+				const data = await response.json();
+				setLocation(data);
+			} catch (error) {
+				console.error("Error fetching location: ", error);
+			}
+		};
+		fetchLocation();
 	}, [locationId]);
 
 	if (loadError) return <div>Error loading maps</div>;
@@ -30,10 +39,9 @@ const LocationMap = ({ locationId }) => {
 		const response = await fetch(
 			`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
 				address
-			)}&key=${googleMapsApiKey}`
+			)}&key=${apiKey}`
 		);
 		const data = await response.json();
-		console.log(data);
 		if (data.results && data.results.length > 0) {
 			const { lat, lng } = data.results[0].geometry.location;
 			return { lat, lng };
