@@ -14,7 +14,11 @@ export function ProfileDropdownMenu() {
     const navigate = useNavigate();
     
     const handleNavigateRegister = () => {
-        navigate("/profile")
+        navigate("/profile");
+    }
+
+    const handleNavigateProfileEdit = () => {
+        navigate("/profileEdit");
     }
 
     const handleLogout = () => {
@@ -53,7 +57,7 @@ export function ProfileDropdownMenu() {
                         My Profile
                     </Typography>
                 </MenuItem>
-                <MenuItem className="flex items-center gap-2">
+                <MenuItem className="flex items-center gap-2" onClick={handleNavigateProfileEdit}>
                     <svg
                         width="16"
                         height="16"
