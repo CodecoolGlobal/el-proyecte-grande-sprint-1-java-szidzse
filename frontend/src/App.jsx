@@ -7,6 +7,7 @@ import Footer from "./components/navigationBar/Footer.jsx";
 import ProfileViewPage from "./pages/ProfileViewPage.jsx";
 import ProfileEditPage from "./pages/ProfileEditPage.jsx";
 import AccommodationDetails from "./components/AccommodationDetails.jsx";
+import CountrySearchInput from "./components/CountrySearchInput.jsx";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/accommodation/:accommodationId" element={<AccommodationDetails />}></Route>
           <Route path="/profile" element={<ProfileViewPage />} />
           <Route path="/profileEdit" element={<ProfileEditPage />} />
+          <Route path="/search" element={<CountrySearchInput />} />
         </Routes>
       </main>
       <Footer />
