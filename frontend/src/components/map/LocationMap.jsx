@@ -9,7 +9,7 @@ const mapContainerStyle = {
 const LocationMap = ({ locationId }) => {
 	const [location, setLocation] = useState(null);
 
-	const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+	const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 	const { isLoaded, loadError } = useLoadScript({
 		googleMapsApiKey: googleMapsApiKey,
@@ -33,6 +33,7 @@ const LocationMap = ({ locationId }) => {
 			)}&key=${googleMapsApiKey}`
 		);
 		const data = await response.json();
+		console.log(data);
 		if (data.results && data.results.length > 0) {
 			const { lat, lng } = data.results[0].geometry.location;
 			return { lat, lng };

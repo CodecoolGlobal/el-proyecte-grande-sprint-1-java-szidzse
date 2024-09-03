@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FeaturedImageGallery } from "./FeauturedImageGallery.jsx";
 import { Card, CardBody, Typography, Button } from "@material-tailwind/react";
+import LocationMap from "./map/LocationMap.jsx";
 
 export default function AccommodationDetails() {
 	const { accommodationId } = useParams();
@@ -50,10 +51,9 @@ export default function AccommodationDetails() {
 					<FeaturedImageGallery images={images} />
 				</div>
 
-				{/* Google Maps Placeholder */}
 				<div className="bg-gray-100 rounded-lg shadow-lg p-4">
 					<div className="w-full h-[300px] bg-gray-200 rounded-lg">
-						{/* Placeholder for Google Maps */}
+						<LocationMap locationId={accommodation.location.id} />
 						<p className="text-center text-gray-500">Google Maps will be here.</p>
 					</div>
 				</div>

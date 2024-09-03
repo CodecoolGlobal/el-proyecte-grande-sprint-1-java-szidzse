@@ -8,10 +8,7 @@ export function FeaturedImageGallery({ images }) {
         }
     }, [images]);
 
-	const formatImage = (base64Image) => `data:image/jpeg;base64,${base64Image}`;
-
-    console.log(images[0]);
-    
+	const formatImage = (base64Image) => `data:image/jpeg;base64,${base64Image}`;    
 
 	if (!images || images.length === 0) {
 		return <div>Loading images...</div>;
