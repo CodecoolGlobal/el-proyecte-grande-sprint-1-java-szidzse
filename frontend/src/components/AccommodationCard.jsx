@@ -1,8 +1,14 @@
 import { Card, CardBody, CardFooter, Typography, Button } from "@material-tailwind/react";
 import { GalleryWithCarousel } from "./GalleryWithCarousel.jsx";
+import {useNavigate} from "react-router-dom";
 
 export default function AccommodationCard(props) {
     const {accommodationId, name, description, pricePerNight, location} = props;
+    const navigate = useNavigate();
+
+    const handleSeeDetailsClick = () => {
+        navigate(`/api/accommodation/${accommodationId}`)
+    }
 
     return (
         <Card className="max-w-sm mx-auto shadow-cardHover rounded-4xl">
@@ -30,7 +36,7 @@ export default function AccommodationCard(props) {
             </CardBody>
 
             <CardFooter className="flex justify-between items-center p-4">
-                <Button size="sm" className="bg-primary text-white hover:bg-secondary">
+                <Button onClick={handleSeeDetailsClick} size="sm" className="bg-primary text-white hover:bg-secondary">
                     See Details
                 </Button>
                 <Typography variant="small" className="text-gray-500">
