@@ -1,4 +1,3 @@
-// src/components/LocationMap.jsx
 import React, { useEffect, useState } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
@@ -27,7 +26,6 @@ const LocationMap = ({ locationId }) => {
 	if (!isLoaded) return <div>Loading Maps...</div>;
 	if (!location) return <div>Loading Location...</div>;
 
-	// Geocode the address to get the latitude and longitude
 	const geocodeAddress = async (address) => {
 		const response = await fetch(
 			`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
