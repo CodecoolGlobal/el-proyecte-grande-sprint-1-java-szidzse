@@ -69,6 +69,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.POST,"/api/accommodation/**").hasRole("USER")
                                 .requestMatchers(HttpMethod.POST,"/api/member/register").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/member/login").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/location/**").permitAll()
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
 
