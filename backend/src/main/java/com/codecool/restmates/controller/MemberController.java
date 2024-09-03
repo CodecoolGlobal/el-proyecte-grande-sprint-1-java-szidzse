@@ -65,18 +65,18 @@ public class MemberController {
 
     @GetMapping(path = "/{memberEmail}")
     public MemberResponseDTO getMemberByEmail(@PathVariable String memberEmail) {
-        return memberService.getMemberById(memberEmail);
+        return memberService.getMemberByEmail(memberEmail);
     }
 
 
-    @PutMapping(path ="/{memberId}")
-    public Long updateMember(@PathVariable long memberId, @RequestBody NewMemberDTO member) {
-        return memberService.updateMember(memberId, member);
+    @PutMapping(path ="/{memberEmail}")
+    public Long updateMember(@PathVariable String memberEmail, @RequestBody NewMemberDTO member) {
+        return memberService.updateMember(memberEmail, member);
     }
 
-    @DeleteMapping(path ="/{memberId}")
-    public boolean deleteMember(@PathVariable long memberId) {
-        return memberService.deleteMember(memberId);
+    @DeleteMapping(path ="/{memberEmail}")
+    public boolean deleteMember(@PathVariable String memberEmail) {
+        return memberService.deleteMember(memberEmail);
     }
 
     @PostMapping("/register")
