@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import AccommodationCard from'./AccommodationCard'
+import React, { useEffect, useState } from "react";
+import AccommodationListDisplay from "./AccommodationListDisplay";
 
 const fetchSearchAccommodations = async (query) => {
   try {
     const response = await fetch(
-      `/api/accommodation/search?query=${encodeURIComponent(query)}`);
+      `/api/accommodation/search?query=${encodeURIComponent(query)}`
+    );
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -17,37 +17,35 @@ const fetchSearchAccommodations = async (query) => {
   }
 };
 
-const CountrySearchInput = () => {
+const SearchAccommodationInput = ({ setSearchResults, setIsSearching }) => {
   const [query, setQuery] = useState("");
-  const [accommodations, setAccommodations] = useState([]);
-
 
   const handleSearch = async () => {
     if (query.trim()) {
-      console.log("Searching for:", query);
+      setIsSearching(true);
       const data = await fetchSearchAccommodations(query);
-      setAccommodations(data);
+      setSearchResults(data);
+    } else {
+      setIsSearching(false);
+      setSearchResults([]);
     }
   };
 
   useEffect(() => {
-    const handleSearch = async () => {
+    const fetchData = async () => {
       if (query.trim()) {
-        
-        console.log("Searching for:", query);
         const data = await fetchSearchAccommodations(query);
-        setAccommodations(data);
+        setSearchResults(data);
+        setIsSearching(true);
       } else {
-        setAccommodations([]);
+        setSearchResults([]);
+        setIsSearching(false);
       }
     };
 
-    handleSearch();
-  }, [query]);
+    fetchData();
+  }, [query, setSearchResults, setIsSearching]);
 
-  useEffect(() => {
-    console.log("Accommodations:", accommodations);
-  }, [accommodations]);
   return (
     <div>
       <div className="w-full max-w-sm min-w-[200px]">
@@ -83,19 +81,8 @@ const CountrySearchInput = () => {
           </button>
         </div>
       </div>
-      {accommodations.length > 0 &&
-        accommodations.map((accommodation) =>(
-          <AccommodationCard
-            key={accommodation.id}
-            accommodationId={accommodation.id}
-            name={accommodation.name}
-            description={accommodation.description}
-            pricePerNight={accommodation.pricePerNight}
-            location={accommodation.location}
-          />
-        ))}
     </div>
   );
 };
 
-export default CountrySearchInput;
+export default SearchAccommodationInput;
