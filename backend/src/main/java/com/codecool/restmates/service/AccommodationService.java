@@ -41,18 +41,20 @@ public class AccommodationService {
         }
     }
 
-    public Accommodation getAccommodationEntityById(Long accommodationId) {
-        Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
+    public List<LessDetailedAccommodationDTO> searchAccommodationByCityAndCountry(String query) {
+        List<Accommodation> accommodations = accommodationRepository.findByLocationCityStartingWithIgnoreCaseOrLocationCountryStartingWithIgnoreCase(query, query);
 
-        if (accommodation.isPresent()) {
-            Accommodation accommodationEntity = accommodation.get();
 
-            return accommodationEntity;
-        } else {
-            throw new ResourceNotFoundException(String.format("Accommodation with id %s not found!", accommodationId));
-        }
+        return accommodations.stream()
+                .map(accommodation -> new LessDetailedAccommodationDTO(
+                        accommodation.getId(),
+                        accommodation.getName(),
+                        accommodation.getDescription(),
+                        accommodation.getPricePerNight(),
+                        new LocationCityStateCountryDTO(accommodation.getLocation().getCity(), accommodation.getLocation().getState(), accommodation.getLocation().getCountry())
+                ))
+                .toList();
     }
-
 
 
     public Long createAccommodation(NewAccommodationDTO newAccommodationDTO) {

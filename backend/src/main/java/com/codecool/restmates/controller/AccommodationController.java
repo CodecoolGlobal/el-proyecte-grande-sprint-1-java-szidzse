@@ -66,5 +66,11 @@ public class AccommodationController {
         return accommodationService.deleteAccommodation(accommodationId);
     }
 
+    @GetMapping("/search")
+    public List<LessDetailedAccommodationDTO> searchAccomodationByCountryAndCity(@RequestParam String query) {
+        return accommodationService.searchAccommodationByCityAndCountry(query);
+    }
+
+
 
 }
