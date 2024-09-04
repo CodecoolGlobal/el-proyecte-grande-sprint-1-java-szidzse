@@ -6,8 +6,8 @@ import LoginPage from "./pages/LoginPage";
 import Footer from "./components/navigationBar/Footer.jsx";
 import ProfileViewPage from "./pages/ProfileViewPage.jsx";
 import ProfileEditPage from "./pages/ProfileEditPage.jsx";
-import AccommodationDetails from "./components/AccommodationDetails.jsx";
-import CountrySearchInput from "./components/CountrySearchInput.jsx";
+import AccommodationDetails from "./components/accommodations/AccommodationDetails.jsx";
+import CountrySearchInput from "./components/accommodations/SearchAccommodationInput.jsx";
 
 const App = () => {
   return (
@@ -18,7 +18,10 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/accommodation/:accommodationId" element={<AccommodationDetails />}></Route>
+          <Route
+            path="/accommodation/:accommodationId"
+            element={<AccommodationDetails />}
+          ></Route>
           <Route path="/profile" element={<ProfileViewPage />} />
           <Route path="/profileEdit" element={<ProfileEditPage />} />
           <Route path="/search" element={<CountrySearchInput />} />

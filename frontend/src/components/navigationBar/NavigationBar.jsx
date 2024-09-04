@@ -9,8 +9,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import Logo from "./Logo.jsx";
 import NavigationBarList from "./NavigationBarList.jsx";
-import { useAuth } from "../AuthProvider.jsx";
-import ProfileDropdownMenu from './ProfileDropdownMenu.jsx'
+import { useAuth } from "../auth/AuthProvider.jsx";
+import ProfileDropdownMenu from "./ProfileDropdownMenu.jsx";
 
 export function NavigationBar() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -24,7 +24,7 @@ export function NavigationBar() {
     );
   }, []);
 
-  const isUser = userRoles.includes('ROLE_USER');
+  const isUser = userRoles.includes("ROLE_USER");
 
   return (
     <Navbar className="mx-auto max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4">
@@ -81,7 +81,7 @@ export function NavigationBar() {
                 strokeLinejoin="round"
                 d="M6 18L18 6M6 6l12 12"
                 fillRule="evenodd"
-                clipRule="evenodd" 
+                clipRule="evenodd"
               />
             </svg>
           ) : (
@@ -106,7 +106,7 @@ export function NavigationBar() {
       <Collapse open={openNav}>
         <div className="container mx-auto">
           {isUser ? (
-            <ProfileDropdownMenu/>
+            <ProfileDropdownMenu />
           ) : (
             <>
               <NavigationBarList />

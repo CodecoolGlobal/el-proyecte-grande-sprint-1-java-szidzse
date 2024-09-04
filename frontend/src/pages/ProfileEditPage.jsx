@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import MemberProfileEdit from "../components/forms/MemberProfileEditForm";
-import { useAuth } from "../components/AuthProvider";
+import { useAuth } from "../components/auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const fetchDeleteUser = async (userEmail) => {
-    try {
-      const response = await fetch(`/api/member/${userEmail}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return true;
-    } catch (error) {
-      console.error("Failed to delete user:", error);
-      return false;
+  try {
+    const response = await fetch(`/api/member/${userEmail}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
     }
-  };
+    return true;
+  } catch (error) {
+    console.error("Failed to delete user:", error);
+    return false;
+  }
+};
 
 const fetchUserData = async (userEmail) => {
   try {
@@ -36,24 +36,24 @@ const fetchUserData = async (userEmail) => {
 };
 
 const fetchUpdateUser = async (userEmail, updatedUserData) => {
-    try {
-      const response = await fetch(`/api/member/${userEmail}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedUserData),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Failed to update user data:", error);
-      return null;
+  try {
+    const response = await fetch(`/api/member/${userEmail}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedUserData),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
     }
-  };
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to update user data:", error);
+    return null;
+  }
+};
 
 const ProfileEditPage = () => {
   const [userData, setUserData] = useState(null);
@@ -74,11 +74,11 @@ const ProfileEditPage = () => {
     const data = await fetchUpdateUser(userEmail, updatedUserData);
     setUserData(data);
     if (updatedUserData.email !== userEmail) {
-        updateEmail(updatedUserData.email);
-      }
+      updateEmail(updatedUserData.email);
+    }
     return data;
   };
-  
+
   const handleDelete = async () => {
     const success = await fetchDeleteUser(userEmail);
     if (success) {
@@ -92,9 +92,11 @@ const ProfileEditPage = () => {
   return (
     <div>
       {userData ? (
-        <MemberProfileEdit memberData={userData}
-        onUpdate={handleUpdate}
-        onDelete={handleDelete} />
+        <MemberProfileEdit
+          memberData={userData}
+          onUpdate={handleUpdate}
+          onDelete={handleDelete}
+        />
       ) : (
         <p>Loading...</p>
       )}
