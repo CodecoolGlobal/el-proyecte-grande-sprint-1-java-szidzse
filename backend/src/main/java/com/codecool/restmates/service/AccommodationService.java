@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -55,6 +56,22 @@ public class AccommodationService {
                         new LocationCityStateCountryDTO(accommodation.getLocation().getCity(), accommodation.getLocation().getState(), accommodation.getLocation().getCountry())
                 ))
                 .toList();
+    }
+
+    public List<LessDetailedAccommodationDTO> getAllAccommodationsByMember(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        if (member.isPresent()) {
+            Long memberId = member.get().getId();
+            List<Accommodation> accommodations = accommodationRepository.findAll();
+
+            return accommodations.stream()
+                    .filter(accommodation -> accommodation.getOwner().getId().equals(memberId))
+                    .map(accommodation -> convertToLessDetailedDTO(accommodation))
+                    .collect(Collectors.toList());
+        } else {
+            throw new ResourceNotFoundException(String.format("Member with email %s not found!", email));
+        }
     }
 
 
@@ -176,5 +193,4 @@ public class AccommodationService {
                 locationDTO
         );
     }
-
 }

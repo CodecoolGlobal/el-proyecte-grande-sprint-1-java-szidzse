@@ -51,6 +51,14 @@ public class AccommodationController {
         return accommodationService.getAccommodationById(accommodationId);
     }
 
+    @GetMapping(path = "/all-by-member")
+    public List<LessDetailedAccommodationDTO> getAllAccommodationsByMember(
+            Authentication authentication
+    ) {
+        String email = authentication.getName();
+        return accommodationService.getAllAccommodationsByMember(email);
+    }
+
     @PostMapping(path = "")
     public Long createAccommodation(
             @RequestBody NewAccommodationDTO newAccommodation,
