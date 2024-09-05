@@ -7,7 +7,9 @@ import Footer from "./components/navigationBar/Footer.jsx";
 import ProfileViewPage from "./pages/ProfileViewPage.jsx";
 import ProfileEditPage from "./pages/ProfileEditPage.jsx";
 import AccommodationDetails from "./components/accommodations/AccommodationDetails.jsx";
-import AccommodationsManagarPage from "./pages/AccommodationsManagarPage.jsx";
+import AccommodationsManagerPage from "./pages/AccommodationsManagerPage.jsx";
+import AccommodationCreate from "./components/accommodations/AccommodationCreate.jsx";
+import AccommodationUpdate from "./components/accommodations/AccommodationUpdate.jsx";
 
 const App = () => {
 	return (
@@ -19,9 +21,11 @@ const App = () => {
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/accommodation/:accommodationId" element={<AccommodationDetails />}></Route>
+					<Route path="/accommodation/create" element={<AccommodationCreate />}></Route>
+					<Route path="/accommodation/update/:accommodationId" element={<AccommodationUpdate />}></Route>
 					<Route path="/profile" element={<ProfileViewPage />} />
 					<Route path="/profileEdit" element={<ProfileEditPage />} />
-					<Route path="/accommodations-manager" element={<AccommodationsManagarPage />} />
+					<Route path="/accommodations-manager" element={<AccommodationsManagerPage />} />
 				</Routes>
 			</main>
 			<Footer />
