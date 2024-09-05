@@ -29,6 +29,63 @@ public class AccommodationService {
         return accommodations.stream().map(this::convertToLessDetailedDTO).toList();
     }
 
+    public List<FullAccommodationDTO> getMemberAccommodations(String memberEmail) {
+        Optional<Member> member = memberRepository.findByEmail(memberEmail);
+
+        if (member.isPresent()) {
+            Member memberEntity = member.get();
+            return memberEntity.getAccommodations()
+                    .stream()
+                    .map(accommodation -> new FullAccommodationDTO(
+                            accommodation.getId(),
+                            accommodation.getName(),
+                            accommodation.getDescription(),
+                            accommodation.getRoomNumber(),
+                            accommodation.getPricePerNight(),
+                            accommodation.getMaxGuests(),
+                            new LocationCityStateCountryDTO(
+                                    accommodation.getLocation().getCity(),
+                                    accommodation.getLocation().getState(),
+                                    accommodation.getLocation().getCountry())
+                    ))
+                    .toList();
+        } else {
+            throw new ResourceNotFoundException(String.format("Member with email %s not found", memberEmail));
+        }
+    }
+
+    public FullAccommodationDTO createAccommodation(String memberEmail, NewAccommodationDTO newAccommodationDTO) {
+        Member member = memberRepository.findByEmail(memberEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with email: " + memberEmail));
+
+        Location location = locationRepository.findById(newAccommodationDTO.locationId())
+                .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + newAccommodationDTO.locationId()));
+
+        Accommodation accommodation = new Accommodation(
+                newAccommodationDTO.name(),
+                newAccommodationDTO.description(),
+                newAccommodationDTO.roomNumber(),
+                newAccommodationDTO.pricePerNight(),
+                newAccommodationDTO.maxGuests(),
+                location,
+                member
+        );
+
+        accommodationRepository.save(accommodation);
+        return new FullAccommodationDTO(
+                accommodation.getId(),
+                accommodation.getName(),
+                accommodation.getDescription(),
+                accommodation.getRoomNumber(),
+                accommodation.getPricePerNight(),
+                accommodation.getMaxGuests(),
+                new LocationCityStateCountryDTO(
+                        accommodation.getLocation().getCity(),
+                        accommodation.getLocation().getState(),
+                        accommodation.getLocation().getCountry())
+        );
+    }
+
     public FullAccommodationWithLocationIdCityStateCountryDTO getAccommodationById(Long accommodationId) {
         Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
 

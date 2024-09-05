@@ -46,6 +46,16 @@ public class AccommodationController {
         return accommodationService.getAllAccommodations();
     }
 
+    @GetMapping(path = "/{memberEmail}/accommodations")
+    public List<FullAccommodationDTO> getMemberAccommodations(@PathVariable String memberEmail) {
+        return accommodationService.getMemberAccommodations(memberEmail);
+    }
+
+    @PostMapping(path = "/{memberEmail}/accommodations")
+    public FullAccommodationDTO createAccommodation(@PathVariable String memberEmail, @RequestBody NewAccommodationDTO newAccommodationDTO) {
+        return accommodationService.createAccommodation(memberEmail, newAccommodationDTO);
+    }
+
     @GetMapping(path = "/{accommodationId}")
     public FullAccommodationWithLocationIdCityStateCountryDTO getAccommodationById(@PathVariable Long accommodationId) {
         return accommodationService.getAccommodationById(accommodationId);

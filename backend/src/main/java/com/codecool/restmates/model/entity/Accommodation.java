@@ -43,4 +43,14 @@ public class Accommodation {
 
     @OneToMany(mappedBy = "accommodation", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Image> images;
+
+    public Accommodation(String name, String description, Integer roomNumber, Double pricePerNight, Integer maxGuests, Location location, Member owner) {
+        this.name = name;
+        this.description = description;
+        this.roomNumber = roomNumber;
+        this.pricePerNight = pricePerNight;
+        this.maxGuests = maxGuests;
+        this.location = location;
+        this.owner = owner;
+    }
 }

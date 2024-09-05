@@ -69,11 +69,6 @@ public class MemberController {
         return memberService.getMemberByEmail(memberEmail);
     }
 
-    @GetMapping(path = "/{memberEmail}/accommodations")
-    public List<FullAccommodationDTO> getMemberAccommodations(@PathVariable String memberEmail) {
-        return memberService.getMemberAccommodations(memberEmail);
-    }
-
     @PutMapping(path ="/{memberEmail}")
     public Long updateMember(@PathVariable String memberEmail, @RequestBody NewMemberDTO member) {
         return memberService.updateMember(memberEmail, member);
