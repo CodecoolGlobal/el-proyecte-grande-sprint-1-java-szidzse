@@ -48,6 +48,31 @@ public class MemberService {
         }
     }
 
+    public List<FullAccommodationDTO> getMemberAccommodations(String memberEmail) {
+        Optional<Member> member = memberRepository.findByEmail(memberEmail);
+
+        if (member.isPresent()) {
+            Member memberEntity = member.get();
+            return memberEntity.getAccommodations()
+                    .stream()
+                    .map(accommodation -> new FullAccommodationDTO(
+                            accommodation.getId(),
+                            accommodation.getName(),
+                            accommodation.getDescription(),
+                            accommodation.getRoomNumber(),
+                            accommodation.getPricePerNight(),
+                            accommodation.getMaxGuests(),
+                            new LocationCityStateCountryDTO(
+                                    accommodation.getLocation().getCity(),
+                                    accommodation.getLocation().getState(),
+                                    accommodation.getLocation().getCountry())
+                    ))
+                    .toList();
+        } else {
+            throw new ResourceNotFoundException(String.format("Member with email %s not found", memberEmail));
+        }
+    }
+
     public Long saveMember(NewMemberDTO memberDTO) {
         if (memberRepository.existsByEmail(memberDTO.email())) {
             throw new EmailAlreadyExistsException(String.format(" %s already exists.", memberDTO.email()));

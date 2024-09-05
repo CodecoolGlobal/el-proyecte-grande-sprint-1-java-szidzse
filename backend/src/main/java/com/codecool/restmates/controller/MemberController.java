@@ -5,6 +5,7 @@ import com.codecool.restmates.exception.InvalidEmailPattern;
 import com.codecool.restmates.exception.InvalidPasswordPattern;
 import com.codecool.restmates.exception.UnauthorizedException;
 import com.codecool.restmates.model.dto.requests.member.NewMemberDTO;
+import com.codecool.restmates.model.dto.responses.FullAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.model.entity.Member;
 import com.codecool.restmates.model.entity.Role;
@@ -68,6 +69,10 @@ public class MemberController {
         return memberService.getMemberByEmail(memberEmail);
     }
 
+    @GetMapping(path = "/{memberEmail}/accommodations")
+    public List<FullAccommodationDTO> getMemberAccommodations(@PathVariable String memberEmail) {
+        return memberService.getMemberAccommodations(memberEmail);
+    }
 
     @PutMapping(path ="/{memberEmail}")
     public Long updateMember(@PathVariable String memberEmail, @RequestBody NewMemberDTO member) {
