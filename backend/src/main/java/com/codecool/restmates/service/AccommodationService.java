@@ -1,6 +1,7 @@
 package com.codecool.restmates.service;
 
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
+import com.codecool.restmates.model.dto.requests.UpdateAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.*;
 import com.codecool.restmates.exception.MemberNoRightsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
@@ -27,63 +28,6 @@ public class AccommodationService {
         List<Accommodation> accommodations = accommodationRepository.findAll();
 
         return accommodations.stream().map(this::convertToLessDetailedDTO).toList();
-    }
-
-    public List<FullAccommodationDTO> getMemberAccommodations(String memberEmail) {
-        Optional<Member> member = memberRepository.findByEmail(memberEmail);
-
-        if (member.isPresent()) {
-            Member memberEntity = member.get();
-            return memberEntity.getAccommodations()
-                    .stream()
-                    .map(accommodation -> new FullAccommodationDTO(
-                            accommodation.getId(),
-                            accommodation.getName(),
-                            accommodation.getDescription(),
-                            accommodation.getRoomNumber(),
-                            accommodation.getPricePerNight(),
-                            accommodation.getMaxGuests(),
-                            new LocationCityStateCountryDTO(
-                                    accommodation.getLocation().getCity(),
-                                    accommodation.getLocation().getState(),
-                                    accommodation.getLocation().getCountry())
-                    ))
-                    .toList();
-        } else {
-            throw new ResourceNotFoundException(String.format("Member with email %s not found", memberEmail));
-        }
-    }
-
-    public FullAccommodationDTO createAccommodation(String memberEmail, NewAccommodationDTO newAccommodationDTO) {
-        Member member = memberRepository.findByEmail(memberEmail)
-                .orElseThrow(() -> new ResourceNotFoundException("Member not found with email: " + memberEmail));
-
-        Location location = locationRepository.findById(newAccommodationDTO.locationId())
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + newAccommodationDTO.locationId()));
-
-        Accommodation accommodation = new Accommodation(
-                newAccommodationDTO.name(),
-                newAccommodationDTO.description(),
-                newAccommodationDTO.roomNumber(),
-                newAccommodationDTO.pricePerNight(),
-                newAccommodationDTO.maxGuests(),
-                location,
-                member
-        );
-
-        accommodationRepository.save(accommodation);
-        return new FullAccommodationDTO(
-                accommodation.getId(),
-                accommodation.getName(),
-                accommodation.getDescription(),
-                accommodation.getRoomNumber(),
-                accommodation.getPricePerNight(),
-                accommodation.getMaxGuests(),
-                new LocationCityStateCountryDTO(
-                        accommodation.getLocation().getCity(),
-                        accommodation.getLocation().getState(),
-                        accommodation.getLocation().getCountry())
-        );
     }
 
     public FullAccommodationWithLocationIdCityStateCountryDTO getAccommodationById(Long accommodationId) {
@@ -114,51 +58,55 @@ public class AccommodationService {
     }
 
 
-    public Long createAccommodation(NewAccommodationDTO newAccommodationDTO) {
-        Long ownerId = newAccommodationDTO.ownerId();
-        Long locationId = newAccommodationDTO.locationId();
+    public Long createAccommodation(NewAccommodationDTO newAccommodationDTO, String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
 
-        Member owner = memberRepository.findById(ownerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Owner not found with id: " + ownerId));
+        Long locationId = newAccommodationDTO.locationId();
 
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
 
-        Accommodation accommodation = new Accommodation();
-        accommodation.setName(newAccommodationDTO.name());
-        accommodation.setDescription(newAccommodationDTO.description());
-        accommodation.setRoomNumber(newAccommodationDTO.roomNumber());
-        accommodation.setPricePerNight(newAccommodationDTO.pricePerNight());
-        accommodation.setMaxGuests(newAccommodationDTO.maxGuests());
-        accommodation.setOwner(owner);
-        accommodation.setLocation(location);
 
-        accommodationRepository.save(accommodation);
-
-        return accommodation.getId();
+        if (member.isPresent()) {
+            Accommodation accommodation = new Accommodation();
+            accommodation.setName(newAccommodationDTO.name());
+            accommodation.setDescription(newAccommodationDTO.description());
+            accommodation.setRoomNumber(newAccommodationDTO.roomNumber());
+            accommodation.setPricePerNight(newAccommodationDTO.pricePerNight());
+            accommodation.setMaxGuests(newAccommodationDTO.maxGuests());
+            accommodation.setLocation(location);
+            accommodation.setOwner(member.get());
+            accommodationRepository.save(accommodation);
+            return accommodation.getId();
+        } else {
+            throw new ResourceNotFoundException(String.format("Member with email %s not found!", email));
+        }
     }
 
-    public Long updateAccommodation(Long accommodationId, NewAccommodationDTO updatedAccommodation) {
+    public Long updateAccommodation(Long accommodationId, UpdateAccommodationDTO updateAccommodationDTO, String email) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found with id: " + accommodationId));
 
-        accommodation.setName(updatedAccommodation.name());
-        accommodation.setDescription(updatedAccommodation.description());
-        accommodation.setRoomNumber(updatedAccommodation.roomNumber());
-        accommodation.setPricePerNight(updatedAccommodation.pricePerNight());
-        accommodation.setMaxGuests(updatedAccommodation.maxGuests());
+        Optional<Member> member = memberRepository.findByEmail(email);
 
-        Long ownerId = updatedAccommodation.ownerId();
-        Member owner = memberRepository.findById(ownerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Member not found with id: " + ownerId));
+        Long locationId = updateAccommodationDTO.locationId();
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
 
 
-        if (updatedAccommodation.ownerId() != owner.getId()) {
-            throw new MemberNoRightsException("Member no right to do this action!");
+        if (member.isPresent()) {
+            accommodation.setName(updateAccommodationDTO.name());
+            accommodation.setDescription(updateAccommodationDTO.description());
+            accommodation.setRoomNumber(updateAccommodationDTO.roomNumber());
+            accommodation.setPricePerNight(updateAccommodationDTO.pricePerNight());
+            accommodation.setMaxGuests(updateAccommodationDTO.maxGuests());
+            accommodation.setLocation(location);
+            accommodation.setOwner(member.get());
+            accommodationRepository.save(accommodation);
+            return accommodation.getId();
+        } else {
+            throw new ResourceNotFoundException(String.format("Member with email %s not found!", email));
         }
-
-        accommodationRepository.save(accommodation);
-        return accommodation.getId();
     }
 
     public Boolean deleteAccommodation(Long accommodationId) {

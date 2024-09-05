@@ -1,6 +1,7 @@
 package com.codecool.restmates.controller;
 
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
+import com.codecool.restmates.model.dto.requests.UpdateAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.FullAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.FullAccommodationWithLocationIdCityStateCountryDTO;
 import com.codecool.restmates.model.dto.responses.LessDetailedAccommodationDTO;
@@ -10,6 +11,7 @@ import com.codecool.restmates.service.ImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,29 +48,28 @@ public class AccommodationController {
         return accommodationService.getAllAccommodations();
     }
 
-    @GetMapping(path = "/{memberEmail}/accommodations")
-    public List<FullAccommodationDTO> getMemberAccommodations(@PathVariable String memberEmail) {
-        return accommodationService.getMemberAccommodations(memberEmail);
-    }
-
-    @PostMapping(path = "/{memberEmail}/accommodations")
-    public FullAccommodationDTO createAccommodation(@PathVariable String memberEmail, @RequestBody NewAccommodationDTO newAccommodationDTO) {
-        return accommodationService.createAccommodation(memberEmail, newAccommodationDTO);
-    }
-
     @GetMapping(path = "/{accommodationId}")
     public FullAccommodationWithLocationIdCityStateCountryDTO getAccommodationById(@PathVariable Long accommodationId) {
         return accommodationService.getAccommodationById(accommodationId);
     }
 
     @PostMapping(path = "")
-    public Long createAccommodation(@RequestBody NewAccommodationDTO newAccommodation) {
-        return accommodationService.createAccommodation(newAccommodation);
+    public Long createAccommodation(
+            @RequestBody NewAccommodationDTO newAccommodation,
+            Authentication authentication
+    ) {
+        String email = authentication.getName();
+        return accommodationService.createAccommodation(newAccommodation, email);
     }
 
     @PutMapping(path = "/{accommodationId}")
-    public Long updateAccommodation(@PathVariable Long accommodationId, @RequestBody NewAccommodationDTO newAccommodation) {
-        return accommodationService.updateAccommodation(accommodationId, newAccommodation);
+    public Long updateAccommodation(
+            @PathVariable Long accommodationId,
+            @RequestBody UpdateAccommodationDTO updateAccommodation,
+            Authentication authentication
+    ) {
+        String email = authentication.getName();
+        return accommodationService.updateAccommodation(accommodationId, updateAccommodation, email);
     }
 
     @DeleteMapping(path = "/{accommodationId}")
