@@ -2,10 +2,8 @@ package com.codecool.restmates.controller;
 
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
 import com.codecool.restmates.model.dto.requests.UpdateAccommodationDTO;
-import com.codecool.restmates.model.dto.responses.FullAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.FullAccommodationWithLocationIdCityStateCountryDTO;
 import com.codecool.restmates.model.dto.responses.LessDetailedAccommodationDTO;
-import com.codecool.restmates.model.entity.Accommodation;
 import com.codecool.restmates.service.AccommodationService;
 import com.codecool.restmates.service.ImageService;
 import lombok.AllArgsConstructor;
@@ -73,12 +71,16 @@ public class AccommodationController {
     }
 
     @DeleteMapping(path = "/{accommodationId}")
-    public Boolean deleteAccommodation(@PathVariable Long accommodationId) {
-        return accommodationService.deleteAccommodation(accommodationId);
+    public Boolean deleteAccommodation(
+            @PathVariable Long accommodationId,
+            Authentication authentication
+    ) {
+        String email = authentication.getName();
+        return accommodationService.deleteAccommodation(accommodationId, email);
     }
 
     @GetMapping("/search")
-    public List<LessDetailedAccommodationDTO> searchAccomodationByCountryAndCity(@RequestParam String query) {
+    public List<LessDetailedAccommodationDTO> searchAccommodationByCountryAndCity(@RequestParam String query) {
         return accommodationService.searchAccommodationByCityAndCountry(query);
     }
 

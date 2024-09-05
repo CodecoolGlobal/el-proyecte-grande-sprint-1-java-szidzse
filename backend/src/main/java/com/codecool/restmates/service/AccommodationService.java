@@ -109,12 +109,18 @@ public class AccommodationService {
         }
     }
 
-    public Boolean deleteAccommodation(Long accommodationId) {
-        if (accommodationRepository.existsById(accommodationId)) {
-            accommodationRepository.deleteById(accommodationId);
-            return true;
+    public Boolean deleteAccommodation(Long accommodationId, String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        if (member.isPresent()) {
+            if (accommodationRepository.existsById(accommodationId)) {
+                accommodationRepository.deleteById(accommodationId);
+                return true;
+            } else {
+                throw new ResourceNotFoundException("Accommodation not found with id: " + accommodationId);
+            }
         } else {
-            throw new ResourceNotFoundException("Accommodation not found with id: " + accommodationId);
+            throw new ResourceNotFoundException(String.format("Member with email %s not found!", email));
         }
     }
 
