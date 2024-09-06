@@ -12,13 +12,13 @@ export default function AccommodationCard({ accommodation }) {
   const navigate = useNavigate();
 
   const handleSeeDetailsClick = () => {
-    navigate(`/accommodation/${accommodation.accommodationId}`);
+    navigate(`/accommodation/${accommodation.id}`);
   };
 
   return (
     <Card className="max-w-sm mx-auto shadow-cardHover rounded-4xl">
       <div className="w-full h-48 rounded-t-4xl overflow-hidden">
-        <GalleryWithCarousel accommodationId={accommodation.accommodationId} />
+        <GalleryWithCarousel accommodationId={accommodation.id} />
       </div>
 
       <CardBody className="p-4">

@@ -1,7 +1,7 @@
 import React from 'react';
 import AccommodationCard from './AccommodationCard';
-import { InformationCircleIcon } from '@heroicons/react/24/outline'; // Heroicons v2 importálás
-import { Typography } from '@material-tailwind/react'; // Material Tailwind Typography importálása
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import { Typography } from '@material-tailwind/react';
 
 const AccommodationListDisplay = ({ accommodationList }) => {
   return (
