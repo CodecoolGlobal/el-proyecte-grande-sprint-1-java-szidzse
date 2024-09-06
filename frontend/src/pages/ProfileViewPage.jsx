@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import MemberProfile from "../components/forms/MemberProfilForm";
-import { useAuth } from "../components/auth/AuthProvider";
 
-const fetchMemberData = async (userEmail) => {
+const fetchUserData = async ( token) => {
   try {
-    const response = await fetch(`/api/member/${userEmail}`);
+    const response = await fetch('/api/member', {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Failed to fetch member data:", error);
@@ -19,17 +21,17 @@ const fetchMemberData = async (userEmail) => {
 
 const ProfilViewPage = () => {
   const [memberData, setMemberData] = useState(null);
-  const { userEmail } = useAuth();
+  const token = sessionStorage.getItem('accessToken')
 
   useEffect(() => {
-    if (userEmail) {
+    if (token) {
       const loadMemberData = async () => {
-        const data = await fetchMemberData(userEmail);
+        const data = await fetchUserData(token);
         setMemberData(data);
       };
       loadMemberData();
     }
-  }, [userEmail]);
+  }, [token]);
 
   return (
     <div>

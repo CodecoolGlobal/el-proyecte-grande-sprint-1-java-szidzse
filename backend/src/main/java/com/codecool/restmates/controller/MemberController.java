@@ -63,20 +63,22 @@ public class MemberController {
         this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping(path = "/{memberEmail}")
-    public MemberResponseDTO getMemberByEmail(@PathVariable String memberEmail) {
-        return memberService.getMemberByEmail(memberEmail);
+    @GetMapping()
+    public MemberResponseDTO getMemberProfile(Authentication authentication) {
+        String userEmail = authentication.getName();
+        return memberService.getMemberByEmail(userEmail);
     }
 
-
-    @PutMapping(path ="/{memberEmail}")
-    public Long updateMember(@PathVariable String memberEmail, @RequestBody NewMemberDTO member) {
-        return memberService.updateMember(memberEmail, member);
+    @PutMapping()
+    public Long updateMember(Authentication authentication, @RequestBody NewMemberDTO member) {
+        String userEmail = authentication.getName();
+        return memberService.updateMember(userEmail, member);
     }
 
-    @DeleteMapping(path ="/{memberEmail}")
-    public boolean deleteMember(@PathVariable String memberEmail) {
-        return memberService.deleteMember(memberEmail);
+    @DeleteMapping()
+    public boolean deleteMember(Authentication authentication) {
+        String userEmail = authentication.getName();
+        return memberService.deleteMember(userEmail);
     }
 
     @PostMapping("/register")

@@ -12,6 +12,8 @@ import com.codecool.restmates.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +27,10 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
         this.accommodationRepository = accommodationRepository;
         this.memberRepository = memberRepository;
+    }
+
+    private boolean isOverlapping(LocalDate newStartDate, LocalDate newEndDate, Reservation reservation) {
+        return newStartDate.isBefore(reservation.getEndDate()) && newEndDate.isAfter(reservation.getStartDate());
     }
 
     public ReservationDTO getReservationById(Long reservationId) {
@@ -49,16 +55,24 @@ public class ReservationService {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found with id: " + accommodationId));
 
-        Reservation reservation = new Reservation();
-        reservation.setStartDate(newReservation.startDate());
-        reservation.setEndDate(newReservation.endDate());
-        reservation.setAccommodation(accommodation);
-        reservation.setGuest(guest);
+        boolean overlappingReservation = accommodation.getReservations()
+                .stream()
+                .anyMatch(accommodationReservation ->
+                        isOverlapping(newReservation.startDate(), newReservation.endDate(), accommodationReservation));
 
-        reservationRepository.save(reservation);
-
-        return reservation.getId();
+        if (overlappingReservation) {
+            throw new RuntimeException("Reservation already exists for the selected dates.");
+        } else {
+            Reservation reservation = new Reservation();
+            reservation.setStartDate(newReservation.startDate());
+            reservation.setEndDate(newReservation.endDate());
+            reservation.setAccommodation(accommodation);
+            reservation.setGuest(guest);
+            reservationRepository.save(reservation);
+            return reservation.getId();
+        }
     }
+
 
     public Boolean deleteReservation(Long reservationId) {
         if (reservationRepository.existsById(reservationId)) {

@@ -26,6 +26,10 @@ export function ProfileDropdownMenu() {
     navigate("/");
   };
 
+  const handleNavigateReservation = () => {
+    navigate("/reservations")
+  }
+
   return (
     <Menu>
       <MenuHandler>
@@ -103,7 +107,7 @@ export function ProfileDropdownMenu() {
             Inbox
           </Typography>
         </MenuItem>
-        <MenuItem className="flex items-center gap-2">
+        <MenuItem className="flex items-center gap-2" onClick={handleNavigateReservation}>
           <svg
             width="16"
             height="16"
@@ -119,7 +123,7 @@ export function ProfileDropdownMenu() {
             />
           </svg>
           <Typography variant="small" className="font-medium">
-            Help
+            Reservations
           </Typography>
         </MenuItem>
         <hr className="my-2 border-blue-gray-50" />

@@ -3,12 +3,13 @@ import MemberProfileEdit from "../components/forms/MemberProfileEditForm";
 import { useAuth } from "../components/auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
-const fetchDeleteUser = async (userEmail) => {
+const fetchDeleteUser = async (token) => {
   try {
-    const response = await fetch(`/api/member/${userEmail}`, {
+    const response = await fetch('/api/member', {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
     if (!response.ok) {
@@ -21,9 +22,13 @@ const fetchDeleteUser = async (userEmail) => {
   }
 };
 
-const fetchUserData = async (userEmail) => {
+const fetchUserData = async ( token) => {
   try {
-    const response = await fetch(`/api/member/${userEmail}`);
+    const response = await fetch('/api/member', {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -35,12 +40,13 @@ const fetchUserData = async (userEmail) => {
   }
 };
 
-const fetchUpdateUser = async (userEmail, updatedUserData) => {
+const fetchUpdateUser = async (token, updatedUserData) => {
   try {
-    const response = await fetch(`/api/member/${userEmail}`, {
+    const response = await fetch('/api/member', {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify(updatedUserData),
     });
@@ -59,19 +65,20 @@ const ProfileEditPage = () => {
   const [userData, setUserData] = useState(null);
   const { userEmail, updateEmail, logout } = useAuth();
   const navigate = useNavigate();
+  const token = sessionStorage.getItem("accessToken");
 
   useEffect(() => {
-    if (userEmail) {
+    if (token) {
       const loadMemberData = async () => {
-        const data = await fetchUserData(userEmail);
+        const data = await fetchUserData(token);
         setUserData(data);
       };
       loadMemberData();
     }
-  }, [userEmail]);
+  }, [token]);
 
-  const handleUpdate = async (updatedUserData) => {
-    const data = await fetchUpdateUser(userEmail, updatedUserData);
+  const handleUpdate = async ( updatedUserData) => {
+    const data = await fetchUpdateUser(token, updatedUserData);
     setUserData(data);
     if (updatedUserData.email !== userEmail) {
       updateEmail(updatedUserData.email);
@@ -80,7 +87,7 @@ const ProfileEditPage = () => {
   };
 
   const handleDelete = async () => {
-    const success = await fetchDeleteUser(userEmail);
+    const success = await fetchDeleteUser(token);
     if (success) {
       logout();
       navigate("/");

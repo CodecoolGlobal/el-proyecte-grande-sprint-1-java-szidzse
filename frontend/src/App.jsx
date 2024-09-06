@@ -8,6 +8,7 @@ import ProfileViewPage from "./pages/ProfileViewPage.jsx";
 import ProfileEditPage from "./pages/ProfileEditPage.jsx";
 import AccommodationDetails from "./components/accommodations/AccommodationDetails.jsx";
 import CountrySearchInput from "./components/accommodations/SearchAccommodationInput.jsx";
+import ReservationPage from './pages/ReservationPage.jsx'
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/profile" element={<ProfileViewPage />} />
           <Route path="/profileEdit" element={<ProfileEditPage />} />
           <Route path="/search" element={<CountrySearchInput />} />
+          <Route path="reservations" element={<ReservationPage />} />
         </Routes>
       </main>
       <Footer />
