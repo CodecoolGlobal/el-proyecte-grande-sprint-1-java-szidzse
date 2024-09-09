@@ -15,6 +15,9 @@ const LocationMap = ({ locationId }) => {
 		googleMapsApiKey: apiKey,
 	});
 
+	console.log(locationId);
+	
+
 	useEffect(() => {
 		const fetchLocation = async () => {
 			try {
