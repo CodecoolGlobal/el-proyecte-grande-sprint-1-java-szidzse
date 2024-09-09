@@ -2,6 +2,7 @@ package com.codecool.restmates.controller;
 
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
 import com.codecool.restmates.model.dto.requests.UpdateAccommodationDTO;
+import com.codecool.restmates.model.dto.responses.AccommodationDTO;
 import com.codecool.restmates.model.dto.responses.FullAccommodationWithLocationIdCityStateCountryDTO;
 import com.codecool.restmates.model.dto.responses.LessDetailedAccommodationDTO;
 import com.codecool.restmates.service.AccommodationService;
@@ -47,7 +48,7 @@ public class AccommodationController {
     }
 
     @GetMapping(path = "/{accommodationId}")
-    public FullAccommodationWithLocationIdCityStateCountryDTO getAccommodationById(@PathVariable Long accommodationId) {
+    public AccommodationDTO getAccommodationById(@PathVariable Long accommodationId) {
         return accommodationService.getAccommodationById(accommodationId);
     }
 

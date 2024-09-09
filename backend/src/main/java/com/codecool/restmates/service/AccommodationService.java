@@ -1,5 +1,6 @@
 package com.codecool.restmates.service;
 
+import com.codecool.restmates.model.dto.requests.LocationDTO;
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
 import com.codecool.restmates.model.dto.requests.UpdateAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.*;
@@ -30,13 +31,13 @@ public class AccommodationService {
         return accommodations.stream().map(this::convertToLessDetailedDTO).toList();
     }
 
-    public FullAccommodationWithLocationIdCityStateCountryDTO getAccommodationById(Long accommodationId) {
+    public AccommodationDTO getAccommodationById(Long accommodationId) {
         Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
 
         if (accommodation.isPresent()) {
             Accommodation accommodationEntity = accommodation.get();
 
-            return convertToFullAccommodationWithLocationIdCityStateCountryDTO(accommodationEntity);
+            return convertToAccommodationDTO(accommodationEntity);
         } else {
             throw new ResourceNotFoundException(String.format("Accommodation with id %s not found!", accommodationId));
         }
@@ -200,6 +201,25 @@ public class AccommodationService {
                 accommodation.getPricePerNight(),
                 accommodation.getMaxGuests(),
                 locationDTO
+        );
+    }
+
+    private AccommodationDTO convertToAccommodationDTO(Accommodation accommodation) {
+        LocationDTO location = new LocationDTO(
+                accommodation.getLocation().getStreet(),
+                accommodation.getLocation().getCity(),
+                accommodation.getLocation().getState(),
+                accommodation.getLocation().getCountry(),
+                accommodation.getLocation().getZipCode()
+        );
+
+        return new AccommodationDTO(
+                accommodation.getName(),
+                accommodation.getDescription(),
+                accommodation.getRoomNumber(),
+                accommodation.getPricePerNight(),
+                accommodation.getMaxGuests(),
+                location
         );
     }
 }

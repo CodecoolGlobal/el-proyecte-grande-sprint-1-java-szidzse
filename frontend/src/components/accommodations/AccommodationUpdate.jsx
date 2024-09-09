@@ -1,6 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Input, Textarea } from "@material-tailwind/react";
+
+const fetchAccommodationData = async (accommodationId, token) => {
+	const response = await fetch(`/api/accommodation/${accommodationId}`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+
+	if (!response.ok) {
+		throw new Error("Failed to fetch accommodation data.");
+	}
+
+	const data = await response.json();
+	return data;
+};
 
 export default function AccommodationUpdate() {
 	const { accommodationId } = useParams();
@@ -20,6 +35,33 @@ export default function AccommodationUpdate() {
 		},
 	});
 	const token = sessionStorage.getItem("accessToken");
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const data = await fetchAccommodationData(accommodationId, token);
+
+				setFormData({
+					name: data.name,
+					description: data.description,
+					roomNumber: data.roomNumber,
+					pricePerNight: data.pricePerNight,
+					maxGuests: data.maxGuests,
+					location: {
+						street: data.location.street,
+						city: data.location.city,
+						state: data.location.state,
+						country: data.location.country,
+						zipCode: data.location.zipCode,
+					},
+				});
+			} catch (error) {
+				console.error("Error fetching accommodation data: ", error);
+			}
+		};
+
+		fetchData();
+	}, [accommodationId, token]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
