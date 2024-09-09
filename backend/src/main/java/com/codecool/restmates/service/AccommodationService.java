@@ -1,10 +1,8 @@
 package com.codecool.restmates.service;
 
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
-import com.codecool.restmates.model.dto.requests.NewLocationDTO;
 import com.codecool.restmates.model.dto.requests.UpdateAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.*;
-import com.codecool.restmates.exception.MemberNoRightsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.entity.Accommodation;
 import com.codecool.restmates.model.entity.Location;
@@ -80,7 +78,7 @@ public class AccommodationService {
         Optional<Member> member = memberRepository.findByEmail(email);
 
         if (member.isPresent()) {
-            Location location = new Location(
+            Location createdLocation = new Location(
                     newAccommodation.location().street(),
                     newAccommodation.location().city(),
                     newAccommodation.location().state(),
@@ -88,7 +86,7 @@ public class AccommodationService {
                     newAccommodation.location().zipCode()
             );
 
-            locationRepository.save(location);
+            locationRepository.save(createdLocation);
 
             Accommodation accommodation = new Accommodation();
             accommodation.setName(newAccommodation.name());
@@ -96,7 +94,7 @@ public class AccommodationService {
             accommodation.setRoomNumber(newAccommodation.roomNumber());
             accommodation.setPricePerNight(newAccommodation.pricePerNight());
             accommodation.setMaxGuests(newAccommodation.maxGuests());
-            accommodation.setLocation(location);
+            accommodation.setLocation(createdLocation);
             accommodation.setOwner(member.get());
 
             accommodationRepository.save(accommodation);
@@ -107,30 +105,34 @@ public class AccommodationService {
         }
     }
 
-    public Long updateAccommodation(Long accommodationId, UpdateAccommodationDTO updateAccommodationDTO, String email) {
+    public Long updateAccommodation(Long accommodationId, UpdateAccommodationDTO updateAccommodation, String email) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found with id: " + accommodationId));
 
-        Optional<Member> member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Member with email %s not found!", email)));
 
-        Long locationId = updateAccommodationDTO.locationId();
-        Location location = locationRepository.findById(locationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
+        Location updatedLocation = new Location(
+                updateAccommodation.location().street(),
+                updateAccommodation.location().city(),
+                updateAccommodation.location().state(),
+                updateAccommodation.location().country(),
+                updateAccommodation.location().zipCode()
+        );
 
+        locationRepository.save(updatedLocation);
 
-        if (member.isPresent()) {
-            accommodation.setName(updateAccommodationDTO.name());
-            accommodation.setDescription(updateAccommodationDTO.description());
-            accommodation.setRoomNumber(updateAccommodationDTO.roomNumber());
-            accommodation.setPricePerNight(updateAccommodationDTO.pricePerNight());
-            accommodation.setMaxGuests(updateAccommodationDTO.maxGuests());
-            accommodation.setLocation(location);
-            accommodation.setOwner(member.get());
-            accommodationRepository.save(accommodation);
-            return accommodation.getId();
-        } else {
-            throw new ResourceNotFoundException(String.format("Member with email %s not found!", email));
-        }
+        accommodation.setName(updateAccommodation.name());
+        accommodation.setDescription(updateAccommodation.description());
+        accommodation.setRoomNumber(updateAccommodation.roomNumber());
+        accommodation.setPricePerNight(updateAccommodation.pricePerNight());
+        accommodation.setMaxGuests(updateAccommodation.maxGuests());
+        accommodation.setLocation(updatedLocation);
+        accommodation.setOwner(member);
+
+        accommodationRepository.save(accommodation);
+
+        return accommodation.getId();
     }
 
     public Boolean deleteAccommodation(Long accommodationId, String email) {
