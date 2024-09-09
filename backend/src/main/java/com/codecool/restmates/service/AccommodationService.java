@@ -32,15 +32,28 @@ public class AccommodationService {
     }
 
     public AccommodationDTO getAccommodationById(Long accommodationId) {
-        Optional<Accommodation> accommodation = accommodationRepository.findById(accommodationId);
+        Accommodation accommodation = accommodationRepository.findById(accommodationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Accommodation not found"));
 
-        if (accommodation.isPresent()) {
-            Accommodation accommodationEntity = accommodation.get();
+        Location location = accommodation.getLocation();
 
-            return convertToAccommodationDTO(accommodationEntity);
-        } else {
-            throw new ResourceNotFoundException(String.format("Accommodation with id %s not found!", accommodationId));
-        }
+        LocationDTO locationDTO = new LocationDTO(
+                location.getId(),
+                location.getStreet(),
+                location.getCity(),
+                location.getState(),
+                location.getCountry(),
+                location.getZipCode()
+        );
+
+        return new AccommodationDTO(
+                accommodation.getName(),
+                accommodation.getDescription(),
+                accommodation.getRoomNumber(),
+                accommodation.getPricePerNight(),
+                accommodation.getMaxGuests(),
+                locationDTO
+        );
     }
 
     public List<LessDetailedAccommodationDTO> searchAccommodationByCityAndCountry(String query) {
@@ -164,62 +177,6 @@ public class AccommodationService {
                 accommodation.getDescription(),
                 accommodation.getPricePerNight(),
                 locationDTO
-        );
-    }
-
-    private FullAccommodationDTO convertToFullDTO(Accommodation accommodation) {
-        LocationCityStateCountryDTO locationDTO = new LocationCityStateCountryDTO(
-                accommodation.getLocation().getCity(),
-                accommodation.getLocation().getState(),
-                accommodation.getLocation().getCountry()
-        );
-
-        return new FullAccommodationDTO(
-                accommodation.getId(),
-                accommodation.getName(),
-                accommodation.getDescription(),
-                accommodation.getRoomNumber(),
-                accommodation.getPricePerNight(),
-                accommodation.getMaxGuests(),
-                locationDTO
-        );
-    }
-
-    private FullAccommodationWithLocationIdCityStateCountryDTO convertToFullAccommodationWithLocationIdCityStateCountryDTO(Accommodation accommodation) {
-        LocationIdCityStateCountryDTO locationDTO = new LocationIdCityStateCountryDTO(
-                accommodation.getLocation().getId(),
-                accommodation.getLocation().getCity(),
-                accommodation.getLocation().getState(),
-                accommodation.getLocation().getCountry()
-        );
-
-        return new FullAccommodationWithLocationIdCityStateCountryDTO(
-                accommodation.getId(),
-                accommodation.getName(),
-                accommodation.getDescription(),
-                accommodation.getRoomNumber(),
-                accommodation.getPricePerNight(),
-                accommodation.getMaxGuests(),
-                locationDTO
-        );
-    }
-
-    private AccommodationDTO convertToAccommodationDTO(Accommodation accommodation) {
-        LocationDTO location = new LocationDTO(
-                accommodation.getLocation().getStreet(),
-                accommodation.getLocation().getCity(),
-                accommodation.getLocation().getState(),
-                accommodation.getLocation().getCountry(),
-                accommodation.getLocation().getZipCode()
-        );
-
-        return new AccommodationDTO(
-                accommodation.getName(),
-                accommodation.getDescription(),
-                accommodation.getRoomNumber(),
-                accommodation.getPricePerNight(),
-                accommodation.getMaxGuests(),
-                location
         );
     }
 }
