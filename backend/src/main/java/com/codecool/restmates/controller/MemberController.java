@@ -12,7 +12,6 @@ import com.codecool.restmates.model.entity.RoleType;
 import com.codecool.restmates.model.payload.JwtResponse;
 import com.codecool.restmates.model.payload.LoginRequest;
 import com.codecool.restmates.model.payload.RegisterRequest;
-import com.codecool.restmates.repository.MemberRepository;
 import com.codecool.restmates.repository.RoleRepository;
 import com.codecool.restmates.security.jwt.JwtUtils;
 import com.codecool.restmates.service.MemberService;
@@ -40,7 +39,6 @@ import java.util.Set;
 @RequestMapping(path = "/api/member")
 public class MemberController {
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -50,38 +48,39 @@ public class MemberController {
     @Autowired
     public MemberController(
             MemberService memberService,
-            MemberRepository memberRepository,
             RoleRepository roleRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
             JwtUtils jwtUtils) {
         this.memberService = memberService;
-        this.memberRepository = memberRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping(path = "/{memberEmail}")
-    public MemberResponseDTO getMemberByEmail(@PathVariable String memberEmail) {
-        return memberService.getMemberByEmail(memberEmail);
+    @GetMapping(path = "")
+    public MemberResponseDTO getMemberProfile(Authentication authentication) {
+        String userEmail = authentication.getName();
+        return memberService.getMemberByEmail(userEmail);
     }
 
 
-    @PutMapping(path ="/{memberEmail}")
-    public Long updateMember(@PathVariable String memberEmail, @RequestBody NewMemberDTO member) {
-        return memberService.updateMember(memberEmail, member);
+    @PutMapping(path = "")
+    public Long updateMember(Authentication authentication, @RequestBody NewMemberDTO member) {
+        String userEmail = authentication.getName();
+        return memberService.updateMember(userEmail, member);
     }
 
-    @DeleteMapping(path ="/{memberEmail}")
-    public boolean deleteMember(@PathVariable String memberEmail) {
-        return memberService.deleteMember(memberEmail);
+    @DeleteMapping(path = "")
+    public boolean deleteMember(Authentication authentication) {
+        String userEmail = authentication.getName();
+        return memberService.deleteMember(userEmail);
     }
 
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody RegisterRequest registerRequest) {
-        if (memberRepository.existsByEmail(registerRequest.getEmail())) {
+        if (memberService.existsEmail(registerRequest.getEmail())) {
             throw new EmailAlreadyExistsException("E-mail already exists: " + registerRequest.getEmail());
         }
 
@@ -113,7 +112,7 @@ public class MemberController {
             member.setRoles(Set.of(defaultRole));
         }
 
-        memberRepository.save(member);
+        memberService.saveMember(new NewMemberDTO(member.getFirstName(), member.getLastName(), member.getPhoneNumber(), member.getEmail(), member.getPassword()));
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

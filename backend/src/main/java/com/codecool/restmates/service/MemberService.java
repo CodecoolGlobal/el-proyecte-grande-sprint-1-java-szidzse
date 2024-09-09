@@ -78,7 +78,7 @@ public class MemberService {
         throw new ResourceNotFoundException(String.format(" %s does not exist.", memberEmail));
     }
 
-    private Boolean existsEmail(String email) {
+    public Boolean existsEmail(String email) {
         return memberRepository.existsByEmail(email);
     };
 
