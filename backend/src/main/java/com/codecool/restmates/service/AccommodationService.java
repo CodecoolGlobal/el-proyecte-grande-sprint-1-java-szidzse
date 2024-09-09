@@ -1,6 +1,7 @@
 package com.codecool.restmates.service;
 
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
+import com.codecool.restmates.model.dto.requests.NewLocationDTO;
 import com.codecool.restmates.model.dto.requests.UpdateAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.*;
 import com.codecool.restmates.exception.MemberNoRightsException;
@@ -75,25 +76,31 @@ public class AccommodationService {
     }
 
 
-    public Long createAccommodation(NewAccommodationDTO newAccommodationDTO, String email) {
+    public Long createAccommodation(NewAccommodationDTO newAccommodation, String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
 
-        Long locationId = newAccommodationDTO.locationId();
-
-        Location location = locationRepository.findById(locationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
-
-
         if (member.isPresent()) {
+            Location location = new Location(
+                    newAccommodation.location().street(),
+                    newAccommodation.location().city(),
+                    newAccommodation.location().state(),
+                    newAccommodation.location().country(),
+                    newAccommodation.location().zipCode()
+            );
+
+            locationRepository.save(location);
+
             Accommodation accommodation = new Accommodation();
-            accommodation.setName(newAccommodationDTO.name());
-            accommodation.setDescription(newAccommodationDTO.description());
-            accommodation.setRoomNumber(newAccommodationDTO.roomNumber());
-            accommodation.setPricePerNight(newAccommodationDTO.pricePerNight());
-            accommodation.setMaxGuests(newAccommodationDTO.maxGuests());
+            accommodation.setName(newAccommodation.name());
+            accommodation.setDescription(newAccommodation.description());
+            accommodation.setRoomNumber(newAccommodation.roomNumber());
+            accommodation.setPricePerNight(newAccommodation.pricePerNight());
+            accommodation.setMaxGuests(newAccommodation.maxGuests());
             accommodation.setLocation(location);
             accommodation.setOwner(member.get());
+
             accommodationRepository.save(accommodation);
+
             return accommodation.getId();
         } else {
             throw new ResourceNotFoundException(String.format("Member with email %s not found!", email));
