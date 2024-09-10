@@ -107,4 +107,8 @@ public class MemberService {
             throw new ResourceNotFoundException("Email or password is incorrect.");
         }
     }
+
+    public List<Member> getAllMembers() {
+        return memberRepository.findAll();
+    }
 }

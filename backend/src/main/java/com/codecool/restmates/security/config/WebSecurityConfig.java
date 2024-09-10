@@ -70,6 +70,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.POST,"/api/member/register").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/member/login").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/location/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/member/all").permitAll()
                                 .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
 

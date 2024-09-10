@@ -60,6 +60,11 @@ public class MemberController {
         this.jwtUtils = jwtUtils;
     }
 
+    @GetMapping("/all")
+    public List<Member> getAllMembers() {
+        return memberService.getAllMembers();
+    }
+
     @GetMapping(path = "")
     public MemberResponseDTO getMemberProfile(Authentication authentication) {
         String userEmail = authentication.getName();
