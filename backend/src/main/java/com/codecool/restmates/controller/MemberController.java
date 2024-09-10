@@ -112,7 +112,7 @@ public class MemberController {
             member.setRoles(Set.of(defaultRole));
         }
 
-        memberService.saveMember(new NewMemberDTO(member.getFirstName(), member.getLastName(), member.getPhoneNumber(), member.getEmail(), member.getPassword()));
+        memberService.saveMember(new NewMemberDTO(member.getFirstName(), member.getLastName(), member.getEmail(), member.getPassword(), member.getPhoneNumber()));
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

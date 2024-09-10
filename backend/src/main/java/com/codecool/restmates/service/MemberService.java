@@ -8,21 +8,27 @@ import com.codecool.restmates.model.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.entity.Member;
+import com.codecool.restmates.model.entity.Role;
+import com.codecool.restmates.model.entity.RoleType;
 import com.codecool.restmates.repository.MemberRepository;
+import com.codecool.restmates.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, RoleRepository roleRepository) {
         this.memberRepository = memberRepository;
+        this.roleRepository = roleRepository;
     }
 
     public MemberResponseDTO getMemberByEmail(String memberEmail) {
@@ -52,7 +58,18 @@ public class MemberService {
         if (memberRepository.existsByEmail(memberDTO.email())) {
             throw new EmailAlreadyExistsException(String.format(" %s already exists.", memberDTO.email()));
         }
-        Member memberEntity = new Member(memberDTO.firstName(),memberDTO.lastName(), memberDTO.email(), memberDTO.phoneNumber(), memberDTO.password());
+        Member memberEntity = new Member(memberDTO.firstName(),memberDTO.lastName(), memberDTO.phoneNumber(), memberDTO.email(), memberDTO.password());
+
+        Optional<Role> defaultRoleType = roleRepository.findByRoleType(RoleType.ROLE_USER);
+
+        if (defaultRoleType.isPresent()) {
+            memberEntity.setRoles(Set.of(defaultRoleType.get()));
+        } else {
+            Role defaultRole = new Role(RoleType.ROLE_USER);
+            roleRepository.save(defaultRole);
+            memberEntity.setRoles(Set.of(defaultRole));
+        }
+
         memberRepository.save(memberEntity);
         return memberEntity.getId();
     }
