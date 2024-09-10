@@ -1,7 +1,7 @@
 package com.codecool.restmates.controller;
 
-import com.codecool.restmates.model.dto.requests.NewLocationDTO;
-import com.codecool.restmates.model.dto.responses.LocationDTO;
+import com.codecool.restmates.model.dto.requests.LocationDTO;
+import com.codecool.restmates.model.dto.responses.LocationResponseDTO;
 import com.codecool.restmates.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +17,17 @@ public class LocationController {
     }
 
     @GetMapping(path = "/{locationId}")
-    public LocationDTO getLocationById(@PathVariable Long locationId) {
+    public LocationResponseDTO getLocationById(@PathVariable Long locationId) {
         return locationService.getLocationById(locationId);
     }
 
     @PostMapping(path = "")
-    public Long createLocation(@RequestBody NewLocationDTO newLocation) {
+    public Long createLocation(@RequestBody LocationDTO newLocation) {
         return locationService.createLocation(newLocation);
     }
 
     @PutMapping(path = "/{locationId}")
-    public Long updateLocation(@PathVariable Long locationId, @RequestBody NewLocationDTO newLocation) {
+    public Long updateLocation(@PathVariable Long locationId, @RequestBody LocationDTO newLocation) {
         return locationService.updateLocation(locationId, newLocation);
     }
 

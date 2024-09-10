@@ -39,7 +39,8 @@ export function NavigationBar() {
         ) : (
           <>
             <div className="hidden lg:block">
-              <NavigationBarList />
+              <span></span>
+              {/* <NavigationBarList /> */}
             </div>
             <div className="flex items-center gap-x-1">
               <Button

@@ -1,7 +1,7 @@
 package com.codecool.restmates.service;
 
-import com.codecool.restmates.model.dto.requests.NewLocationDTO;
-import com.codecool.restmates.model.dto.responses.LocationDTO;
+import com.codecool.restmates.model.dto.requests.LocationDTO;
+import com.codecool.restmates.model.dto.responses.LocationResponseDTO;
 import com.codecool.restmates.exception.ResourceNotFoundException;
 import com.codecool.restmates.model.entity.Location;
 import com.codecool.restmates.repository.LocationRepository;
@@ -19,7 +19,7 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public LocationDTO getLocationById(Long locationId) {
+    public LocationResponseDTO getLocationById(Long locationId) {
         Optional<Location> location = locationRepository.findById(locationId);
 
         if (location.isPresent()) {
@@ -31,7 +31,7 @@ public class LocationService {
         }
     }
 
-    public Long createLocation(NewLocationDTO newLocation) {
+    public Long createLocation(LocationDTO newLocation) {
         Location location = new Location();
 
         location.setStreet(newLocation.street());
@@ -45,7 +45,7 @@ public class LocationService {
         return location.getId();
     }
 
-    public Long updateLocation(Long locationId, NewLocationDTO newLocation) {
+    public Long updateLocation(Long locationId, LocationDTO newLocation) {
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + locationId));
 
@@ -68,8 +68,8 @@ public class LocationService {
         }
     }
 
-    private LocationDTO convertToDTO(Location location) {
-        return new LocationDTO(
+    private LocationResponseDTO convertToDTO(Location location) {
+        return new LocationResponseDTO(
                 location.getStreet(),
                 location.getCity(),
                 location.getState(),

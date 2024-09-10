@@ -20,12 +20,12 @@ const RegisterPage = () => {
         navigate("/");
     };
 
-    const handleLogin = () => {
+    const handleNavigateLogin = () => {
         navigate("/login");
     };
 
     return (
-        <RegisterForm onSave={handleCreateMember} onLogin={handleLogin} />
+        <RegisterForm onSave={handleCreateMember} onLogin={handleNavigateLogin} />
     );
 };
 

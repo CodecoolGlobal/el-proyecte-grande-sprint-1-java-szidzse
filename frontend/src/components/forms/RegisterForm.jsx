@@ -1,151 +1,120 @@
-import {
-  Card,
-  Input,
-  Checkbox,
-  Button,
-  Typography,
-} from "@material-tailwind/react";
+import { Card, Input, Checkbox, Button, Typography } from "@material-tailwind/react";
 import { useState } from "react";
+import { PasswordInput } from "../PasswordInput";
+import { EmailInput } from "../EmailInput";
 
-export function RegisterForm({ onSave }) {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-  });
+export function RegisterForm({ onSave, onLogin }) {
+	const [formData, setFormData] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		phoneNumber: "",
+		password: "",
+	});
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+	const handleChange = (e) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+	const onSubmit = (e) => {
+		e.preventDefault();
 
-    return onSave(formData);
-  };
+		return onSave(formData);
+	};
 
-  return (
-    <Card color="transparent" shadow={false}>
-      <Typography variant="h4" color="blue-gray">
-        Sign Up
-      </Typography>
-      <Typography color="gray" className="mt-1 font-normal">
-        Nice to meet you! Enter your details to register.
-      </Typography>
-      <form
-        onSubmit={onSubmit}
-        className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-      >
-        <div className="mb-1 flex flex-col gap-6">
-          <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Your First Name
-          </Typography>
-          <Input
-            size="lg"
-            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-            labelProps={{
-              className: "before:content-none after:content-none",
-            }}
-            placeholder="Your first name..."
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-          />
+	return (
+		<Card
+			color="transparent"
+			shadow={false}
+			className="mt-16 mx-auto max-w-lg p-8 bg-white shadow-lg rounded-lg"
+		>
+			<Typography variant="h4" color="black" className="text-center">
+				Sign Up
+			</Typography>
+			<Typography color="gray" className="mt-1 font-normal text-center">
+				Welcome! Enter your details to register.
+			</Typography>
+			<form onSubmit={onSubmit} className="mt-8 mb-2 w-full">
+				<div className="mb-4 flex flex-col gap-6">
+					<Input
+						size="lg"
+						required
+						label="First Name"
+						placeholder="Your first name..."
+						name="firstName"
+						value={formData.firstName}
+						onChange={handleChange}
+						className="border-gray-200 focus:border-gray-900"
+					/>
 
-          <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Your Last Name
-          </Typography>
-          <Input
-            size="lg"
-            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-            labelProps={{
-              className: "before:content-none after:content-none",
-            }}
-            placeholder="Your last name..."
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
+					<Input
+						size="lg"
+						required
+						label="Last Name"
+						placeholder="Your last name..."
+						name="lastName"
+						value={formData.lastName}
+						onChange={handleChange}
+						className="border-gray-200 focus:border-gray-900"
+					/>
 
-          <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Your Email
-          </Typography>
-          <Input
-            size="lg"
-            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-            labelProps={{
-              className: "before:content-none after:content-none",
-            }}
-            placeholder="name@mail.com"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
+					<Input
+						required
+						size="lg"
+						label="E-mail"
+						placeholder="name@mail.com"
+						name="email"
+						value={formData.email}
+						onChange={handleChange}
+						className="border-gray-200 focus:border-gray-900"
+					/>
 
-          <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Your Phone Number
-          </Typography>
-          <Input
-            type="tel"
-            pattern="\+36\s[0-9]{2}\s[0-9]{3}\s[0-9]{4}"
-            required
-            size="lg"
-            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-            labelProps={{
-              className: "before:content-none after:content-none",
-            }}
-            placeholder="+36 12 345 6789"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-          />
+					<Input
+						type="tel"
+						pattern="\+36\s[0-9]{2}\s[0-9]{3}\s[0-9]{4}"
+						required
+						size="lg"
+						label="Phone Number"
+						placeholder="+36 12 345 6789"
+						name="phoneNumber"
+						value={formData.phoneNumber}
+						onChange={handleChange}
+						className="border-gray-200 focus:border-gray-900"
+					/>
 
-          <Typography variant="h6" color="blue-gray" className="-mb-3">
-            Password
-          </Typography>
-          <Input
-            type="password"
-            size="lg"
-            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-            labelProps={{
-              className: "before:content-none after:content-none",
-            }}
-            placeholder="**********"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </div>
-        <Checkbox
-          label={
-            <Typography
-              variant="small"
-              color="gray"
-              className="flex items-center font-normal"
-            >
-              I agree the
-              <a
-                href="#"
-                className="font-medium transition-colors hover:text-gray-900"
-              >
-                &nbsp;Terms and Conditions
-              </a>
-            </Typography>
-          }
-          containerProps={{ className: "-ml-2.5" }}
-        />
-        <Button className="mt-6" fullWidth type="submit">
-          Sign Up
-        </Button>
-        <Typography color="gray" className="mt-4 text-center font-normal">
-          Already have an account?{" "}
-          <a href="#" className="font-medium text-gray-900">
-            Sign In
-          </a>
-        </Typography>
-      </form>
-    </Card>
-  );
+					<Input
+						type="password"
+						required
+						size="lg"
+						label="Password"
+						placeholder="**********"
+						name="password"
+						value={formData.password}
+						onChange={handleChange}
+						className="border-gray-200 focus:border-gray-900"
+					/>
+				</div>
+				{/* <Checkbox
+					label={
+						<Typography variant="small" color="gray" className="flex items-center font-normal">
+							I agree to the
+							<a href="#" className="font-medium transition-colors hover:text-black">
+								&nbsp;Terms and Conditions
+							</a>
+						</Typography>
+					}
+					containerProps={{ className: "-ml-2.5" }}
+				/> */}
+				<Button className="mt-6 bg-black text-white hover:bg-gray-900" fullWidth type="submit">
+					Sign Up
+				</Button>
+				<Typography color="gray" className="mt-4 text-center font-normal">
+					Already have an account?{" "}
+					<a href="#" className="font-medium text-black" onClick={onLogin}>
+						Sign In
+					</a>
+				</Typography>
+			</form>
+		</Card>
+	);
 }

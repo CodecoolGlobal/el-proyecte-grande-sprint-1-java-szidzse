@@ -9,4 +9,5 @@ import java.util.List;
 
 @Repository
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
-    List<Accommodation> findByLocationCityStartingWithIgnoreCaseOrLocationCountryStartingWithIgnoreCase(String cityPrefix, String countryPrefix);}
+    List<Accommodation> findByLocationCityStartingWithIgnoreCaseOrLocationCountryStartingWithIgnoreCase(String cityPrefix, String countryPrefix);
+}

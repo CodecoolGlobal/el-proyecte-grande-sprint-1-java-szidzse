@@ -13,7 +13,7 @@ const LocationMap = ({ locationId }) => {
 
 	const { isLoaded, loadError } = useLoadScript({
 		googleMapsApiKey: apiKey,
-	});
+	});	
 
 	useEffect(() => {
 		const fetchLocation = async () => {

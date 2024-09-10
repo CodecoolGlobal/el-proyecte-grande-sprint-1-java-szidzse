@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FeaturedImageGallery } from "../FeauturedImageGallery.jsx";
-import { Card, CardBody, Typography, Button } from "@material-tailwind/react";
 import LocationMap from "../map/LocationMap.jsx";
 
 export default function AccommodationDetails() {
