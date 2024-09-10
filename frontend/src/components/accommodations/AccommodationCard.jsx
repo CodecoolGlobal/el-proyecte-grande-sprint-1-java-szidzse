@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 export default function AccommodationCard({ accommodation }) {
 	const navigate = useNavigate();
 
-	const handleSeeDetailsClick = () => {
-		navigate(`/accommodation/${accommodation.id}`);
-	};
+  const handleSeeDetailsClick = () => {
+    navigate(`/accommodation/${accommodation.id}`);
+  };
 
-	return (
-		<Card className="max-w-sm mx-auto shadow-cardHover rounded-4xl">
-			<div className="w-full h-48 rounded-t-4xl overflow-hidden">
-				<GalleryWithCarousel accommodationId={accommodation.id} />
-			</div>
+  return (
+    <Card className="max-w-sm mx-auto shadow-cardHover rounded-4xl">
+      <div className="w-full h-48 rounded-t-4xl overflow-hidden">
+        <GalleryWithCarousel accommodationId={accommodation.id} />
+      </div>
 
 			<CardBody className="p-4">
 				<div className="mb-2">
