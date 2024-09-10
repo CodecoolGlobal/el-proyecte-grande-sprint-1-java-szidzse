@@ -3,7 +3,7 @@ import { useState } from "react";
 import { PasswordInput } from "../PasswordInput";
 import { EmailInput } from "../EmailInput";
 
-export function RegisterForm({ onSave }) {
+export function RegisterForm({ onSave, onLogin }) {
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
@@ -110,7 +110,7 @@ export function RegisterForm({ onSave }) {
 				</Button>
 				<Typography color="gray" className="mt-4 text-center font-normal">
 					Already have an account?{" "}
-					<a href="#" className="font-medium text-black">
+					<a href="#" className="font-medium text-black" onClick={onLogin}>
 						Sign In
 					</a>
 				</Typography>
