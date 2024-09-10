@@ -1,25 +1,26 @@
--- Insert roles
-INSERT INTO role (role_type) VALUES ('USER'), ('ADMIN');
+-- Töröld a meglévő adatokat
+TRUNCATE TABLE location RESTART IDENTITY CASCADE;
+TRUNCATE TABLE accommodation RESTART IDENTITY CASCADE;
+TRUNCATE TABLE role RESTART IDENTITY CASCADE;
+TRUNCATE TABLE member RESTART IDENTITY CASCADE;
+TRUNCATE TABLE image RESTART IDENTITY CASCADE;
+TRUNCATE TABLE reservation RESTART IDENTITY CASCADE;
+TRUNCATE TABLE member_roles RESTART IDENTITY CASCADE;
 
--- Insert locations
-INSERT INTO location (street, city, state, country, zip_code)
-VALUES
-    ('123 Main St', 'New York', 'NY', 'USA', '10001'),
-    ('456 Park Ave', 'San Francisco', 'CA', 'USA', '94101'),
-    ('789 Broadway', 'Los Angeles', 'CA', 'USA', '90001');
+INSERT INTO member (id, first_name, last_name, email, password, phone_number) VALUES
+(1, 'Test', 'User', 'test@user.com', 'TestUser123!', '+36 70 123 4567');
 
--- Insert a member
-INSERT INTO member (first_name, last_name, email, password, phone_number)
-VALUES ('Test', 'User', 'test@user.com', 'TestUser123!', '123-456-7890');
+INSERT INTO role (id, role_type) VALUES
+(1, 'ROLE_USER'),
+(2, 'ROLE_ADMIN');
 
--- Assign roles to the member
-INSERT INTO member_roles (member_id, role_id)
-VALUES
-    ((SELECT id FROM member WHERE email = 'test@user.com'), (SELECT id FROM role WHERE role_type = 'USER'));
+INSERT INTO location (id, street, city, state, country, zip_code) VALUES
+(1, 'Széchenyi István tér 5-6', 'Budapest', 'null', 'HU', '1051'),
+(2, 'Sikfőkút út 5-7', 'Noszvaj', 'null', 'HU', '3325');
 
--- Insert accommodations
-INSERT INTO accommodation (name, description, room_number, price_per_night, max_guests, accommodation_type, location_id, owner_id)
-VALUES
-    ('Cozy Apartment', 'A small and cozy apartment in the city center', 2, 100.0, 4, 'APARTMENT', (SELECT id FROM location WHERE street = '123 Main St'), (SELECT id FROM member WHERE email = 'test@user.com')),
-    ('Luxury Villa', 'A luxurious villa with sea view', 5, 500.0, 10, 'VILLA', (SELECT id FROM location WHERE street = '456 Park Ave'), (SELECT id FROM member WHERE email = 'test@user.com')),
-    ('Budget Hostel', 'An affordable hostel for backpackers', 1, 30.0, 1, 'HOSTEL', (SELECT id FROM location WHERE street = '789 Broadway'), (SELECT id FROM member WHERE email = 'test@user.com'));
+INSERT INTO accommodation (id, name, description, room_number, price_per_night, max_guests, accommodation_type, location_id, owner_id) VALUES
+(1, 'Four Seasons Hotel Gresham Palace', 'A five star hotel next to the Danube.', 4, 500.0, 2, 'HOTEL', 1, 1),
+(2, 'Nomad Hotel & Glamping', 'A nomad village for the people who like nature.', 3, 80.0, 2, 'TINY_HOME', 2, 1);
+
+INSERT INTO member_roles (member_id, role_id) VALUES
+(1, 1);
