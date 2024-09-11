@@ -1,4 +1,4 @@
-/*TRUNCATE TABLE location RESTART IDENTITY CASCADE;
+TRUNCATE TABLE location RESTART IDENTITY CASCADE;
 TRUNCATE TABLE accommodation RESTART IDENTITY CASCADE;
 TRUNCATE TABLE role RESTART IDENTITY CASCADE;
 TRUNCATE TABLE member RESTART IDENTITY CASCADE;
@@ -23,4 +23,3 @@ INSERT INTO accommodation (id, name, description, room_number, price_per_night, 
 
 INSERT INTO member_roles (member_id, role_id) VALUES
 (1, 1);
-*/

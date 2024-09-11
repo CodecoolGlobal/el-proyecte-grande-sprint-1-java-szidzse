@@ -2,8 +2,10 @@ services:
   db:
     container_name: project_db
     image: postgres:latest
-    networks:
-      - app-network
+    # networks:
+    #   - app-network
+    # ports:
+    #   - "3000:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -19,10 +21,10 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    networks:
-      - app-network
+    # ports:
+    #   - "8080:8080"
+    # networks:
+    #   - app-network
     environment:
       - DATASOURCE_URL=jdbc:postgresql://project_db:5432/RESTMates
       - DATASOURCE_USERNAME=postgres
@@ -37,10 +39,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "5173:3000"
-    networks:
-      - app-network
+      - "3008:5173"
+    # networks:
+    #   - app-network
 
-networks:
-  app-network:
-    driver: bridge
+# networks:
+#   app-network:
+#     driver: bridge
