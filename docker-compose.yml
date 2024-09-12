@@ -21,12 +21,12 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    # ports:
-    #   - "8080:8080"
+    #ports:
+    #  - "8080:8080"
     # networks:
     #   - app-network
     environment:
-      - DATASOURCE_URL=jdbc:postgresql://db:5432/RESTMates
+      - DATASOURCE_URL=jdbc:postgresql://db:5432/restmates
       - DATASOURCE_USERNAME=postgres
       - DATASOURCE_PASSWORD=postgres
       - JWT_SECRET=55c404947fe4332de31479c52cc1df7582804ffcd7896b94efb9828c2fd3e164

@@ -75,7 +75,7 @@ const ProfileEditPage = () => {
       };
       loadMemberData();
     }
-  }, [token, userData]);
+  }, [token]);
 
   const handleUpdate = async ( updatedUserData) => {
     const data = await fetchUpdateUser(token, updatedUserData);
