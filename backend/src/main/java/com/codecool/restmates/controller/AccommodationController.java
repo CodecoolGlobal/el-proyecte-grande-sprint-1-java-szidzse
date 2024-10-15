@@ -3,7 +3,6 @@ package com.codecool.restmates.controller;
 import com.codecool.restmates.model.dto.requests.NewAccommodationDTO;
 import com.codecool.restmates.model.dto.requests.UpdateAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.AccommodationDTO;
-import com.codecool.restmates.model.dto.responses.FullAccommodationWithLocationIdCityStateCountryDTO;
 import com.codecool.restmates.model.dto.responses.LessDetailedAccommodationDTO;
 import com.codecool.restmates.service.AccommodationService;
 import com.codecool.restmates.service.ImageService;

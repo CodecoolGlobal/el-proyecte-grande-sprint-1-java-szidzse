@@ -2,26 +2,31 @@ import React, { useEffect, useState } from "react";
 import AccommodationSearchInput from "../components/accommodations/AccommodationSearchInput.jsx";
 import AccommodationList from "../components/accommodations/AccommodationList.jsx";
 
+const fetchAccommodations = async () => {
+	try {
+		const response = await fetch("/api/accommodation/all");
+		if (!response.ok) {
+			throw new Error("Failed to fetch accommodations.");
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error("Error fetching accommodations:", error);
+	}
+};
+
 const HomePage = () => {
 	const [accommodations, setAccommodations] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
 	const [searchResults, setSearchResults] = useState([]);
 
 	useEffect(() => {
-		const fetchAccommodations = async () => {
-			try {
-				const response = await fetch("/api/accommodation/all");
-				if (!response.ok) {
-					throw new Error("Failed to fetch accommodations.");
-				}
-				const data = await response.json();
-				setAccommodations(data);
-			} catch (error) {
-				console.error("Error fetching accommodations:", error);
-			}
-		};
+		const fetchAndSetAccommodations = async () => {
+			const data = await fetchAccommodations();
+			setAccommodations(data);
+		}
 		if (!isSearching) {
-			fetchAccommodations();
+			fetchAndSetAccommodations();
 		}
 	}, [isSearching]);
 

@@ -5,7 +5,6 @@ import com.codecool.restmates.exception.InvalidEmailPattern;
 import com.codecool.restmates.exception.InvalidPasswordPattern;
 import com.codecool.restmates.exception.UnauthorizedException;
 import com.codecool.restmates.model.dto.requests.member.NewMemberDTO;
-import com.codecool.restmates.model.dto.responses.FullAccommodationDTO;
 import com.codecool.restmates.model.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.model.entity.Member;
 import com.codecool.restmates.model.entity.Role;

@@ -18,11 +18,13 @@ public class Reservation {
 
     private LocalDate endDate;
 
+    private Double value;
+
     @ManyToOne
     @JoinColumn(name = "accommodation_id", nullable = false)
     private Accommodation accommodation;
 
     @ManyToOne
-    @JoinColumn(name = "guest_id", nullable = false)
-    private Member guest;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 }
