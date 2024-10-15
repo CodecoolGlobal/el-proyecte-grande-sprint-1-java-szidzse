@@ -7,6 +7,7 @@ import com.codecool.restmates.model.dto.responses.LocationCityStateCountryDTO;
 import com.codecool.restmates.model.dto.responses.MemberResponseDTO;
 import com.codecool.restmates.exception.EmailAlreadyExistsException;
 import com.codecool.restmates.exception.ResourceNotFoundException;
+import com.codecool.restmates.model.dto.responses.ReservationDTO;
 import com.codecool.restmates.model.entity.Member;
 import com.codecool.restmates.model.entity.Role;
 import com.codecool.restmates.model.entity.RoleType;
@@ -35,8 +36,11 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByEmail(memberEmail);
 
         if(member.isPresent()) {
-            Member memberEntity = member.get();
-            List<FullAccommodationDTO> memberAccommodations =  memberEntity.getAccommodations()
+            Member foundMember = member.get();
+            List<ReservationDTO> reservations =  foundMember.getReservations().stream()
+                    .map(reservation -> new ReservationDTO(reservation.getStartDate(), reservation.getEndDate(), reservation.getAccommodation().getName(), reservation.getValue())).toList();
+
+            List<FullAccommodationDTO> memberAccommodations =  foundMember.getAccommodations()
                     .stream()
                     .map(accommodation -> new FullAccommodationDTO(accommodation.getId(),
                             accommodation.getName(),
@@ -47,8 +51,9 @@ public class MemberService {
                             new LocationCityStateCountryDTO(accommodation.getLocation().getCity(),accommodation.getLocation().getState() ,accommodation.getLocation().getCountry())))
                     .toList();
 
-            return new MemberResponseDTO(memberEntity.getFirstName(),
-                    memberEntity.getLastName(), memberEntity.getEmail(), memberEntity.getPhoneNumber(), memberAccommodations);
+
+            return new MemberResponseDTO(foundMember.getFirstName(),
+                    foundMember.getLastName(), foundMember.getEmail(), foundMember.getPhoneNumber(), memberAccommodations, reservations);
         } else {
             throw new ResourceNotFoundException(String.format("Member with id %s not found", memberEmail));
         }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MemberProfile from "../components/forms/MemberProfilForm";
 
-const fetchUserData = async ( token) => {
+const fetchUserData = async (token) => {
   try {
     const response = await fetch('/api/member', {
       headers: {
@@ -21,7 +21,7 @@ const fetchUserData = async ( token) => {
 
 const ProfilViewPage = () => {
   const [memberData, setMemberData] = useState(null);
-  const token = sessionStorage.getItem('accessToken')
+  const token = sessionStorage.getItem('accessToken');
 
   useEffect(() => {
     if (token) {
