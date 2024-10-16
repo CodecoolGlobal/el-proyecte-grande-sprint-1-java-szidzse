@@ -2,14 +2,10 @@ services:
   db:
     container_name: db
     image: postgres:latest
-    # networks:
-    #   - app-network
-    # ports:
-    #   - "3000:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: RESTMates
+      POSTGRES_DB: restmates
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -21,10 +17,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    #ports:
-    #  - "8080:8080"
-    # networks:
-    #   - app-network
+
     environment:
       - DATASOURCE_URL=jdbc:postgresql://db:5432/restmates
       - DATASOURCE_USERNAME=postgres
@@ -40,9 +33,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3008:5173"
-    # networks:
-    #   - app-network
-
-# networks:
-#   app-network:
-#     driver: bridge
