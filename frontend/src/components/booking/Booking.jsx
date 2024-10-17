@@ -4,6 +4,8 @@ import { useAuth } from "../auth/AuthProvider";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const createReservation = async (newReservation, token) => {
   try {
@@ -20,8 +22,15 @@ const createReservation = async (newReservation, token) => {
       throw new Error("Failed to create reservation.");
     }
 
-    const reservationId = await response.json();
-    alert(`Reservation created with ID: ${reservationId}`);
+    toast.success(`Your reservation was created successfully!`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   } catch (error) {
     console.error("Error creating reservation:", error);
   }
@@ -130,6 +139,7 @@ const Booking = ({ accommodation }) => {
             Book Now
           </Button>
         </form>
+        <ToastContainer />
       </CardBody>
     </Card>
   );
