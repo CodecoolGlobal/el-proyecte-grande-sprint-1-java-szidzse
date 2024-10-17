@@ -3,8 +3,8 @@
 RESTMates is an apartment rental and booking web application that allows users to browse available apartments, view detailed information about each property, and book them for specific dates. Users can register and log in to manage their bookings and preferences.
 
 Developed by:
-- [![szidzse][szidzse]][https://github.com/szidzse]
-- [![Vazul15][Vazul15]][https://github.com/Vazul15]
+- [![szidzse](https://github.com/szidzse.png?size=50)](https://github.com/szidzse)
+- [![Vazul15](https://github.com/Vazul15.png?size=50)](https://github.com/Vazul15)
 
 ![home](https://github.com/user-attachments/assets/c6d6fabf-591c-405d-bf74-b05b68562386)
 
@@ -23,37 +23,35 @@ Developed by:
 ## Overview
 RESTMates is an apartment rental platform with a robust backend and an appealing frontend. Users can register, login, upload new accommodations, make reservations. This project demonstrates comprehensive full-stack development, including database management, RESTful API design, user authentication, and moderin user interface.
 
-## Technologies
 ### Backend:
-- [![spring-boot][spring-boot]][spring-boot-url]
-- [![spring-web-mvc][spring-web-mvc]][spring-web-mvc-url]
-- [![spring-data-jpa][spring-data-jpa]][spring-data-jpa-url]
-- [![spring-security][spring-security]][spring-security-url]
-- [![hibernate][hibernate]][hibernate-url]
+- [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+- [![Spring Web MVC](https://img.shields.io/badge/Spring%20Web%20MVC-6DB33F?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/guides/gs/serving-web-content/)
+- [![Spring Data JPA](https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-data-jpa)
+- [![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)](https://spring.io/projects/spring-security)
+- [![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)](https://hibernate.org/)
 
 ### Database:
-- [![postgresql][postgresql]][postgresql-url]
+- [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
 ### Frontend:
-- [![React-Vite][React-Vite]][Vite-URL]
-- [![Css][Css3]][Css-url]
+- [![React Vite](https://img.shields.io/badge/React%20Vite-4D7E8D?style=for-the-badge&logo=react&logoColor=white)](https://vitejs.dev/)
+- [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://www.w3schools.com/css/)
 
 ### Containerization:
-- [![docker][docker]][docker-url]
+- [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
 ## Getting Started
 
 ### Prerequisites
-
 #### To Run the Project with Docker:
-  - [![docker][docker]][docker-url]
+  - [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
 #### To Run Backend and Frontend Separately:
-  - [![java][java]][java-url]
-  - [![maven][maven]][maven-url]
-  - [![postgresql][postgresql]][postgresql-url]
-  - [![nodejs][node.js]][node-url]
-  - [![npm][npm]][npm-url]
+  - [![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
+  - [![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=maven&logoColor=white)](https://maven.apache.org/)
+  - [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+  - [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+  - [![NPM](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/)
 
 ### Installation
 
