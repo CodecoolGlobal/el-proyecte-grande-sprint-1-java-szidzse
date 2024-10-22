@@ -3,8 +3,8 @@
 RESTMates is an apartment rental and booking web application that allows users to browse available apartments, view detailed information about each property, and book them for specific dates. Users can register and log in to manage their bookings and preferences.
 
 Developed by:
-- [![szidzse](https://github.com/szidzse.png?size=50)](https://github.com/szidzse)
-- [![Vazul15](https://github.com/Vazul15.png?size=50)](https://github.com/Vazul15)
+- [![gellertsos][gellertsos]][gellertsos-url]
+- [![vazulmagyar][vazulmagyar]][vazulmagyar-url]
 
 ![home](https://github.com/user-attachments/assets/c6d6fabf-591c-405d-bf74-b05b68562386)
 
@@ -187,3 +187,8 @@ Using El Proyecte Grande:
     - Detail: View your profiel and reservations.
     - Visuals: ![reservation](https://github.com/user-attachments/assets/955bf5a4-b620-4c41-a778-c2732eae1952)
 
+[gellertsos]: https://img.shields.io/badge/Gell%C3%A9rt%20S%C3%B3s-181717?style=for-the-badge&logo=github&logoColor=white
+[gellertsos-url]: https://github.com/szidzse
+
+[vazulmagyar]: https://img.shields.io/badge/Vazul%20Magyar-181717?style=for-the-badge&logo=github&logoColor=white
+[vazulmagyar-url]: https://github.com/Vazul15
